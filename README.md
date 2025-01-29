@@ -20,31 +20,30 @@ This is a tentative calendar and it is subject to change.
 
 | Date       | Topic                          | Subtopic                           | Blog         |
 |------------|--------------------------------|------------------------------------|--------------|
-| [Feb 5](fairness/feb-5.md) | Fairness   | Intro and bias sources             | Group 1      |
-| [Feb 7](fairness/feb-7.md)  | Fairness  | Statistical measures               | Group 2      |
-| [Feb 12](fairness/feb-12.md)  | Fairness|Tradeoffs                           | Group 3      |
-| [Feb 14](fairness/feb-14.md) | Fairness | LLMs: Toxicy and Bias              | Group 4      |
-| [Feb 19](fairness/feb-19.md) | Fairness | LLMs: Fairness                     | Group 5      |
-| [Feb 21](fairness/feb-21.md) | Fairness | Policy aspects                     | Group 6      |
-| Feb 26 | No class (AAAI)                |                                    |              |
-| [Feb 28](safety/feb-28.md) | Safety     | Distribution shift                 | Group 1      |
-| Mar 6  | Spring break                   |                                    |              |
-| Mar 11 | Spring break                   |                                    |              |
-| [Mar 11](safety/mar-11.md) | Safety     | Poisoning                          | Group 2      |
-| [Mar 13](safety/mar-13.md) | Safety     | Adversarial Robustness             | Group 3      |
+| [Feb 10](fairness/feb-10.md) | Fairness   | Intro and bias sources             | Group 1      |
+| [Feb 12](fairness/feb-12.md)  | Fairness  | Statistical measures               | Group 2      |
+| [Feb 17](fairness/feb-17.md)  | Fairness|Tradeoffs                           | Group 3      |
+| [Feb 20](fairness/feb-20.md) | Fairness | LLMs: Toxicy and Bias              | Group 4      |
+| [Feb 24](fairness/feb-24.md) | Fairness | LLMs: Fairness                     | Group 5      |
+| [Feb 26](fairness/feb-26.md) | Fairness | Policy aspects                     | Group 6      |
+| Mar 3 | No class (AAAI)                |                                    |              |
+| [Mar 5](safety/mar-5.md) | Safety     | Distribution shift                 | Group 1      |
+| Mar 10  | Spring break                   |                                    |              |
+| Mar 12 | Spring break                   |                                    |              |
+| [Mar 17](safety/mar-17.md) | Safety     | Poisoning                          | Group 2      |
+| [Mar 19](safety/mar-19.md) | Safety     | Adversarial Robustness             | Group 3      |
 | [Mar 18](safety/mar-18.md) | Safety     | Adversarial Robustness             | Group 4      |
-| [Mar 20](safety/mar-20.md) | Safety     | LLMs: Prompt injection             | Group 5      |
-| [Mar 25](safety/mar-25.md) | Safety     | LLMs: Jailbreaking                 | Group 6      |
-| [Mar 27](privacy/mar-27.md)| Privacy    | Differential Privacy 1             | Group 1      |
-| [Apr 1](privacy/apr-1.md)  | Privacy    | Differential Privacy 2             | Group 2      |
-| [Apr 3](privacy/apr-3.md)  | Privacy    | Auditing and Membership inference  | Group 3      |
-| [Apr 8](privacy/apr-8.md)  | Privacy    | Privacy and Fairness               | Group 4      |
-| [Apr 10](privacy/apr-10.md)| Privacy    | LLMs: Private issues in LLMs       | Group 5      |
-| [Apr 15](privacy/apr-15.md)| Privacy    | LLMs: Privacy in LLMs              | Group 6      |
-| [Apr 17](evaluation/apr-17.md) | Evaluation | Model cards                    | Group 1      |
-| [Apr 22](evaluation/apr-22.md) | Evaluation | LLMs: evaluation               | Group 2      |
-| [Apr 24](unlearning/apr-24.md) | Unlearning | Unlearning                     | Group 3      |
-| [Apr 29](unlearning/apr-29.md) | Unlearning | LLMs: Targeted unlearning      | Group 4      |
+| [Mar 24](safety/mar-24.md) | Safety     | LLMs: Prompt injection             | Group 5      |
+| [Mar 26](safety/mar-26.md) | Safety     | LLMs: Jailbreaking                 | Group 6      |
+| [Mar 31](privacy/mar-31.md)| Privacy    | Differential Privacy 1             | Group 1      |
+| [Apr 2](privacy/apr-2.md)  | Privacy    | Differential Privacy 2             | Group 2      |
+| [Apr 7](privacy/apr-7.md)  | Privacy    | Auditing and Membership inference  | Group 3      |
+| [Apr 9](privacy/apr-9.md)  | Privacy    | Privacy and Fairness               | Group 4      |
+| [Apr 14](privacy/apr-14.md)| Privacy    | LLMs: Private issues in LLMs       | Group 5      |
+| [Apr 16](privacy/apr-16.md)| Privacy    | LLMs: Privacy in LLMs              | Group 6      |
+| [Apr 21](evaluation/apr-21.md) | Evaluation | Model cards                    | Group 1      |
+| [Apr 24](evaluation/apr-24.md) | Evaluation | LLMs: evaluation               | Group 2      |
+| [Apr 28](unlearning/apr-28.md) | Unlearning | Unlearning                     | Group 3      |
 
 
 **Expectations:**
