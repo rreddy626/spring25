@@ -1,6 +1,6 @@
 # Responsible AI Blog - Spring-25
 
-This repository is intedned to contain a collection of notes and paper summaries for each class of the Reponsible AI course tought at UVA in Spring 2025. 
+This repository is intended to contain a collection of notes and paper summaries for each class of the Responsible AI course taught at UVA in Spring 2025. 
 The course is organized around six topics:
 - Fairness
 - Safety
@@ -11,7 +11,7 @@ The course is organized around six topics:
 
 Each topic is associated with the corresponding folder in this repository. 
 
-Students should should write a report on the papers and topics reviewed in their class by modifying the associated ".md" file. 
+Students should write a report on the papers and topics reviewed in their class by modifying the associated ".md" file. 
 
  
 ## Syllabus
