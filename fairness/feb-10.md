@@ -233,22 +233,54 @@ Similar to the first paper, this paper brings up points about where discriminati
 
 ### Introduction and Motivations 
 
-The researchers set out to study how machine learning models trained on large language corpora learn and reflect human biases. Existing works have observed that models learn racial stereotypes based on names. Furthermore, female names are more associated with family than career words, compared to male names. Other works have found that other, more general human biases can be observed: for example, flowers have higher correlations with being pleasant, while the word insects is more closely tied to the word unpleasant. Using GloVe word embeddings, the researchers demonstrate that models also capture stereotypes related to gender, regarding occupation and names.
+This paper studies how machine learning models trained on (large) language corpora learn and reflect inherent human biases. This was motivated by the idea that existing text corpora capture cultural and historical biases. They utilize word embeddings to empirically study propagation of these biases to models trained on that corpora. 
+
+Existing works have observed that models learn racial stereotypes based on names. Furthermore, female names are more associated with family than career words, compared to male names. These works have found that other, more general human biases can be observed: for example, flowers have higher correlations with being pleasant, while the word insects is more closely tied to the word unpleasant. Using GloVe word embeddings, the researchers demonstrate that models also capture stereotypes related to gender, regarding occupation and names. 
+
+This work is especially relevant in the light of the increasing use of large language models that are being trained on vast amounts of data sourced from multiple repositories.
 
 
 ### Methods
 
-The researchers develop two methods: a Word-Embedding Association Test (WEAT, to document human biases) and Word-Embedding Factual Association Test (WEFAT, to see how word embeddings correlate with real-world statistics). TODO, WORK IN PROGRESS
+As mentioned earlier, the researchers primarily use word embeddings, which represent words as vectors in a vector space. Specifically, they use the GloVe (Global Vectors for word representation) embeddings from the “Common Crawl” corpus of the Internet (~840 billion tokens) for this, allowing them to capture semantic relationships and amplify signals better.
+
+* The authors develop the Word-Embedding Association Test (WEAT), which is a statistical test analogous to the Implicit Association Test (IAT). 
+* WEAT compares the vectors of word embeddings for the same set of words used by the IAT. It uses a distance measure (specifically cosine similarity) as analogous to reaction time in the IAT.
+* Assuming a null hypothesis of no difference between the two sets of target words in terms of their relative similarity, the authors use a permutation test which measures the “(un)likelihood” of the null hypothesis. It computes the probability that a random permutation of the attribute words would produce at least the observed difference in means.
+* They also develop the Word-Embedding Factual Association Test (WEFAT) to examine how the embeddings capture empirical information about the world embedded in the corpora.
+* They used linear regression analysis to test the association between the normalized association scores and the real-world property.
 
 
 ### Key Findings
 
 ![Gender_Association_Figures](images/gender-association.png)
 
-The findings show that models trained on texts learned gender biases embedded in human language data—this is concerning, because these biases can affect real-world applications such as hiring algorithms or resume screenings. TODO, WORK IN PROGRESS
+* The study successfully replicated a large range of known human biases as measured by the IAT, indicating that biases can be transmitted through language.
+* The results replicate the finding that humans find flowers more pleasant than insects, and musical instruments are more pleasant than weapons (!)
+* They also found out that the biases propagate through names - candidates with European-American names get offered more interviews than, say, African American candidates. Also, female names were more associated with family (or arts) than career (or STEM), compared with male names.
+* Perhaps more interestingly, the findings can aid a debate on the Sapir-Whorf hypothesis which says that a person’s language influences how they think. This is because the work suggests that behavior can be driven by cultural history embedded within a term.
 
 
 ### Critical Analysis
 
-TODO, WORK IN PROGRESS 
+**Strengths**
 
+* The large size of the dataset (Common Crawl corpus) GloVe embeddings helps support the validity of the findings of the paper.
+* IAT is a well established method in the field of psychology, and modelling the WEAT & WEFAT on this strengthens the empirical analysis. The approach differs from the traditional method since the subjects are words, and not people.
+* The paper replicates many well-known human biases spanning race, gender, occupations, and age, along with pleasantness associations.
+* The null hypothesis and the subsequent statistical analysis provides a compelling explanation of the transmission of biases through language.
+
+**Weaknesses**
+
+* While based on a large corpora, the comparison is mostly text based, and does not include other modalities (like visual). Additionally, published text can be polished, but non-verbal cues also play a critical role in conveying emotions.
+* It can benefit from a study of deeper causal association between the words, especially as they appear in other languages. While the authors briefly mention biases implied during statistical machine translations, a detailed study would be beneficial.
+* Some low frequency words which could potentially refute the findings were deleted from the corpora.
+
+**Potential Biases**
+
+* As mentioned earlier, the text is from human-generated content from the internet, and misses capturing non-verbal cues (or visual aids), and other conventions which are implied from tone.
+* As the authors also acknowledge, the analysis is based on English language text, and other languages are not considered.
+
+**Ethical Considerations**
+
+The paper helps in showing how biases in text propagate to language models, which can help in identifying possible discrimination. As such, it highlights the ethical imperative to deploy systems that are fair by accounting for these inequalities.
