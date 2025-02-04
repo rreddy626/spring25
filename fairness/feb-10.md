@@ -105,3 +105,25 @@ The paper was overall vague: which is good as an introductory chapter, but lacke
 ## [Big Data’s Disparate Impact](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2477899). S. Barocas, A. Selbst, 2014
 
 ## [Semantics derived automatically from language corpora contain human-like biases](https://www.science.org/doi/10.1126/science.aal4230). A. Caliskan, J.J. Bryson, A. Narayanan, 2017
+
+**Introduction and Motivations** 
+
+The researchers set out to study how machine learning models trained on large language corpora learn and reflect human biases. Existing works have observed that models learn racial stereotypes based on names. Furthermore, female names are more associated with family than career words, compared to male names. Other works have found that other, more general human biases can be observed: for example, flowers have higher correlations with being pleasant, while the word insects is more closely tied to the word unpleasant. Using GloVe word embeddings, the researchers demonstrate that models also capture stereotypes related to gender, regarding occupation and names.
+
+
+**Methods** 
+
+The researchers develop two methods: a Word-Embedding Association Test (WEAT, to document human biases) and Word-Embedding Factual Association Test (WEFAT, to see how word embeddings correlate with real-world statistics). TODO, WORK IN PROGRESS
+
+
+**Key Findings** 
+
+![Gender_Association_Figures](images/gender-association.png)
+
+The findings show that models trained on texts learned gender biases embedded in human language data—this is concerning, because these biases can affect real-world applications such as hiring algorithms or resume screenings. TODO, WORK IN PROGRESS
+
+
+**Critical Analysis** 
+
+TODO, WORK IN PROGRESS 
+
