@@ -23,7 +23,7 @@ Both biases should be considered when developing machine learning models.
 
 **Machine Learning Loop** 
 
-![ML Loop](images/machine-learning-loop.png)
+![ML Loop](images/feb10/machine-learning-loop.png)
 
 How do disparities propagate themselves through the machine learning model process? 
 
@@ -55,7 +55,7 @@ Measurements also change over time. Racial categories have evolved: in 2008, "mu
 
 Models extract stereotypes represented in data as much as they extract knowledge of bigger pictures we want them to learn. Sometimes, removing features such as gender to remove bias is not enough, due to proxies and other feature correlations with gender. Machine learning algorithms generalize based on the majority culture: which causes issues and errors to more likely occur with minority groups. 
 
-![ML Loop](images/gender-stereotypes.png)
+![ML Loop](images/feb10/gender-stereotypes.png)
 
 For example, the figure above shows how a model learned the association between gender and occupations: Turkish has gender neutral pronouns, but automatically determined the doctor to be a "he" while the nurse was deteremiend to be a "she". 
 
@@ -78,7 +78,7 @@ User feedback can be used to refine models. However, feedback can be misinterpre
 
 **Getting Concrete with a Toy Example** 
 
-![toy_example](images/toy-example.png)
+![toy_example](images/feb10/toy-example.png)
 
 The paper references a made-up example where a classifier is trained to predict job performance based on college GPA and an interview score, and determines a cutoff for hiring interviewees. Notice how the cutoff favors triangles over squares, even though it does not take into account whether a person was of the triangle or square group to make its prediction. This is an example of how a demographic group may be represented by proxies in the data—even if gender or race was not explicitly considered, performance scores may reflect manager biases, for example. The point is that removing features that we do not want a model to learn patterns for is not enough, due to proxies and other correlations between data fields. 
 
@@ -253,7 +253,7 @@ As mentioned earlier, the researchers primarily use word embeddings, which repre
 
 ### Key Findings
 
-![Gender_Association_Figures](images/gender-association.png)
+![Gender_Association_Figures](images/feb10/gender-association.png)
 
 * The study successfully replicated a large range of known human biases as measured by the IAT, indicating that biases can be transmitted through language.
 * The results replicate the finding that humans find flowers more pleasant than insects, and musical instruments are more pleasant than weapons (!)
