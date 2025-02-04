@@ -105,7 +105,13 @@ The paper was overall vague: which is good as an introductory chapter, but lacke
 ## [Big Data: A Report on Algorithmic Systems, Opportunity, and Civil Rights](https://obamawhitehouse.archives.gov/sites/default/files/microsites/ostp/2016_0504_data_discrimination.pdf). The White House, 2016
 
 ### Introduction
-### Opportunities and Challenges in Big Data
+Big data creates opportunities for technological innovations that enhance fairness and reduce discrimination.However, there is a risk that biases may become encoded in automated-decision making. The principle of "equal opportunity by design" is essential in developing technological systems to prevent such biases. To explore the challenges and opportunities big data offers for government policymaking, this report examines several case studies. 
+
+### Challenges in Big Data
+- *Data inputs to algorithms*: poorly selected data, incomplete data, inaccurate data, outdated data, selection bias, unintentional promotion of historical biases
+- *Design of algorithmic systems*: poorly designed systems that do not account for historical biases, services that unintentionally restrict information flow to certain groups, systems that assume correlation implies causation, disproportionate datasets 
+- As technology advances, it may become more difficult to explain decision-making processes unless they are designed to ensure accountability
+
 ### Big Data and Access to Credit
 **Challenge**: Many Americans lack a sufficient and recent credit repayment history, making it difficult for algorithms to generate them a credit score. This in turn affects their ability to secure loans. 
 
@@ -162,6 +168,11 @@ The paper was overall vague: which is good as an introductory chapter, but lacke
 - Monitoring social media, tracking mobile phone locations, and analyzing online behavior raise significant privacy and ethical concerns about potential data misuse. 
 
 ### Suggestions for the Future
+- Support research into mitigating algorithmic discrimination.
+- Encourage organizations, institutions, and companies to design transparency and accountability mechanisms in their algorithmic systems. 
+- Promote academic research and industry efforts for algorithmic auding and external fairness testing of big data systems. 
+- Increase participation and opportunities in computer science and data science, so more people are informed. 
+- Consider the roles of the government and private sectors in the context of big data. 
 
 
 ## [Big Data’s Disparate Impact](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2477899). S. Barocas, A. Selbst, 2014
