@@ -104,6 +104,66 @@ The paper was overall vague: which is good as an introductory chapter, but lacke
 
 ## [Big Data: A Report on Algorithmic Systems, Opportunity, and Civil Rights](https://obamawhitehouse.archives.gov/sites/default/files/microsites/ostp/2016_0504_data_discrimination.pdf). The White House, 2016
 
+### Introduction
+### Opportunities and Challenges in Big Data
+### Big Data and Access to Credit
+**Challenge**: Many Americans lack a sufficient and recent credit repayment history, making it difficult for algorithms to generate them a credit score. This in turn affects their ability to secure loans. 
+
+**How Can Big Data Help?**
+- Increase the range of data sources used to assess consumer creditworthiness. This can include phone bills, public records, educational backgrounds, social media, etc.
+- Develop new tools with alternative algorithms for credit scoring.
+
+**The Challenges of Big Data with Access to Credit**
+- Using historical data for credit assessment may reinforce existing disparities in access to credit.
+- Increasing the amount of data sources could introduce inaccuracies, making it essential for consumers to have the right to be informed and the ability to dispute any errors. 
+- Expanding the amount of data sources also makes creditworthiness assessments more complex, potentially making it more difficult for consumers (especially those with less experience with the credit scoring system) to interpret notices and identify issues. 
+- New credit scoring tools and algorithms must be carefully designed and tested to prevent unintellionally acting as proxies for protected characteristics. Poorly implemented algorithms could produce discriminatory harm. 
+
+### Big Data and Employment
+**Challenge**: Traditional hiring practices for identifying candidates may exclude qualified individuals. Even with the introduction of algorithmic systems in the hiring process, "like me" bias persists, with individuals tending to hire candidates similar to themselves. 
+
+**How Can Big Data Help?**
+- Algorithmic systems could potentially mitigate individual biases and "like me" bias from hiring managers. They can evaluate characteristics and skills that have demonstrated correlation with success at the job. 
+- These systems could also help address discrimination challenges such as the wage gap and occupational segregation.
+
+**The Challenges of Big Data with Employment**
+- Hiring algorithms that consider protected characteristics, such as race, may not reliably predict job success. Similarly, using creditworthiness and criminal records may not accurately reflect an individual's qualifications. 
+- Historical biases in data can be perpetuated by algorithms and lead to discriminatory outcomes. This includes potential age discrimination or education discrimination (disadvantaging individuals without a specific degree or field of study).
+
+### Big Data and Higher Education
+**Challenge**: Students often encounter challenges in accessing information about higher education including guidance on choosing the right college and making financial considerations. Staying enrolled and successfully graduating presents further challenges. 
+
+**How Can Big Data Help?**
+- *College Scorecard*: a big data tool that provides information on graduation rates, student loan debt, average post-college salaries, and more for different universities. This tool can help students and families make informed decisions about which college best fits their needs or offers the highest return on investment.
+- Programs like the Georgia State University Graduation and Progression Success (GPS) Advising Program which tracks 800 risk factors for students such as poor grades, missing prerequisite courses, and finanical struggles. When the risk is detected, the system automatically flags students in trouble and alerts advisors, enabling them to intervene before the student drops out. 
+
+**The Challenges of Big Data with Higher Education**
+- *Admission discrimination*: some universities use predictive models to estimate a student's likelihood of graduating before they even enroll. 
+    - Denying admission to students from low-income backgrounds because statistical models predict they are less likely to graduate is unfair. 
+    - If an admissions algorithm strongly favors students from wealthier neighborhoods due to historically higher graduation rates, it may exclude talented but underprivileged students. 
+- *Bias in financial aid decisions*: some universities use data-driven systems to allocate financial aid based on expected student success.
+    - If a student's profile suggests they may struggle to graduate, they could receive less financial aid, making it even harder for them to succeed. 
+    - This approach reinforces economic inequality rather than addressing it. 
+- *Privacy and ethical concerns*: universities colect extensive data on students, yet students have little control over how their information is used. 
+
+### Big Data and Criminal Justice
+**Challenge**: Law enforcement officials are looking for new methods to use technology to enhance crime prevention, develop policing strategies, and improve judicial decision making. 
+
+**How Can Big Data Help?**
+- Enhance transparency by increasing usage of open policing data which can help foster trust within communities.
+- *Predictive policing algorithm*: analyzes past crime data to forecast high-risk locations and times for crime occurrence.
+    - The Los Angeles Police Department (LAPD) deployed a predictive policing system that uses historical crime data, weather conditions, and time-based analysis to determine where crimes are most likely to occur. This led to reductions in burglary and auto theft rates as well as more efficient deployment of officers. 
+- *Data-driven accountability in law enforcement*: big data systems could be used to track officer behaviors. 
+    - The Chicago Police Department (CPD) developed an early warning system that uses data analytics to monitor officers with high rates of civilian complaints, use-of-force incidents, and other misconduct indicators. This led to intervention programs for at-risk officiers, reduction of racial disparities in policing outcomes, and improvement of public trust. Read more [here](https://crimelab.uchicago.edu/projects/officer-support-system-oss/). 
+
+**The Challenges of Big Data with Criminal Justice**
+- Predictive policing relies on historical crime data, but if past practices were biased, algorithms can replicate and even amplify those biases.
+- Transparency concerns as the public cannot access or challenge the decision-making process in criminal justice cases. Defendents may be unaware of how their risk score was calculate or how to dispute an unfair classification.
+- Monitoring social media, tracking mobile phone locations, and analyzing online behavior raise significant privacy and ethical concerns about potential data misuse. 
+
+### Suggestions for the Future
+
+
 ## [Big Data’s Disparate Impact](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2477899). S. Barocas, A. Selbst, 2014
 
 ### Introduction and Motivations
