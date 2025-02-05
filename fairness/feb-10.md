@@ -123,7 +123,7 @@ Big data creates opportunities for technological innovations that enhance fairne
 - Using historical data for credit assessment may reinforce existing disparities in access to credit.
 - Increasing the amount of data sources could introduce inaccuracies, making it essential for consumers to have the right to be informed and the ability to dispute any errors. 
 - Expanding the amount of data sources also makes creditworthiness assessments more complex, potentially making it more difficult for consumers (especially those with less experience with the credit scoring system) to interpret notices and identify issues. 
-- New credit scoring tools and algorithms must be carefully designed and tested to prevent unintellionally acting as proxies for protected characteristics. Poorly implemented algorithms could produce discriminatory harm. 
+- New credit scoring tools and algorithms must be carefully designed and tested to prevent unintentionallyacting as proxies for protected characteristics. Poorly implemented algorithms could produce discriminatory harm. 
 
 ### Big Data and Employment
 **Challenge**: Traditional hiring practices for identifying candidates may exclude qualified individuals. Even with the introduction of algorithmic systems in the hiring process, "like me" bias persists, with individuals tending to hire candidates similar to themselves. 
