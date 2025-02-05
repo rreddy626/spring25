@@ -105,7 +105,7 @@ The paper was overall vague: which is good as an introductory chapter, but lacke
 ## [Big Data: A Report on Algorithmic Systems, Opportunity, and Civil Rights](https://obamawhitehouse.archives.gov/sites/default/files/microsites/ostp/2016_0504_data_discrimination.pdf). The White House, 2016
 
 ### Introduction
-Big data creates opportunities for technological innovations that enhance fairness and reduce discrimination.However, there is a risk that biases may become encoded in automated-decision making. The principle of "equal opportunity by design" is essential in developing technological systems to prevent such biases. To explore the challenges and opportunities big data offers for government policymaking, this report examines several case studies. 
+Big data creates opportunities for technological innovations that enhance fairness and reduce discrimination. However, there is a risk that biases may become encoded in automated-decision making. The principle of "equal opportunity by design" is essential in developing technological systems to prevent such biases. To explore the challenges and opportunities big data offers for government policymaking, this report examines several case studies. 
 
 ### Challenges in Big Data
 - *Data inputs to algorithms*: poorly selected data, incomplete data, inaccurate data, outdated data, selection bias, unintentional promotion of historical biases
@@ -174,6 +174,24 @@ Big data creates opportunities for technological innovations that enhance fairne
 - Increase participation and opportunities in computer science and data science, so more people are informed. 
 - Consider the roles of the government and private sectors in the context of big data. 
 
+### Critical Analysis
+
+**Strengths**
+
+This report thoroughly evaluates the challenges and opportunities of using big data in a variety of contexts that relate to government policymaking. Each case study also supports its arguments with concrete examples of existing approaches for more fair usage of big data. Overall, the report also offers suggestions for the future for how we can tackle these big data challenges.
+
+**Weaknesses**
+
+Since this report was released in 2016, there have been significant advances in technological systems, data science, and machine learning. Therefore, the case studies may be missing information that would make it more relevant to our society today. Additionally, although it offers suggestions for the future, there is a lack in detail for specifically how we can achieve those goals.
+
+**Potential Biases**
+
+As a government report, there could be potential biases in this report since it may be presented from a policymaking perspective. In addition, it may highlight the civil rights aspects of these case studies and less of the other benefits of using big data and algorithmic systems such as efficiency. In some cases, there was also less discussion about the positive outcomes of using big data applications for fairness where biases were successfully reduced. 
+
+**Ethical Considerations**
+
+Like the other papers, this work discusses the importance of reducing discrimination and biases while improving fairness to big data applications. There is a huge emphasis about the need to incorporate fairness into the *design* of algorithmic systems through "equal opportunity by design" principles that should be practiced throughout the entire engineering process.
+
 
 ## [Big Data’s Disparate Impact](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2477899). S. Barocas, A. Selbst, 2014
 
@@ -218,7 +236,7 @@ Over three parts, the authors adopt an interdisciplinary approach, drawing on co
 **Strengths**
 
 The essay provides a detailed account of how data mining can lead to discrimination
-Offers a useful taxonomy of the specific mechanisms within data mining that can generate unfair decisions, and is able to effectively tie CS literature detailing algorithmic bias with real life cases of its impacts on employment discrimination.
+offers a useful taxonomy of the specific mechanisms within data mining that can generate unfair decisions, and is able to effectively tie CS literature detailing algorithmic bias with real life cases of its impacts on employment discrimination.
 The paper details the history of employment discrimination court cases and how they may apply to modern examples of discriminatory data mining when used for job hiring.
 They highlight the limitations of current legal frameworks (particularly Title VII) in addressing the challenges of data mining
 
