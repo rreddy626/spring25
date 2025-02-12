@@ -380,3 +380,66 @@ As discovered by the analysis of the feature weights between the protected group
 
 Learning Fair Representations clearly contributes in a positive manner to the ethical development of machine learning models. I believe, however, that further research must examine what can be learned in the intermediate representations. Finally, a discussion must be had by regulatory entities regarding the budget for discrimination and an industrial context. This research is fantastic in theory, but private organizations are profit-motivated and will always lean towards maximizing accuracy in the Fairness vs Utility Tradeoff. For real impact, clear regulatory guidelines must be put in place.
 
+## [Equality of Opportunity in Supervised Learning](https://arxiv.org/abs/1610.02413)
+
+### Introduction and Motivations  
+This paper presents a framework for generating fair classification outputs that do not discriminate against a class of individuals based on a specific protected attribute. Without ensuring fairness in machine learning tasks, algorithmic decisions may reinforce societal biases in high-impact applications. For example, a discriminatory classification model may use a protected attribute (e.g. race) as a disqualifying factor for a loan application. 
+
+Prior notions of “fair” classification design have inherent flaws. A common, naive approach is class blindness, which simply removes the protected attribute from the model or data. However, the attribute may still be present through redundant encoding, meaning that the protected label can be inferred through correlated features. Another common approach is statistical/demographic parity, which ensures that both groups in and out of the protected class will have equivalent proportions of positive classifications. However, this can significantly reduce performance by forcing the model to deviate from the optimal learned solution. 
+
+In this framework, *A* represents a protected attribute (e.g., race or gender) that should not influence classification outcomes, while *Y* represents the true label or outcome (e.g., whether an individual actually qualifies for a loan). 
+
+To ensure fairness in classification, the proposed framework defines two concepts \- equal opportunity and equalized odds.
+
+* Equal opportunity ensures fairness for qualified individuals, meaning that across each group (A \= 0 and A \= 1), those who deserve a positive classification (Y \= 1\) have an equal chance of being predicted as such (Ŷ \= 1). More specifically, the true positive rate must be equivalent in both groups A \= 0 and A \= 1\.  
+* Equalized odds is a stricter fairness condition, requiring that both the true positive rate (TPR) and the false positive rate (FPR) are equal across groups. This means that for each class of protected value (A \= 0 and A \= 1), the probability of receiving a positive prediction should be the same both for those who actually deserve it (Y \= 1\) and those who do not (Y \= 0).
+
+One major advantage of this fairness framework is that it requires minimal information to evaluate fairness (Y, Ŷ, A), allowing for fairness assessments without requiring full access to the data. 
+
+### Methods
+
+This paper defines a method of deriving a fair predictor Ŷ that satisfies either equalized odds or equal opportunity from a potentially unfair but optimized predictor without modifying the training process. Since the Bayes optimal classifier is just a threshold function on *R*, fairness constraints can be satisfied by modifying the threshold instead of changing the entire model. Therefore, instead of retraining, fairness adjustments are simply applied in the post-processing step, using only the learned scores *R* and the protected attribute *A*. They formulate a linear optimization problem to find the best version of the optimized model that satisfies the TPR and FPR constraints depending on equalized odds or equal opportunity. The best fair classifier lies at the intersection of possible TPR/FPR regions between groups A=0 and A=1. This process is depicted in Figure 1, taken from the paper.
+
+<p align="center">
+  <img src="images/feb12/Figure1_EqOp.png"/>
+<p>
+
+In the case of equalized odds, there exists a possibility that no exact intersection exists. To account for this, the framework introduces randomized thresholding. Instead of using a single decision threshold per group, it defines two thresholds: individuals below the lower threshold are rejected, those above the higher threshold are accepted, and individuals in between are randomly accepted with some probability. This smooths out discrepancies and ensures fairness through randomization.
+
+The paper also quantifies the worst-case deviation from Bayes optimality using the Kolmogorov distance *d*. The shift in FPR/TPR due to fairness constraints is at most sqrt(2)d per group, meaning the total worst-case deviation is bounded by 2sqrt(2)d. This ensures that enforcing fairness does not drastically reduce predictive performance, particularly if the original classifier is already close to optimal. The increased cost of this fairness scales linearly with distance.
+
+### Key Findings
+
+To evaluate the impact of fairness constraints, the paper applies its framework to FICO credit scores with race as the protected class. They compare five classification strategies: max profit, race blind, demographic parity, equal opportunity, and equalized odds.
+
+* Maximum Profit: Optimizes lender profit, potentially setting different loan approval for each racial group.  
+* Race-blind: Applies a single threshold across the entire dataset and removes the race attribute.   
+* Demographic Parity: Ensures that each racial group receives loans at equal rates   
+* Equal Opportunity: Requires that qualified applicants have equal successful approval rates across groups   
+* Equalized Odds: Requires that both unqualified and qualified applicants have equal approval rates across racial groups.
+
+They compare each strategy’s profit relative to the “Maximum Profit” setting to represent the cost of each fairness method. Under the race-blind approach, Black non-defaulters are significantly less likely to qualify for loans compared to White or Asian applicants. The Maximum Profit achieves a 82% non-default rate overall, representing the optimum performance that a Bayes classifier is capable of. The race-blind approach retains 99.3% of the maximum profit, while equal opportunity retains 92.8%, equalized odds retains 80.2%, and demographic parity retains only 69.8%. 
+
+“Equalized Odds” results in a fairly large reduction in profit, as it forces the model to classify everyone as poorly as the hardest-to-classify group, lowering accuracy for well-classified groups to maintain fairness. However, this model still outperforms demographic parity by a significant margin. Of note, the cost of implementing these fairness metrics is shifted to the lending company, as better predictive models will lead to a reduction in cost. 
+
+### Critical Analysis
+
+*Strengths*
+
+One of the major strengths of this framework is that it ensures fairness without being overly restrictive. Unlike demographic parity, which forces strict equality in classification rates across groups, equalized odds and equal opportunity allow for fairness while preserving as much predictive power as possible. Additionally, the framework is guaranteed to work for any Bayes-optimal classifier, meaning that if the original model is already well-trained, the derived fair model will also perform well. Another advantage is that fairness constraints can be implemented and verified using only the model’s predictions and protected attribute labels, without requiring additional data or retraining. This makes the approach practical and widely applicable.
+
+*Weaknesses*
+
+Despite its benefits, the framework introduces a non-trivial performance cost, which becomes more significant for complex tasks with inherently lower accuracy. The trade-off between equal opportunity and equalized odds presents a difficult decision: either poorly classified groups are treated more favorably, which could lead to higher approval rates for individuals who may not deserve them, or the model incurs a substantial accuracy loss (potentially reducing profit by up to 20%). Additionally, the reliance on randomization in equalized odds is not entirely convincing \- while mathematically sound, random selection may not be persuasive in high-stakes scenarios like lending or hiring.
+
+*Potential Biases*
+
+The framework makes several key assumptions that could introduce bias. It only considers fairness in terms of a single protected attribute, while in reality, discrimination often occurs at the intersection of multiple attributes (e.g., race and gender). Extending the framework to handle multi-dimensional fairness constraints will result in even greater performance loss. Additionally, the paper assumes that fairness should be applied at the group level rather than at the individual level, which may not always be the best approach depending on the context. Another potential issue is that it does not address biases in the training data itself \- even a fairness-corrected model might still reflect historical discrimination if the input data is flawed. Finally, the paper assumes that decision-makers will follow fairness constraints honestly, but simple threshold-based adjustments could still be manipulated to favor certain groups while appearing fair on paper.
+
+*Ethical Considerations*
+
+One of the key ethical questions in this framework is fairness from whose perspective? Different stakeholders \- whether individuals affected by decisions, institutions implementing the model, or policymakers \- may have competing views on what fairness should look like. This ties into the broader fairness vs. utility tradeoff, where enforcing fairness constraints often comes at the cost of predictive accuracy or economic efficiency, raising questions about who should bear the cost of fairness.
+
+Another concern is the use of randomization in high-stakes decisions. While mathematically necessary to satisfy equalized odds when exact threshold alignment is impossible, randomly assigning outcomes between two thresholds may not be ethically acceptable in cases like loan approvals or hiring, where people expect decisions to be based on merit rather than chance. Additionally, fairness constraints often lead to more conservative decision-making \- if strict fairness rules make it harder to classify applicants accurately, institutions may lower approval rates across the board, which could negatively impact all groups rather than benefit protected ones.
+
+There are also philosophical questions about how protected groups are defined. What qualifies as a racial group or another protected class, and should fairness constraints account for historical disadvantages that make reaching certain thresholds harder for some groups due to systemic inequality? Lastly, the paper does not compare alternative fairness metrics, leaving open the question of whether equalized odds is the best approach for all applications, or if other definitions of fairness might be more appropriate in different contexts.
