@@ -67,27 +67,19 @@ Classification performance is assessed using the following metrics:
 
 - **Accuracy**: The proportion of correctly classified instances.
   
-  $$
-  \text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}
-  $$
+  $$\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}$$
 
 - **True Positive Rate (Recall)**: Fraction of actual positive instances correctly classified.
   
-  $$
-  \text{TPR} = \frac{\text{TP}}{\text{TP} + \text{FN}}
-  $$
+  $$\text{TPR} = \frac{\text{TP}}{\text{TP} + \text{FN}}$$
 
 - **False Positive Rate**: Fraction of negative instances incorrectly classified as positive.
   
-  $$
-  \text{FPR} = \frac{\text{FP}}{\text{FP} + \text{TN}}
-  $$
+  $$\text{FPR} = \frac{\text{FP}}{\text{FP} + \text{TN}}$$
 
 - **Precision**: The probability that a predicted positive instance is actually positive.
   
-  $$
-  \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}
-  $$
+  $$\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}$$
 
 These metrics form the foundation for evaluating classifiers and understanding the trade-offs between performance measures.
 
