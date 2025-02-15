@@ -68,7 +68,7 @@ The Intrasentence Context Association Test (CAT) is designed to evaluate bias at
 
 The primary goal of this test is to determine how often a language model selects a stereotypical word over an anti-stereotypical one, thereby quantifying its inherent bias. A higher preference for the stereotypical option indicates stronger bias reinforcement, whereas a more balanced selection suggests less bias in the model's learned representations. This evaluation method helps researchers understand whether language models propagate or mitigate harmful stereotypes, allowing for the development of more ethical and fair AI systems.
 
-![image](feb20/fig_one.png)
+![image](images/feb20/fig_one.png)
 
 2. Intersentence CAT (Discourse-Level Bias Evaluation):
 
@@ -76,7 +76,7 @@ The Intersentence Context Association Test (CAT) is designed to assess bias at t
 
 The primary objective of the intersentence CAT is to determine whether language models exhibit biased preferences when generating longer passages of text. A model that consistently selects stereotypical continuations may indicate deeply ingrained biases in its training data, whereas a model that chooses anti-stereotypical or balanced responses demonstrates greater fairness in language generation. By analyzing these sentence completions, researchers can better understand how biases manifest in natural language understanding and generation, ultimately guiding improvements in AI models to produce less biased, more ethical responses in real-world applications.
 
-![image](feb20/fig_two.png)
+![image](images/feb20/fig_two.png)
 
 3. Dataset Collection via Crowdsourcing
 
