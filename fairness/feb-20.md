@@ -188,13 +188,52 @@ The currently limited access to Large Language Models has posed a significant ch
 
 The OPT models are decoder-only transformer models, similar to GPT-3, and the table below describes their architecture, with a report on the number of layers, the number of attention heads, the embedding size, the peak learning rate, and the global batch size in the number of tokens. 
 
-~enter image here~
+![image](images/feb20/fig_eleven.png)
 
 The table above presents results on eight Transformer language modes with sizes ranging from 125M to 175B. Their training was optimized for scalability and efficiency. Training followed Megatron-LM initialization, using a normal distribution with zero mean and a standard deviation of 0.006. The bias terms were initialized to zero. For the optimizer, the researchers used AdamW with β1 = 0.9, β2 = 0.95, and weight decay of 0.1. Learning rate decay was set at 10% of the max learning rate over 300B tokens. The gradient clipping was initially set at 1.0, then later reduced to 0.3 to stabilize the training. The batch sizes ranged from 0.5 to 4M tokens, depending on model size. These models were trained on 992 NVIDIA A100 GPUs and achieved 147 TFLOP/s per GPU. The researchers used ~180B total tokens from diverse datasets with RoBERTa, The Pile, and PUshShift.io Reddit as sources. When processing the data, MinhashLSH filtering was used to remove duplicates. For training efficiency, Fully Sharded Data Parallelism (FSDP) with Megatron-LM Tensor Parallelism was used in addition to mixed precision training, and dynamic loss scaling. The researchers did encounter some challenges during training including hardware failures, loss divergence, and some mid-flight adjustments that were necessary such as updating to a newer Megatron version to improve throughput. 
 
-### Evaluations:
+#### Evaluations:
 
-~enter image here~
+The authors evaluated the OPT models on 16 standard NLP tasks utilized in previous literature. The results are compared primarily with GPT-3 but include other LLMs as well. The figure below shows the Zero-shot NLP evaluation averages. It shows that OPT largely matches the reported averages of GPT-3 but performance varies by task
+
+![image](images/feb20/fig_twelve.png)
+
+The figure below represents the Multi-shot performance and shows that GPT-3 does outperform OPT for one-shot and few-shot. The performance depends heavily on task. The performance difference was seen especially on MiltiRC and ARC Challenge.
+
+![image](images/feb20/fig_thirteen.png)
+
+Additionally, the researchers evaluated OPT’s dialogue capabilities. The performance was evaluated on ConvAI2, Wizard of Wikipedia, Empathetic Dialogues, and BlendedSkillTalk, among others. As seen in the table below, OPT outperformed the Reddit 2.7B model, matched Supervised BelnderBot-1 in some cases, and had a strong ability to maintain persona consistency. 
+
+![image](images/feb20/fig_fourteen.png)
+
+#### Bias and Toxicity Evaluations:
+
+Bias and Toxicity were evaluated in 5 categories:
+- Hate Speech Detection
+- Stereotype Bias Evaluation (CrowS-Pairs)
+- Stereotypical Associations (StereoSet)
+- Toxic Content Generation
+- Dialogue Safety
+
+Hate Speech Detection was tested using the ETHOS dataset. This dataset helps in the detection of racism and sexism. The table below shows the F1 scores for detecting hate speech between the Davinci model and OPT-175. OPT-175 considerably outperformed Davinci in all settings.
+
+![image](images/feb20/fig_fifteen.png)
+
+The CrowS-Pairs evaluation measured bias across gender, race, and religion, among other protected characteristics. As seen in the table below, OPT-175B exhibited slightly more bias than GPT-3.
+
+![image](images/feb20/fig_sixteen.png)
+
+The StereoSet evaluations measured bias while balancing language model ability, and OPT-175B performed similarly to GPT-3, but with higher stereotypical scores in some categories. For toxicity, OPT-175B generated more toxic responses than GPT-3 and PaLM, and also had higher unsafe responses than supervised chatbot models.
+
+The researchers observed the following limitations in the OPT models:
+- Repetitive text generation, OPT models were often stuck in loops
+- Poor instruction following, which was similar to GPT-3 but worse than InstructGPT
+- Hallucinations. OPT model generated plausible but incorrect information
+- Bias and toxicity remained a concern
+
+### Critical Analysis:
+
+This research paper advanced open access to large language models, and offered GPT-3 level performance with a significantly lower carbon footprint. It’s greatest strengths were in transparency, detailed training documentation, and comprehensive and honest bias and toxicity evaluations. They did not skew the results to make OPT appear more favorable. Some of its weaknesses lie in the limited strategies provided to mitigate bias and toxicity.This made the discussion on responsible AI incomplete. Furthermore, the paper did not deeply analyze why OPT underperformed in some of these evaluations. Lastly, the paper heavily benchmarks against GPT-3 and does not explore how GPT-3 compares to newer models which might provide insight into GPT-3’s standing in the broader world of LLMs. 
 
 ## [StereoSet:Measuring stereotypical bias in pre-trained language models](https://aclanthology.org/2021.acl-long.416.pdf)
 
@@ -222,11 +261,11 @@ The primary objective of the intersentence CAT is to determine whether language 
 
 ![image](images/feb20/fig_two.png)
 
-#### Dataset Collection via Crowdsourcing
+#### Dataset Collection via Crowdsourcing:
 
 The dataset for the Context Association Test (CAT) was crowdsourced via Amazon Mechanical Turk, ensuring that it reflected real-world biases prevalent in the United States rather than artificially constructed examples. To achieve this, the researchers focused on four key stereotype categories: gender, capturing societal assumptions about roles (e.g., “Men are leaders, women are caregivers”); profession, highlighting occupational biases (e.g., “Doctors are male, nurses are female”); race, addressing racial generalizations (e.g., “Asians are good at math”); and religion, examining prejudiced beliefs (e.g., “Muslims are violent”). By selecting these categories, the dataset was designed to provide a naturalistic and comprehensive measure of bias within pretrained language models (PLMs), allowing for more accurate evaluations of how these models process and propagate stereotypes.
 
-#### Evaluation Metrics
+#### Evaluation Metrics:
 
 To objectively assess bias in pretrained language models (PLMs), the authors introduce three key evaluation metrics. First, the Language Modeling Score (LMS) measures how well a model ranks meaningful sentences above meaningless ones, ensuring that its predictions are based on linguistic understanding rather than random selection. Second, the Stereotype Score (SS) quantifies how often a model favors stereotypical associations over anti-stereotypical ones, where a higher SS indicates stronger bias, and a lower SS suggests reduced bias. Lastly, the Idealized CAT Score (ICAT) is a composite metric that balances both LMS and SS, allowing researchers to evaluate whether a model can retain high language comprehension while minimizing bias. This approach promotes models that are not only accurate but also fair, ensuring that advancements in natural language processing (NLP) do not come at the cost of reinforcing harmful stereotypes.
 
