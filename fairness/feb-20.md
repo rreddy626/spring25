@@ -1,10 +1,15 @@
 # Fairness - LLMs: Toxicy and Bias
 
-The following report discusses prevalent issues that exist within Large Language Models (LLMs), specifically in terms of toxicy and bias. We analyze four works pertaining to Toxicy and Bias within LLMs that were given to us, and critically analyze key aspects. This includes: 
+The following report discusses prevalent toxicy and bias issues that exist within Large Language Models (LLMs). We discuss the following four works that were given to us, and critically analyze key aspects. This includes:
+
+- [On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?](https://dl.acm.org/doi/pdf/10.1145/3442188.3445922)
+- [REALTOXICITYPROMPTS: Evaluating Neural Toxic Degeneration in Language Models](https://arxiv.org/pdf/2009.11462)
+- [OPT: Pre-trained Transformer Language Models](https://arxiv.org/pdf/2205.01068)
+- [StereoSet:Measuring stereotypical bias in pre-trained language models](https://aclanthology.org/2021.acl-long.416.pdf)
 
 ## [On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?](https://dl.acm.org/doi/pdf/10.1145/3442188.3445922)
 
-### Introduction:
+### Introduction and Motivations:
 
 The large-scale development of Large Language Models (LLMs) has transformed the Natural Language Processing (NLP) field.
 With the help of further architectural developments, LLMs such as BERT and GPT have become increasingly accurate in basic 
@@ -18,15 +23,16 @@ over-represent certain political views while suppressing others.
 
 ### Methods:
 
-There are no formal methods discussed in this article. However, the papers make references to n-gram language models, word embeddings, and Transformer-based models. 
+There are no formal methods explicitly discussed in this paper. However, the paper makes numerous references to n-gram language models, word embeddings, and Transformer-based models. A language model can be defined as a model that can predict the likelihood of next token given its preceding context or its surrounding context. In order to represent linguistic words as machine-understandable content, word embeddings are used. This can be thought of as a representation of a single word in a numerical representation (i.e. Vectors)​. Common word embeddings include Word2Vec, GloVe, Context2Vec, and ELMo. Below is a figure that shows how Word2Vec and GloVe word embeddings are represented in a vector space:
 
-#### The Evolution of NLP over time:
+![image](images/feb20/fig_four.png)
 
 ### Key Findings:
 
-The Key Findings section will be broken down into two main sections:
+The Key Findings section will be broken down into three main sections:
 - Environmental and Financial Effects
 - Social Impacts
+- Stochastic Parrots
 
 #### Environmental and Financial Impacts:
 
@@ -63,9 +69,15 @@ In order to train an LLM, large amounts of data are required! The internet has p
 
 GPT-3 was developed by using a filtered version of the Common Crawl dataset, one that was similar to the dataset used to develop GPT-2. Although this concept appears harmless in theory, many documents found in the training data were linked to predominantly male-visited websites such as Reddit and Wikipedia. Although additional filters were included to remove pages associated with hate speech, sexism, and other negative forms of speech, this also comes with potentially suppressing training data obtained from online spaces created and maintained by the LGBTQ+ community. Furthermore, investigations of the GPT-2 training data found nearly 272,000 documents from untrustworthy news sites and nearly 63,000 documents from banned subreddits. This brings the question of whether the data used to train these LLMs are truly trustworthy? Or is it worth revisiting its reliability?
 
-As shown in Figure #1, the proportion of citizens that have access to the internet in their respective countries varies significantly. While a major proportion of citizens have access to the internet in developed countries (i.e. United States, Canada, European Union, etc.), a significant proportion of citizens in underdeveloped nations in Africa and Asia do not have such access. Furthermore, not only does the internet data tend to overrepresent younger citizens, but can also include data from sources that have historically been unwelcoming to minority groups. These examples clearly indicate that internet access distribution is clearly uneven, and yet is considered a good representation of model training data at the same time.
+As shown in Figure #1, the proportion of citizens that have access to the internet in their respective countries varies significantly. While a major proportion of citizens have access to the internet in developed countries (i.e. United States, Canada, European Union, etc.), a significant proportion of citizens in underdeveloped nations in Africa and Asia do not have such access. This paints a clearer idea of the perspectives that are outlined in web-scrapped training data. Furthermore, not only does the internet data tend to overrepresent younger citizens, but can also include data from sources that have historically been unwelcoming to minority groups. These examples clearly indicate that internet access distribution is clearly uneven, and yet is considered a good representation of model training data at the same time.
 
 In efforts to accommodate for changing social views over time, the paper proposes a form of regularly updating data to make sure that new changes in social norms and language are reflected in the training data. The paper refers to this phenomenon as a “reframing” technique, and highlights that fine-tuning an LLM could potentially be efficient as well. Furthermore, model auditing could be a key avenue in potentially filtering harmful data from surfacing in these training models. However, in many cases model auditing also presents its own biases. There have been instances where models have been found to associate higher toxicity levels with marginalized groups. 
+
+#### Stochastic Parrots:
+
+The concept of Natural Language Understanding (NLU) emphasizes the ideal that LLMs cannot "process" (or think through) the words that are produced by a probabilistic model. Although a sentence produced by an LLM may sound coherent, that does not always mean it will be correct and necessarily "sound" in context. That said, the term stochastic parrot is defined in the paper as "stitching together sequences of linguistic forms it has observed in its vast training data, according to probabilistic information about how they combine, but without any reference to meaning." Given the information provided in the Social Impacts section, the training data of an LLM is likely to be biased with opinions and viewpoints of those who are at a higher level of socioeconomic status. This introduces the possibility of further propagation of stereotypes and microagressions against people of certain age, gender and ethnicity, particularly if an LLM were to output abusive and harmful language as a result of such training data.
+
+There is also cause for concern for using these "stochastic parrots" for malicious intents as well. The paper highlights instances of how LLMs such as GPT-3 could potentially be utilized to generate text in the form of a conspiracy theorist and propagate misinformation to extremist groups and their respective message boards. As discussed previously in our lectures of Differential Privacy, there is also the slight possibility of utilizing LLMs to extract personal identifiable information (PII) that are present in the training data.
 
 #### Critical Analysis:
 
@@ -74,7 +86,6 @@ The paper does an excellent job of outlining the potential of skewed variables t
 One of the strengths of this paper was the breadth of the topics covered, and effectively connecting them together. By clearly outlining the implications of LLMs in three different areas, the authors do a great job in conveying the plethora of consequences behind extensive use of LLMs without proper guardrails. Furthermore, the paper presented its argument in a cohesive and structured format, and introduced a “domino effect” of how one tool can have a multitude of effects on the environment and human psyche. However, the paper could have done a better job in eliciting opinions from the general public. 
 
 Although this paper was primarily designed to be an informative paper outlining the potential dangers of LLMs, it would have been beneficial to have included user studies from populations that use LLMs on a daily basis. For example, have LLM users encountered the biases that the paper addresses? Including a user study that asks such questions would further substantiate the paper’s claims. Apart from this, the paper keeps an objective perspective in explaining the dangers of LLMs, and acknowledges proper ethical considerations as well.
-
 
 ## [REALTOXICITYPROMPTS: Evaluating Neural Toxic Degeneration in Language Models](https://arxiv.org/pdf/2009.11462)
 
@@ -168,6 +179,21 @@ From an ethical standpoint, the paper warns that toxic AI can spread harmful ste
 
 ## [OPT: Pre-trained Transformer Language Models](https://arxiv.org/pdf/2205.01068)
 
+### Introduction and Motivations:
+
+The currently limited access to Large Language Models has posed a significant challenge in research to improve robustness, bias, and toxicity. They argue that definitions of risk, harm, bias, and toxicity, among other challenges, should be researched by a larger community, which isn’t possible with limited access to LLMs. LLMs are very powerful tools but are also expensive to train, additionally, the public can only access them through paid APIs. For example, OpenAI’s GPT-3 model has around 175B parameters and has demonstrated zero-shot and few-shot learning capabilities. However, the models are proprietary. The authors of this paper introduce a new suite of models, OPT (Open Pre-trained Transformers), which they aim to fully share with researchers to further their work. The authors' objective with the OPT models is to match, both the size and performance of GPT-3. The size of the OPT models range from 125M to 175B with OPT-175B being comparable to GPT-3’s performance. In summary, the objectives of OPT models are to provide an open-source alternative to GPT-3 with full access to model weights, train models more efficiently, reduce carbon footprint to 1/7th of GPT-3, and improve transparency.
+
+### Methods:
+
+The OPT models are decoder-only transformer models, similar to GPT-3, and the table below describes their architecture, with a report on the number of layers, the number of attention heads, the embedding size, the peak learning rate, and the global batch size in the number of tokens. 
+
+~enter image here~
+
+The table above presents results on eight Transformer language modes with sizes ranging from 125M to 175B. Their training was optimized for scalability and efficiency. Training followed Megatron-LM initialization, using a normal distribution with zero mean and a standard deviation of 0.006. The bias terms were initialized to zero. For the optimizer, the researchers used AdamW with β1 = 0.9, β2 = 0.95, and weight decay of 0.1. Learning rate decay was set at 10% of the max learning rate over 300B tokens. The gradient clipping was initially set at 1.0, then later reduced to 0.3 to stabilize the training. The batch sizes ranged from 0.5 to 4M tokens, depending on model size. These models were trained on 992 NVIDIA A100 GPUs and achieved 147 TFLOP/s per GPU. The researchers used ~180B total tokens from diverse datasets with RoBERTa, The Pile, and PUshShift.io Reddit as sources. When processing the data, MinhashLSH filtering was used to remove duplicates. For training efficiency, Fully Sharded Data Parallelism (FSDP) with Megatron-LM Tensor Parallelism was used in addition to mixed precision training, and dynamic loss scaling. The researchers did encounter some challenges during training including hardware failures, loss divergence, and some mid-flight adjustments that were necessary such as updating to a newer Megatron version to improve throughput. 
+
+### Evaluations:
+
+~enter image here~
 
 ## [StereoSet:Measuring stereotypical bias in pre-trained language models](https://aclanthology.org/2021.acl-long.416.pdf)
 
@@ -176,8 +202,6 @@ From an ethical standpoint, the paper warns that toxic AI can spread harmful ste
 The paper addresses the issue of stereotypical bias in pretrained language models, which are known to inherit biases from real-world data. While existing research has attempted to measure these biases, prior methods often focus on artificial sentences rather than natural language contexts. Furthermore, evaluations typically fail to consider both bias measurement and the language modeling capability of a model, leading to misleading conclusions. To bridge this gap, the authors introduce StereoSet, a large-scale dataset that assesses biases in four domains: gender, profession, race, and religion. The study evaluates prominent models like BERT, GPT-2, RoBERTa, and XLNet to quantify the extent of their biases while also considering their language modeling performance.
 
 ### Methods:
-
-### Key Findings:
 
 The authors introduce the Context Association Test (CAT) to systematically evaluate the stereotypical bias present in pretrained language models (PLMs). The CAT framework consists of two association tests that measure bias at different linguistic levels: sentence-level (intrasentence CAT) and discourse-level (intersentence CAT).
 
