@@ -59,7 +59,9 @@ nearly 800,000 people are affected by floods in Sudan, is it fair that the benef
 that are underprivileged? This becomes particularly important to consider, especially given large-scale models for underutilized languages are 
 often afterthoughts, and not taken seriously in reality. This is a key point for debate!
 
-![image](images/feb20/fig_three.png "Figure #1: Percent of citizens that have access to the internet in each country across the world.") 
+![image](images/feb20/fig_three.png)
+
+Figure #1: Percent of citizens that have access to the internet in each country across the world.
 
 To address these ongoing environmental issues within Machine Learning, the paper introduces a concept referred to as Green AI. Green AI is an informal initiative to encourage Machine Learning practitioners into utilizing environmentally friendly options while training Machine Learning models. This includes promoting efficiency as an evaluation benchmark, as highlighted in the paragraph above. Furthermore, initiatives such as SustainNLP have been designed to prioritize the goal of producing “computationally efficient hardware and algorithms.” Additional recommendations include utilizing carbon-friendly regions for running experiments, and regular reporting of carbon/energy metrics.
 
