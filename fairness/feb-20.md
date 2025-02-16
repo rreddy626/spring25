@@ -147,23 +147,24 @@ The paper’s three most important findings are:
 2. Even non-toxic prompts can trigger toxic responses, meaning models can introduce toxicity into otherwise safe contexts.
 3. Detoxification techniques help, but no method completely prevents toxicity.
 
-~enter figure here~
+![image](images/feb20/fig_five.png) 
 
 This figure shows that even if we don’t give any prompts, language models still can generate toxic content, which proves that toxicity is coming and learning from pretraining data. And we can see that GPT-2 and GPT-1 exhibit maximum toxicity with 100 generations while CTRL- wiki is the least, which proves that pretraining on cleaner data can reduce harmful outputs, meaning that filtering training corpora is crucial for training these language models.
 
-~enter figure here~
+![image](images/feb20/fig_six.png) 
 
 This table shows that even if we input innocuous and harmless words, language models still can generate non-trivial toxic rates, which is nearly or above 50%. This means that language models carrying toxicity from pretraining data and can actively introduce toxicity. Therefore, we need to consider how these unpredictable AI-generated contents may pose concern in real-world applications.
 
-~enter figure here~
+![image](images/feb20/fig_seven.png)
 
 Detoxification strategies truly help to reduce toxicity, but none of the methods can completely eliminate it. Also, while some methods work better than others, it still can generate toxic content. As we can see, DAPT(Domain-adaptive pretraining on Non-toxic data) is the most effective in data-based, but still allows some toxicity. PPLM(Plug-and-Play language model) is the most effective in these methods, but it’s computationally expensive. Word Filtering is the least effective, since it can still generate toxic contents, which we find filtering or banning bad words is less successful than pretraining non-toxic data. 
 
-~enter figure here~
+![image](images/feb20/fig_nine.png)
+![image](images/feb20/fig_ten.png)
 
 4.3 % of OpenAI-WT(GTP-2’s pretraining data) is highly toxic compared to 2.1% of OWTC. It indicates that the level of toxic output directly correlates with the toxicity in the pretraining dataset. 
 
-~enter figure here~
+![image](images/feb20/fig_eight.png)
 
 The top shows Factual reliability in news sites that make up OWTC, the bottom shows that the unreliable news sources in OWTC have a much higher proportion of toxic content than high reliability ones. Thus, training on low reliability, misinformation sources increase toxic output. The best way to prevent toxicity is not through filtering outputs but by curating cleaner training datasets. Models trained on cleaner data (like Wikipedia) generate significantly less toxicity.
 
