@@ -18,6 +18,10 @@ over-represent certain political views while suppressing others.
 
 ### Methods:
 
+There are no formal methods discussed in this article. However, the papers make references to n-gram language models, word embeddings, and Transformer-based models. 
+
+#### The Evolution of NLP over time:
+
 ### Key Findings:
 
 The Key Findings section will be broken down into two main sections:
@@ -39,19 +43,130 @@ given a sentence. In one study that assessed the cost of models versus accuracy 
 English to German translation resulted in an increase of $150,000 compute cost and additional carbon emissions. While the tradeoff
 for performance appears to be relatively negligible in this case, there might also be cases where performance is important and
 supersedes any additional costs incurred during training. It is also important to note that the concept of efficiency in Machine
-Learning was never really taken seriously until 2019, when efficiency was introduced as a benchmark metric.
+Learning was never really taken seriously until 2019, when efficiency was first introduced as a benchmark metric.
 
 The use of LLMs also indirectly introduces the notion of environmental racism. The paper defines environmental racism as the
-“negative effects of climate change (that) reach and impact the world’s most marginalized communities.” Given that the Maldives is
-expected to be underwater by 2100 and nearly 800,000 people are affected by floods in Sudan, is it fair that the benefits of LLMs that
-the privileged reap come at a cost to those that are underprivileged? This becomes particularly important to consider, especially given
-large-scale models for underutilized languages are often afterthoughts, and not taken seriously in reality.
+“negative effects of climate change (that) reach and impact the world’s most marginalized communities.” Many communities within first-world
+countries have proper access to the internet and can access LLMs. However, there are many other countries that often question the value of LLMs
+versus the environmental risks that are, in some cases, imminent. Given that the Maldives is expected to be underwater by the year 2100 and 
+nearly 800,000 people are affected by floods in Sudan, is it fair that the benefits of LLMs that the privileged reap come at a cost to those 
+that are underprivileged? This becomes particularly important to consider, especially given large-scale models for underutilized languages are 
+often afterthoughts, and not taken seriously in reality. This is a key point for debate!
 
 ![image](images/feb20/fig_three.png "Figure #1: Percent of citizens that have access to the internet in each country across the world.") 
 
+To address these ongoing environmental issues within Machine Learning, the paper introduces a concept referred to as Green AI. Green AI is an informal initiative to encourage Machine Learning practitioners into utilizing environmentally friendly options while training Machine Learning models. This includes promoting efficiency as an evaluation benchmark, as highlighted in the paragraph above. Furthermore, initiatives such as SustainNLP have been designed to prioritize the goal of producing “computationally efficient hardware and algorithms.” Additional recommendations include utilizing carbon-friendly regions for running experiments, and regular reporting of carbon/energy metrics.
+
 #### Social Impacts:
 
+In order to train an LLM, large amounts of data are required! The internet has plentiful data that can be utilized for training purposes, and has been the backbone for many cutting-edge LLMs. However, the curation methods of internet-based datasets need to be properly assessed. Many studies have given indications that large, uncurated, internet-based datasets encode negative views with regards to gender, race, ethnicity and disability status. When such data is not properly curated, this results in models that are often biased themselves. The Common Crawl is a large dataset that contains petabytes of data that have been collected as a result of years of data collection via the internet. GPT-3, a common LLM, has utilized a filtered version of the Common Crawl. One would expect that the dataset used to train a mainstream LLM to be representative of world views, but instead further research indicates that viewpoints that are hegemonic, supremacist, and misogynistic in nature were more likely to be retained within this filtered dataset.
+
+GPT-3 was developed by using a filtered version of the Common Crawl dataset, one that was similar to the dataset used to develop GPT-2. Although this concept appears harmless in theory, many documents found in the training data were linked to predominantly male-visited websites such as Reddit and Wikipedia. Although additional filters were included to remove pages associated with hate speech, sexism, and other negative forms of speech, this also comes with potentially suppressing training data obtained from online spaces created and maintained by the LGBTQ+ community. Furthermore, investigations of the GPT-2 training data found nearly 272,000 documents from untrustworthy news sites and nearly 63,000 documents from banned subreddits. This brings the question of whether the data used to train these LLMs are truly trustworthy? Or is it worth revisiting its reliability?
+
+As shown in Figure #1, the proportion of citizens that have access to the internet in their respective countries varies significantly. While a major proportion of citizens have access to the internet in developed countries (i.e. United States, Canada, European Union, etc.), a significant proportion of citizens in underdeveloped nations in Africa and Asia do not have such access. Furthermore, not only does the internet data tend to overrepresent younger citizens, but can also include data from sources that have historically been unwelcoming to minority groups. These examples clearly indicate that internet access distribution is clearly uneven, and yet is considered a good representation of model training data at the same time.
+
+In efforts to accommodate for changing social views over time, the paper proposes a form of regularly updating data to make sure that new changes in social norms and language are reflected in the training data. The paper refers to this phenomenon as a “reframing” technique, and highlights that fine-tuning an LLM could potentially be efficient as well. Furthermore, model auditing could be a key avenue in potentially filtering harmful data from surfacing in these training models. However, in many cases model auditing also presents its own biases. There have been instances where models have been found to associate higher toxicity levels with marginalized groups. 
+
 #### Critical Analysis:
+
+The paper does an excellent job of outlining the potential of skewed variables that are involved underneath the algorithms of LLMs, as well as the long-term implications of using LLMs without proper regulation or in-depth research to adjacent topics. Although this paper served mostly as informative, the paper focused on environmental, financial and training data concerns - concepts that are not typically discussed in a traditional Machine Learning paper. The paper supported each of its claims by referencing past papers that have thoroughly documented the claims made in this paper. 
+
+One of the strengths of this paper was the breadth of the topics covered, and effectively connecting them together. By clearly outlining the implications of LLMs in three different areas, the authors do a great job in conveying the plethora of consequences behind extensive use of LLMs without proper guardrails. Furthermore, the paper presented its argument in a cohesive and structured format, and introduced a “domino effect” of how one tool can have a multitude of effects on the environment and human psyche. However, the paper could have done a better job in eliciting opinions from the general public. 
+
+Although this paper was primarily designed to be an informative paper outlining the potential dangers of LLMs, it would have been beneficial to have included user studies from populations that use LLMs on a daily basis. For example, have LLM users encountered the biases that the paper addresses? Including a user study that asks such questions would further substantiate the paper’s claims. Apart from this, the paper keeps an objective perspective in explaining the dangers of LLMs, and acknowledges proper ethical considerations as well.
+
+
+## [REALTOXICITYPROMPTS: Evaluating Neural Toxic Degeneration in Language Models](https://arxiv.org/pdf/2009.11462)
+
+### Introduction and Motivations:
+
+Pretrained neural language models (LMs), such as GPT-2 and GPT-3, have natural language generation (NLG) with their high fluency and coherence. However, despite their impressive capabilities, these models frequently exhibit toxic degeneration—the tendency to generate racist, sexist, or otherwise harmful language, even when given seemingly innocuous prompts. This issue raises serious ethical concerns and presents obstacles to the safe deployment of AI in real-world applications such as chatbots, content moderation, and text generation tools. The toxicity problem is rooted in the training data, which is often sourced from unfiltered web text, including Reddit discussions, news articles, and online forums. Since language models learn statistical patterns from their training corpora, they inevitably inherent biases, offensive speech, and misinformation. The authors introduce REALTOXICITYPROMPTS, a dataset of 100,000 naturally occurring prompts, extracted from a large English web text corpus, with each prompt labeled using the PERSPECTIVE API for toxicity scores. This dataset is designed as a benchmark to evaluate the extent to which LMs generate toxic content. The paper has three primary objectives: (1) to assess how frequently LMs produce toxic output, (2) to evaluate detoxification strategies that attempt to mitigate toxicity, and (3) to investigate the role of training data in shaping toxic behavior in LMs. The findings suggest that even non-toxic prompts can result in toxic generations, and that filtering training data alone is insufficient to prevent toxic outputs.
+
+### Methods:
+
+The paper test with unprompted and prompted generation to see toxicity
+
+#### Understanding the Datasets: REALTOXICITYPROMPTS, WebText, and OWTC
+
+The study evaluates five major autoregressive transformer-based LMs:
+
+1. GPT-1 ( trained on book corpora)
+2. GPT-2 ( trained on OpenAI WebText)
+3. GPT-3 ( trained on Common Crawl, Wikipedia, books)
+4. CTRL ( trained on domain-specific control tokens)
+5. CTRL-WIKI ( a version trained solely on Wikipedia)
+
+The authors focus on analyzing training data, particularly WebText, which is a primary source for GPT-2’s training.
+
+- WebText (OPENAI-WT):
+    - Created by OpenAI and used to train GPT-2.
+    - Contains internet text scraped from outbound Reddit links.
+    - Some explicitly harmful subreddits were filtered, but much of the data remains unfiltered.
+- OpenWebText Corpus (OWTC):
+    - A publicly available replica of WebText.
+    - Based on the same Reddit-linked web text but lacks OpenAI’s proprietary filtering.
+    - Used as a substitute for WebText in this study.
+- REALTOXICITYPROMPTS:
+    - Extracted from OWTC (Reddit-based web text).
+    - 100,000 prompts were selected and labeled using PERSPECTIVE API to score their toxicity.
+    - Used as a benchmark to evaluate how often LMs generate toxic content.
+
+How to measure toxicity in Neural models:
+1. The expected maximum toxicity over k= 25 generations, which we estimate with a mean and standard deviation
+2. The empirical probability of generating a spanwith TOXICITY ≥0.5 at least once over k = 25 generations
+
+How to measure toxicity scores:
+- Google’s PERSPECTIVE API is used to measure toxicity in both prompts and model-generated text.
+- It assigns a toxicity score between 0 and 1 and If the toxicity score is ≥0.5, the text is considered toxic
+
+Detoxification Methods:
+1. Data-Based Detoxification (Modifying Pretraining Data)
+    - Domain-Adaptive Pretraining (DAPT): Retrains GPT-2 on a filtered dataset with non-toxic text.
+    - Attribute Conditioning (ATCON): Adds special tokens (<|nontoxic|> and <|toxic|>) before each prompt to steer model behavior.
+2. Decoding-Based Detoxification (Adjusting the Generation Process)
+    - Vocabulary Shifting (VOCAB-SHIFT): Reduces the probability of toxic words during generation.
+    - Word Filtering:Explicitly bans slurs, profanity, and toxic words from appearing in generated text.
+    - Plug-and-Play Language Models (PPLM): Dynamically adjusts the hidden representations of GPT-2 to steer generation away from toxicity.
+
+### Key Findings:
+
+The paper’s three most important findings are:
+
+1. Even without any prompts (unprompted generation), language models still generate toxic text, proving that toxicity originates from pretraining data.
+2. Even non-toxic prompts can trigger toxic responses, meaning models can introduce toxicity into otherwise safe contexts.
+3. Detoxification techniques help, but no method completely prevents toxicity.
+
+~enter figure here~
+
+This figure shows that even if we don’t give any prompts, language models still can generate toxic content, which proves that toxicity is coming and learning from pretraining data. And we can see that GPT-2 and GPT-1 exhibit maximum toxicity with 100 generations while CTRL- wiki is the least, which proves that pretraining on cleaner data can reduce harmful outputs, meaning that filtering training corpora is crucial for training these language models.
+
+~enter figure here~
+
+This table shows that even if we input innocuous and harmless words, language models still can generate non-trivial toxic rates, which is nearly or above 50%. This means that language models carrying toxicity from pretraining data and can actively introduce toxicity. Therefore, we need to consider how these unpredictable AI-generated contents may pose concern in real-world applications.
+
+~enter figure here~
+
+Detoxification strategies truly help to reduce toxicity, but none of the methods can completely eliminate it. Also, while some methods work better than others, it still can generate toxic content. As we can see, DAPT(Domain-adaptive pretraining on Non-toxic data) is the most effective in data-based, but still allows some toxicity. PPLM(Plug-and-Play language model) is the most effective in these methods, but it’s computationally expensive. Word Filtering is the least effective, since it can still generate toxic contents, which we find filtering or banning bad words is less successful than pretraining non-toxic data. 
+
+~enter figure here~
+
+4.3 % of OpenAI-WT(GTP-2’s pretraining data) is highly toxic compared to 2.1% of OWTC. It indicates that the level of toxic output directly correlates with the toxicity in the pretraining dataset. 
+
+~enter figure here~
+
+The top shows Factual reliability in news sites that make up OWTC, the bottom shows that the unreliable news sources in OWTC have a much higher proportion of toxic content than high reliability ones. Thus, training on low reliability, misinformation sources increase toxic output. The best way to prevent toxicity is not through filtering outputs but by curating cleaner training datasets. Models trained on cleaner data (like Wikipedia) generate significantly less toxicity.
+
+### Critical Analysis:
+
+The paper examines toxic language generation in AI models, showing that toxicity comes from pretraining data, not just user input. Using REALTOXICITYPROMPTS, a 100,000-prompt dataset, it tests five major models (GPT-1, GPT-2, GPT-3, CTRL, CTRL-WIKI) and finds that all can produce toxic content, even without prompts. The study also compares different detox methods, finding that DAPT (pretraining on non-toxic data) works best, while banning bad words is ineffective. Figures 3 and 4 prove that models trained on toxic data generate more harmful content, stressing the need for better dataset selection. The paper also highlights ethical concerns about AI-generated toxicity and the challenge of balancing safety with free speech.
+
+However, there are some issues. The study relies on PERSPECTIVE API, which mislabels some non-toxic text as toxic, especially in African American English (AAE). It only tests GPT-style models and does not include BERT or other AI types, making it less applicable to different AI tasks. Some detox methods, like PPLM and DAPT, are slow and expensive, limiting their real-world use. The paper also does not explore whether detoxifying AI could accidentally remove important discussions on race, gender, or politics, raising concerns about censorship.
+
+The study also reveals biases in training data, as it mostly comes from Reddit, which skews content toward Western, male-dominated perspectives. This raises questions about fairness—whose voices are being learned by AI, and whose are being ignored? Since Reddit-linked data may not represent broader language use, future AI models should be trained on more diverse sources to reduce bias.
+
+From an ethical standpoint, the paper warns that toxic AI can spread harmful stereotypes, misinformation, and offensive content if not properly controlled. However, too much filtering could lead to excessive censorship, making it hard for AI to talk about sensitive but important topics. While the authors call for more transparency in AI training, they do not suggest clear steps for balancing AI safety with free speech. Future research should focus on better detox methods that remove harm without limiting important conversations.
+
+## [OPT: Pre-trained Transformer Language Models](https://arxiv.org/pdf/2205.01068)
 
 
 ## [StereoSet:Measuring stereotypical bias in pre-trained language models](https://aclanthology.org/2021.acl-long.416.pdf)
@@ -61,6 +176,8 @@ large-scale models for underutilized languages are often afterthoughts, and not 
 The paper addresses the issue of stereotypical bias in pretrained language models, which are known to inherit biases from real-world data. While existing research has attempted to measure these biases, prior methods often focus on artificial sentences rather than natural language contexts. Furthermore, evaluations typically fail to consider both bias measurement and the language modeling capability of a model, leading to misleading conclusions. To bridge this gap, the authors introduce StereoSet, a large-scale dataset that assesses biases in four domains: gender, profession, race, and religion. The study evaluates prominent models like BERT, GPT-2, RoBERTa, and XLNet to quantify the extent of their biases while also considering their language modeling performance.
 
 ### Methods:
+
+### Key Findings:
 
 The authors introduce the Context Association Test (CAT) to systematically evaluate the stereotypical bias present in pretrained language models (PLMs). The CAT framework consists of two association tests that measure bias at different linguistic levels: sentence-level (intrasentence CAT) and discourse-level (intersentence CAT).
 
