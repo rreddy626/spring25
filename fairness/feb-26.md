@@ -12,7 +12,9 @@ American anti-discrimination law has evolved over many decades—from the strugg
 
 ## What is Title VII
 
-Title VII of the Civil Rights Act stands as a central pillar in America's fight against discrimination. It prohibits employers from treating individuals unfavorably on the basis of race, color, religion, sex, or national origin. While the original focus was on visible forms of bias in employment, today the law's relevance extends even into the digital realm. As the internet and artificial intelligence increasingly influence hiring and service delivery, questions have arisen about whether automated systems might inadvertently perpetuate unfair practices. For example, current debates examine if biases in data and algorithmic decision-making require a modern interpretation of Title VII's protections. (Watch this video for further insights into how technology complicates discrimination law: https://www.youtube.com/watch?v=EpXNXyfFS8U)
+Title VII of the Civil Rights Act stands as a central pillar in America's fight against discrimination. It prohibits employers from treating individuals unfavorably on the basis of race, color, religion, sex, or national origin. While the original focus was on visible forms of bias in employment, today the law's relevance extends even into the digital realm. As the internet and artificial intelligence increasingly influence hiring and service delivery, questions have arisen about whether automated systems might inadvertently perpetuate unfair practices. For example, current debates examine if biases in data and algorithmic decision-making require a modern interpretation of Title VII's protections. Watch this video for further insights into how technology complicates discrimination law: 
+
+[<img src="https://i.ytimg.com/vi/EpXNXyfFS8U/hq720.jpg" width="250">](https://www.youtube.com/watch?v=EpXNXyfFS8U)
 
 ## Disparate Treatment versus Disparate Impact
 
@@ -78,7 +80,9 @@ For those impacted by algorithmic decisions — such as individuals who might be
 
 One high-profile example comes from Facebook. In response to mounting criticism over targeted advertising, the company introduced a "Why Am I Seeing This?" button on its ads. This feature provides a brief, general explanation intended to reassure users that their data is being used in a controlled manner. Yet, evidence suggests Facebook could provide a more detailed account of the attributes influencing ad targeting if it chose to do so. Instead, by providing only limited information, Facebook shields its data collection practices while remaining within the minimal bounds of legal transparency. Additionally, a study on discrimination in Facebook advertising, "Discrimination Through Optimization: How Facebook's Ad Delivery Can Lead to Bias Outcomes", demonstrates that biased ad delivery is not merely a theoretical concern. The research shows that Facebook's ad delivery system can produce significantly skewed outcomes along gender and racial lines—even when advertisers set inclusive targeting parameters — thereby confirming that discrimination does indeed exist in practice.
 
-As another example, a case study from the 2018 Network and Distributed System Security Symposium (NDSS) illustrates how this ad transparency tool works in practice: https://youtu.be/f7yQZ6uquDA?t=643.
+As another example, a case study from the 2018 Network and Distributed System Security Symposium (NDSS) illustrates how this ad transparency tool works in practice: 
+
+[<img src="https://i.ytimg.com/vi/f7yQZ6uquDA/hqdefault.jpg" width="250">](https://youtu.be/f7yQZ6uquDA?t=643)
 
 **Vagueness in explanations** not only allows companies to mask discrimination under the guise of fairness but also leaves users with an incomplete understanding of AI's decision-making — a troubling issue when these decisions have significant personal consequences. Furthermore, the challenges of explainable AI are rooted in the complexities of data mining itself, where each stage of the process can embed historical biases into modern systems. These factors, along with **the technical difficulties of interpreting advanced models** causing the inability to provide explanations, underscore **the urgent need for both technological innovation and legal reform**, ensuring that AI systems are effective, transparent, and fair so individuals can understand and contest decisions affecting their lives.
 
@@ -140,7 +144,10 @@ The authors' conclusions and proposed solutions, however, reveal the complex cha
 
 # References:
 
-- Ali, M., Sapiezynski, P., Bogen, M., Korolova, A., Mislove, A., & Rieke, A. (2019). Discrimination through optimization: How Facebook's Ad delivery can lead to biased outcomes. Proceedings of the ACM on human-computer interaction, 3(CSCW), 1-30.
-- Barocas, Solon and Selbst, Andrew D., Big Data's Disparate Impact (2016). 104 California Law Review 671 (2016), Available at SSRN: https://ssrn.com/abstract=2477899 or http://dx.doi.org/10.2139/ssrn.2477899
-- I.O., Gallegos et al. Understanding United States Anti-Discrimination Law, 2023, fairmlbook.org/legal.html.
-- Levendowski, Amanda, How Copyright Law Can Fix Artificial Intelligence's Implicit Bias Problem (July 24, 2017). 93 Wash. L. Rev. 579 (2018), Available at SSRN: https://ssrn.com/abstract=3024938
+Ali, M., Sapiezynski, P., Bogen, M., Korolova, A., Mislove, A., & Rieke, A. (2019). Discrimination through optimization: How Facebook's Ad delivery can lead to biased outcomes. Proceedings of the ACM on human-computer interaction, 3(CSCW), 1-30.
+
+Barocas, Solon and Selbst, Andrew D., Big Data's Disparate Impact (2016). 104 California Law Review 671 (2016), Available at SSRN: https://ssrn.com/abstract=2477899 or http://dx.doi.org/10.2139/ssrn.2477899
+
+I.O., Gallegos et al. Understanding United States Anti-Discrimination Law, 2023, fairmlbook.org/legal.html.
+
+Levendowski, Amanda, How Copyright Law Can Fix Artificial Intelligence's Implicit Bias Problem (July 24, 2017). 93 Wash. L. Rev. 579 (2018), Available at SSRN: https://ssrn.com/abstract=3024938
