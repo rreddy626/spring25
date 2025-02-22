@@ -130,8 +130,6 @@ Rather than presenting anti-discrimination law as abstract principles, the autho
 
 Levendowski makes a compelling argument that copyright law plays a significant role in creating and perpetuating bias in artificial intelligence systems. Her core thesis is that copyright law creates friction that limits access to training data and encourages AI creators to use biased, "low-friction" data. She also examines "build-it" versus "buy-it" models and shows how copyright law advantages large existing tech companies, both through their ability to build massive proprietary datasets like Facebook and to purchase or license data like IBM.
 
-Continuing the markdown formatting:
-
 Levendowski's analysis of how changes to fair use policy could enable broader use of diverse copyrighted works as training data is rigorous and thorough, but is largely theoretical and speculative. She provides several informative case studies and examples to qualitatively motivate her argument, but **lacks empirical data to quantify the impact of copyright restrictions**, or even if the companies she discusses even abide by these restrictions. For example, some companies have trained on data under the assumption that it is fair use (or a gray area), even circumventing paywalls and other barriers to do so. Some of these examples are recent (i.e. after she published this paper — e.g. OpenAI vs. NYT), but many do predate her argument (Google Books, Ars Technica, etc.). She also does not explore the potential trade-offs between stricter and looser copyright policy in detail, particularly the unintended economic repercussions and lack of incentives for creators if their content is deemed free use.
 
 ## Big Data's Disparate Impact
