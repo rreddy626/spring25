@@ -1,6 +1,6 @@
 # Fairness - Policy aspects
 
-The following blog is about how AI systems, often built on historically biased data, can perpetuate discrimination and the challenges that existing legal frameworks—like anti-discrimination laws and copyright regulations — face in addressing these issues. It explores the tension between technological innovation and fairness, urging a reevaluation of legal strategies to better safeguard against the unintended discrimatory consequences of algorithmic decision-making.
+The following blog is about how AI systems, often built on historically biased data, can perpetuate discrimination and the challenges that existing legal frameworks — like anti-discrimination laws and copyright regulations — face in addressing these issues. It explores the tension between technological innovation and fairness, urging a reevaluation of legal strategies to better safeguard against the unintended discrimatory consequences of algorithmic decision-making.
 
 ## Introduction:
 
