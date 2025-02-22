@@ -1,22 +1,24 @@
-# Introduction:
+# Fairness - Policy aspects
+
+## Introduction:
 
 AI and technologies driven by big data increasingly shape the decisions that impact our lives, from hiring and lending to healthcare and policing. At face value, these technologies promise objectivity and efficiency, but beneath their veneer of algorithmic objectivity lies a concerning reality. These systems, which are trained on historical data, often inherit, perpetuate, and reinforce societal biases with alarming precision and at an unprecedented scale. For example, automated systems used in hiring may systematically favor male candidates for technical roles, while predictive policing systems might perpetuate racial profiling, disproportionately targeting minority communities. These patterns of bias, though often unintentional and increasingly measurable/targeted by technical solutions, are not just technical flaws. They are also moral and legal challenges that demand urgent attention.
 
 In this blog post, we discuss the limitations of current legal frameworks in confronting algorithmic bias. Specifically, we discuss U.S. anti-discrimination and copyright laws and their history. While many existing laws effectively address explicit discrimination and disparate treatment, they fail to account for more nuanced forms of bias embedded within automated systems that cause disparate impact. As these technologies become more important in our institutional decision making processes, so does the need to adapt and strengthen the legal tools at our disposal to address new forms of discrimination and impact that emerge from AI.
 
-# Motivations:
+## Motivations:
 
-## Background Information
+### Background Information
 
 American anti-discrimination law has evolved over many decades—from the struggles against overt segregation to confronting subtle biases in today's digital age. In the early days, efforts to end racial segregation and secure voting rights sparked a movement that not only protested Jim Crow policies but also demanded respect and equality in every sphere of life. Activists' brave demonstrations and acts of civil disobedience (e.g., sit-ins, boycotts, protests, marches) laid the groundwork for a legal framework that would later include statutes addressing gender, LGBTQ+ issues, and disability discrimination. More recent challenges, such as the unintended bias in algorithmic decision making, have now placed old legal principles in dialogue with modern technologies, showing that the fight for fairness remains as dynamic as ever.
 
-## What is Title VII
+### What is Title VII
 
 Title VII of the Civil Rights Act stands as a central pillar in America's fight against discrimination. It prohibits employers from treating individuals unfavorably on the basis of race, color, religion, sex, or national origin. While the original focus was on visible forms of bias in employment, today the law's relevance extends even into the digital realm. As the internet and artificial intelligence increasingly influence hiring and service delivery, questions have arisen about whether automated systems might inadvertently perpetuate unfair practices. For example, current debates examine if biases in data and algorithmic decision-making require a modern interpretation of Title VII's protections. Watch this video for further insights into how technology complicates discrimination law: 
 
 [<img src="https://i.ytimg.com/vi/EpXNXyfFS8U/hq720.jpg" width="250">](https://www.youtube.com/watch?v=EpXNXyfFS8U)
 
-## Disparate Treatment versus Disparate Impact
+### Disparate Treatment versus Disparate Impact
 
 One way to understand discrimination under Title VII is by distinguishing between two concepts: disparate treatment and disparate impact.
 
@@ -24,7 +26,7 @@ One way to understand discrimination under Title VII is by distinguishing betwee
 
 **Disparate Impact**, on the other hand, concerns policies or practices that, while seemingly neutral, result in unequal outcomes for different groups. For example, a hiring algorithm might unintentionally favor candidates from certain backgrounds because the data it was trained on reflects historical prejudices. Although proving intent under disparate treatment is often more straightforward, the rise of machine learning has made disparate impact a critical tool for identifying hidden biases. Today, when datasets contain skewed representations or when digital processes indirectly exclude protected groups, disparate impact serves as a practical way to challenge these practices.
 
-## What is Copyright Law and Fair Use
+### What is Copyright Law and Fair Use
 
 Copyright law is a framework designed to protect the rights of creators by granting them exclusive control over the use and distribution of their original works (e.g. texts, images, software, etc.). This protection covers various rights including reproduction, distribution, public performance, and the creation of derivative works. In simple terms, anyone who wants to use copyrighted material needs to either get permission from the rights holder or rely on legal exceptions. Fair use is one such exception that allows for the limited use of copyrighted material without permission under certain conditions:
 
@@ -40,7 +42,7 @@ Much of the discussion surrounding AI bias and fairness focuses on algorithmic d
 
 Several historical examples offer instructive parallels which motivate Lewandowksi's call for change. For instance, in the case Sony Corp. of America v. Universal City Studios, Inc. in 1984 (Betamax case) the court recognized that allowing consumers to record television broadcasts for later viewing was a transformative, socially beneficial use that fell under fair use. Similarly, in Sega v. Accolade in 1992, the court held that reverse engineering for the purpose of creating compatible software was a legitimate fair use, thus enabling innovation and competition in the video game industry. Levendowski suggests that these cases illustrate how legal interpretations can evolve to accommodate transformative uses. Just as these rulings allowed broader access to copyrighted material for innovation, an expanded fair use doctrine in the AI context could permit developers to access more representative datasets and reverse engineer models, potentially reducing bias in AI systems.
 
-## Data Mining's Paradox: Harnessing Benefits While Battling Bias
+### Data Mining's Paradox: Harnessing Benefits While Battling Bias
 
 Data mining plays a pivotal role in modern society — it fuels innovations across industries by enhancing operations like optimizing delivery networks, uncovering hidden drug side effects, and revealing patterns in human behavior. One of its key advantages is the ability to automatically detect and **extract meaningful patterns** from vast datasets, **uncovering statistically significant relationships** that are often invisible to human analysis. This is especially so as data mining refines its insights as more data becomes available. By doing so, as proponents argue, data mining helps ground decisions in objective, empirical data rather than subjective judgement, reducing the influence of individual bias and allowing for more informed, consistent, and fairer outcomes across a range of applications.
 
@@ -48,9 +50,9 @@ However, the promise of data mining is tightly coupled with the quality of the u
 
 The tension between these beneficial and adverse outcomes emphasizes that data mining is a double-edged instrument. While its potential to revolutionize decision-making is undeniable, safeguarding against its inherent risks requires a thoughtful approach to data curation and algorithm design.
 
-# Methods:
+## Methods:
 
-## How Copyright Law Creates Barriers to Fair AI
+### How Copyright Law Creates Barriers to Fair AI
 
 Copyright restrictions contribute to bias by limiting access to diverse datasets, restricting reverse engineering, weakening accountability, and reducing competition. These barriers reinforce existing biases in AI models, making it harder to develop fairer systems.
 
@@ -62,7 +64,7 @@ Accountability mechanisms such as journalistic reporting, whistleblowing, and cr
 
 Additionally, copyright law reinforces market dominance by making it easier for large tech companies to maintain control over AI development. Training state-of-the-art AI models requires vast amounts of data, which can either be collected or purchased. Big tech firms already possess extensive datasets from their platforms or have the financial resources to acquire exclusive data, giving them a competitive advantage over smaller developers and startups. This creates a system where new entrants struggle to compete, reducing innovation and diversity in AI development. Without strong market competition, large corporations have little incentive to address bias.
 
-## The Challenge of Changing Laws and Data
+### The Challenge of Changing Laws and Data
 
 Legal reform and data evolution are both notoriously resistant to change. On the one hand, uncovering discrimination in data mining is challenging; on the other, adapting our legal frameworks to address these issues adds a further layer of complexity. Traditional legal tools — such as Title VII, which outlaws discrimination in employment, and copyright law—have been explored as means to combat the biases that permeate our datasets.
 
@@ -72,9 +74,9 @@ At the same time, the data that informs these systems is itself fraught with bia
 
 These intertwined challenges — legal inertia and biased data — create a double bind where discriminatory outcomes persist due both to outdated legal doctrines and datasets that reflect historical prejudices. The process of updating legal standards is hampered by the emotional and procedural burdens on plaintiffs and decision makers, while the data used to train modern algorithms often fails to represent contemporary society accurately. Addressing these issues, therefore, requires a **dual approach**: refining data collection and curation practices to eliminate embedded biases and rethinking legal strategies to better detect and remedy algorithmic discrimination.
 
-# Key Findings:
+## Key Findings:
 
-## Explainability: Transparency and Accountability in AI
+### Explainability: Transparency and Accountability in AI
 
 For those impacted by algorithmic decisions — such as individuals who might be unfairly passed over for a job — clear explanations are not just a courtesy but a vital right. Transparent AI can empower affected parties by **revealing the rationale behind decisions, enabling them to challenge or better understand adverse outcomes**. However, developing truly explainable AI is a formidable task, as many modern models operate as opaque "black boxes" where the link between input data and output decisions is difficult to trace.
 
@@ -86,7 +88,7 @@ As another example, a case study from the 2018 Network and Distributed System Se
 
 **Vagueness in explanations** not only allows companies to mask discrimination under the guise of fairness but also leaves users with an incomplete understanding of AI's decision-making — a troubling issue when these decisions have significant personal consequences. Furthermore, the challenges of explainable AI are rooted in the complexities of data mining itself, where each stage of the process can embed historical biases into modern systems. These factors, along with **the technical difficulties of interpreting advanced models** causing the inability to provide explanations, underscore **the urgent need for both technological innovation and legal reform**, ensuring that AI systems are effective, transparent, and fair so individuals can understand and contest decisions affecting their lives.
 
-## Fair Use as a Potential Solution for AI Fairness
+### Fair Use as a Potential Solution for AI Fairness
 
 Fair Use presents a compelling legal framework for addressing bias in AI models by enabling access to more diverse and representative training data. Current copyright laws limit AI developers to publicly available datasets, which may be incomplete, outdated, or inherently biased. Instead of relying on restrictive copyright protections, Fair Use should be considered as a mechanism to promote AI fairness and innovation.
 
@@ -96,7 +98,7 @@ Additionally, AI models operate on factual data rather than creative expression.
 
 If properly applied, Fair Use could strike a balance between protecting copyright holders' rights and allowing AI systems to learn from a broader and more diverse range of materials, ultimately leading to fairer and more accountable AI models.
 
-## Reoccuring Limited and Questionable Liability Under Title VII
+### Reoccuring Limited and Questionable Liability Under Title VII
 
 Title VII presents significant hurdles in holding data mining practices accountable for discriminatory outcomes. A major challenge is that these systems rarely demonstrate explicit discriminatory intent; instead, they often replicate historical biases embedded in legacy data. For instance, even if an algorithm's predictions align with past prejudices, without evidence of intentional harm, Title VII may deem such practices a justifiable business necessity — especially when the outcomes are predictive of future employment success.
 
@@ -106,11 +108,11 @@ Complicating matters is the ongoing debate over accountability: **Who should bea
 
 Beyond legal enforcement, an alternative solution lies in proactive self-regulation by employers. By educating decision makers about the technological underpinnings and inherent risks of data mining, organizations can mitigate potential biases before they translate into discriminatory practices.
 
-## Federal Oversight and Consumer Protection
+### Federal Oversight and Consumer Protection
 
 Governments around the world are beginning to grapple with the challenges posed by algorithmic bias and disruptive and or discriminatory AI systems. In response, a variety of strategies have emerged—from updating existing legal frameworks and introducing new regulations to establishing independent bodies tasked with monitoring and auditing AI systems. One avenue of government intervention in the United States is through agencies like the Federal Trade Commission (FTC), which has a long history of consumer protection. The FTC's mandate includes ensuring that products and services do not deceive consumers or perpetuate discrimination. Historically, the FTC, along with the Department of Labor, began enforcing Title VII in ways that targeted discriminatory practices. Today, many argue that the FTC should extend its scope to monitor AI-driven products. For example, if features like facial recognition systems or ad-targeting algorithms fail to work equitably for all consumers, the FTC could step in to enforce rules based on established public policies and antidiscrimination statutes. This would not only protect consumers from deceptive practices but also hold companies accountable for training AI models that inadvertently disadvantage certain groups.
 
-## Evaluating AI Systems Through Impact Assessments
+### Evaluating AI Systems Through Impact Assessments
 
 Another promising approach is the implementation of third-party audits in the form of Algorithmic Impact Assessments (AIAs). AIAs evaluate an AI model's design, development, and deployment. Independent experts would examine these systems, assess their potential biases, and assign a performance grade. This process is intended to incentivize companies to rigorously scrutinize their algorithms during design and to intercept discriminatory outcomes before products hit the market.
 
@@ -120,29 +122,29 @@ Critics argue that AIAs may lose effectiveness if companies are allowed to selec
 
 By establishing these auditing mechanisms, regulators can help ensure that both the technical underpinnings and the societal impacts of AI systems are thoroughly examined — offering transparency to users and reinforcing trust in the technology, especially through the further efforts to mitigate discrimination.
 
-## Copyright Considerations in Bias Auditing
+### Copyright Considerations in Bias Auditing
 
 Bias auditing requires access to AI training data, but copyright laws often restrict this. To effectively examine bias, auditors should be allowed to view AI training materials strictly as informative data, not as expressive works. The paper argues that if this distinction is upheld, such use should fall under Fair Use. Since bias audits do not exploit the creative value of copyrighted content but rather assess fairness, they should be legally permissible. However, current copyright laws, particularly those limiting reverse engineering, hinder transparency and make external accountability difficult. Recognizing bias auditing as Fair Use could help ensure AI systems remain both fair and legally compliant.
 
-# Critical Analysis:
+## Critical Analysis:
 
-## Understanding United States Anti-discrimination Law
+### Understanding United States Anti-discrimination Law
 
 Rather than presenting anti-discrimination law as abstract principles, the authors effectively demonstrate how specific civil rights struggles and political compromises led to traditional U.S. anti-discrimination law through historically grounded analysis. They argue that while new algorithmic/automated decision making does pose significant challenges to traditional anti-discrimination law, it also creates new opportunities for oversight, particularly regarding privacy and consumer protection. Their exploration of consumer protection law as a possible avenue to combat algorithmic discrimination lacks discussion of whether defining fairness as a consumer right might actually weaken the push for more profound structural reforms. The authors underscore the inherent limitations of legal proceduralism (meaningful progress often requires pushing beyond existing legal frameworks), such as placing the burden on victims to rely on litigation post hoc, but do not propose any specific, substantive measures that could proactively prevent bias from being embedded in systems from the outset. While they acknowledge that legal compliance itself should not be the end goal of algorithmic fairness work, they could have more thoroughly explored what additional moral and political frameworks _should_ guide algorithm development (fairness is highly subjective, especially in a country as diverse as the U.S.).
 
-## How Copyright Law Can Fix Artificial Intelligence's Implicit Bias Problem
+### How Copyright Law Can Fix Artificial Intelligence's Implicit Bias Problem
 
 Levendowski makes a compelling argument that copyright law plays a significant role in creating and perpetuating bias in artificial intelligence systems. Her core thesis is that copyright law creates friction that limits access to training data and encourages AI creators to use biased, "low-friction" data. She also examines "build-it" versus "buy-it" models and shows how copyright law advantages large existing tech companies, both through their ability to build massive proprietary datasets like Facebook and to purchase or license data like IBM.
 
 Levendowski's analysis of how changes to fair use policy could enable broader use of diverse copyrighted works as training data is rigorous and thorough, but is largely theoretical and speculative. She provides several informative case studies and examples to qualitatively motivate her argument, but **lacks empirical data to quantify the impact of copyright restrictions**, or even if the companies she discusses even abide by these restrictions. For example, some companies have trained on data under the assumption that it is fair use (or a gray area), even circumventing paywalls and other barriers to do so. Some of these examples are recent (i.e. after she published this paper — e.g. OpenAI vs. NYT), but many do predate her argument (Google Books, Ars Technica, etc.). She also does not explore the potential trade-offs between stricter and looser copyright policy in detail, particularly the unintended economic repercussions and lack of incentives for creators if their content is deemed free use.
 
-## Big Data's Disparate Impact
+### Big Data's Disparate Impact
 
 This paper presents a nuanced analysis of how data mining techniques used in employment decisions can perpetuate and amplify discrimination, even without explicit bias. The authors effectively break down different mechanisms through which discrimination can occur, from the choice of target variables and training data to feature selection and proxy discrimination. They make a compelling case that current anti-discrimination law (particularly Title VII) is ill-equipped to address these issues, as it focuses primarily on intentional discrimination and struggles to handle cases where algorithmic bias emerges from seemingly neutral practices. The paper's key insight is that even "perfect" data mining that accurately captures real-world relationships can still produce discriminatory outcomes by encoding existing societal inequalities into automated decision systems.
 
 The authors' conclusions and proposed solutions, however, reveal the complex challenges in addressing algorithmic discrimination. While they suggest various technical fixes and policy approaches, they ultimately acknowledge that many forms of algorithmic bias cannot be solved through procedural fairness alone. Instead, they require grappling with fundamental societal questions about substantive equality and how much disparate impact we are willing to tolerate. While the authors make a strong case for careful deployment of data mining alongside other anti-discrimination strategies, they do not explore addressing the underlying inequalities that data mining tends to reproduce with broader social policies or technical solutions. Nevertheless, the paper overall succeeds in demonstrating why algorithmic bias requires us to reexamine core assumptions about discrimination law and fairness.
 
-# References:
+## References:
 
 Ali, M., Sapiezynski, P., Bogen, M., Korolova, A., Mislove, A., & Rieke, A. (2019). Discrimination through optimization: How Facebook's Ad delivery can lead to biased outcomes. Proceedings of the ACM on human-computer interaction, 3(CSCW), 1-30.
 
