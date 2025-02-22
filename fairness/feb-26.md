@@ -26,13 +26,13 @@ One way to understand discrimination under Title VII is by distinguishing betwee
 
 Copyright law is a framework designed to protect the rights of creators by granting them exclusive control over the use and distribution of their original works (e.g. texts, images, software, etc.). This protection covers various rights including reproduction, distribution, public performance, and the creation of derivative works. In simple terms, anyone who wants to use copyrighted material needs to either get permission from the rights holder or rely on legal exceptions. Fair use is one such exception that allows for the limited use of copyrighted material without permission under certain conditions:
 
-1. Purpose and Character of the Use: Is the use commercial or noncommercial? More importantly, is it transformative—adding new meaning or insight rather than simply replicating the original?
+1. **Purpose and Character of the Use:** Is the use commercial or noncommercial? More importantly, is it transformative: adding new meaning or insight rather than simply replicating the original?
 
-2. Nature of the Copyrighted Work: Works that are more factual in nature are more likely to be considered for fair use compared to highly creative works.
+2. **Nature of the Copyrighted Work:** Works that are more factual in nature are more likely to be considered for fair use compared to highly creative works.
 
-3. Amount and Substantiality: How much of the work is used, and is the portion used considered the "heart" of the work?
+3. **Amount and Substantiality:** How much of the work is used, and is the portion used considered the "heart" of the work?
 
-4. Effect on the Market: Does the use harm the market or potential market for the original work?
+4. **Effect on the Market:** Does the use harm the market or potential market for the original work?
 
 Much of the discussion surrounding AI bias and fairness focuses on algorithmic design and dataset improvements, but often overlooks copyright law as a major contributor and root cause of the issue. In his paper, "How Copyright Law Can Fix Artificial Intelligence's Implicit Bias Problem," Levendowski argues that legal constraints often limit access to diverse training data, forcing (presumably well-intentioned) developers to rely on sources that are readily available but homogeneous and lack diversity. For example, if AI developers could legally access a wider array of images beyond popular, commercially available photos, facial recognition systems might perform more accurately across diverse populations. Similarly, broader access to varied textual sources could help natural language processing models avoid reinforcing outdated stereotypes. Current copyright law also protects against reverse engineering AI systems, which is important for bias detection. Levendowski suggests that copyright law should not only protect creators' rights but also serve broader public interests and prompts policymakers and legal scholars to reexamine current copyright frameworks in light of emerging ethical challenges.
 
