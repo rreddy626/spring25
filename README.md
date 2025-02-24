@@ -23,7 +23,7 @@ This is a tentative calendar and it is subject to change.
 | [Feb 10](fairness/feb-10.md) | Fairness   | Intro and bias sources             | Group 1      |
 | [Feb 12](fairness/feb-12.md)  | Fairness  | Statistical measures               | Group 2      |
 | [Feb 17](fairness/feb-17.md)  | Fairness|Tradeoffs                           | Group 3      |
-| [Feb 20](fairness/feb-20.md) | Fairness | LLMs: Toxicy and Bias              | Group 4      |
+| [Feb 19](fairness/feb-20.md) | Fairness | LLMs: Toxicy and Bias              | Group 4      |
 | [Feb 24](fairness/feb-24.md) | Fairness | LLMs: Fairness                     | Group 5      |
 | [Feb 26](fairness/feb-26.md) | Fairness | Policy aspects                     | Group 6      |
 | Mar 3 | No class (AAAI)                |                                    |              |
