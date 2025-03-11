@@ -1,5 +1,75 @@
 # Safety - Poisoning
 
+## [Manipulating Machine Learning: Poisoning Attacks and Countermeasures for Regression Learning](https://arxiv.org/abs/1804.00308). Jagielski et al. 2018.
+
+### Introduction and Motivations
+
+Training data poisoning attacks occur when attackers inject a small amount of corrupted data points into the training process for a machine learning (ML) model. These attacks are becoming more common as an increasing number of ML models require online training so that they are updated with new incoming training data. Furthermore, defending against training data poisoning attacks is challenging with current defensive techniques. 
+
+Regression models learn to predict a response variable based on several predictor variables while minimizing the loss. The impact of such poisoning attacks on linear regression models and how to design stronger countermeasures has yet to be explored in depth. This work conducts one of the first studies on poisoning attacks and their defenses on linear regression models. 
+
+### Methods
+This paper considers four different linear regression models: Ordinary Least Squares (OLS), ridge regression, LASSO, and elastic-net regression. It evaluates their novel poisoning attacks and defense algorithm on three regression datasets on health care, loans, and housing prices and compares them with the baseline gradient descent attack (BGD). The study evaluates the metrics of success rate of the poisoning attack by comparing the corrupted model and legitimate model Mean Squared Error (MSE) as well as the running time of the attack. 
+
+*Adversarial model*: The adversary’s goal is to modify predictions made by the learning model on new data by corrupting the model during the training process. Attacks can be under white-box or black-box settings. In white-box attacks, the adversary has knowledge of the training data, feature values, learning algorithm, and the trained parameters. On the other hand, in black-box attacks, the adversary has knowledge of the feature values and learning algorithm, but not the training data and trained parameters. An adversary’s capability is upper bounded by the number of poisoning points that can be injected into the training data. Therefore, the adversary is usually assumed to only control a very small portion of the training data. Finally, the poisoning attack strategy can be formalized as a bilevel optimization problem. 
+
+*Optimization-based poisoning attack (OptP)*: Previous poisoning attacks were developed for classification problems, limiting their effectiveness against regression models. Optimization-based poisoning attacks work by iteratively optimizing on a single poisoned data point at a time through gradient ascent. This paper adapts the optimization-based poisoning attack for regression tasks by utilizing two initialization strategies (inverse flipping and boundary flipping) and jointly optimizing both the feature values and their associated response variables. The authors also construct a baseline gradient descent (BGD) attack for regression. 
+
+*Statistical-based poisoning attack (StatP)*: Jagielski et al. also develop an attack that produces poisoned data points with a similar distribution as the training data. This attack requires estimations of the mean and covariance from the training data distribution and is agnostic to the regression algorithm, its parameters, and the training set. As a result, it requires minimal information and is also significantly faster than optimization-based poisoning attacks. However, they are generally slightly less effective. 
+
+*Defenses*: Existing defenses against poisoning attacks can be classified as either noise-resilient or adversarially-resilient. Noise-resilient regression approaches identify and remove any outliers from the dataset. However, an adversary can just generate poisoned data points that are very similar to the training data that can still mislead the model. Meanwhile, adversarially-resilient regression approaches generally have provable robustness guarantees, but the strong assumptions about the data and noise distributions made are usually not satisfied in practice. To improve upon existing defenses, the authors of this work propose the TRIM algorithm which identifies training data points with the lowest residuals relative to the regression model and disregards the points with large residuals. TRIM terminates once the algorithm converges and the loss function reaches a minimum. It is proved that TRIM terminates in a finite number of iterations.
+
+### Key Findings
+
+#### Attack Evaluation
+
+1) Which optimization strategies are most effective for poisoning regression?
+
+OptP outperforms BGD by a factor of 6.83 in the best case, achieving MSEs by a factor of 155.7 higher than the original models. Each dimension of the optimization framework (initialization strategy, optimization variable, objective of optimization) is crucial to generating a successful attack. 
+
+2. How do optimization and statistical attacks compare in effectiveness and performance?
+
+Generally the optimization-based attacks (OptP and BGD) outperform the statistical-based attack (StatP). This is expected because StatP uses less information about the model training when compared to the other attacks. However, StatP is still a reasonable attack to use if an attacker has limited knowledge and runs faster than the optimization-based attacks, highlighting the tradeoff between effectiveness and computational resources. 
+
+3. What is the potential damage of poisoning in real applications?
+To analyze the potential damage of poisoning attacks in real applications, the authors examined poisoning on the health care dataset. The new poisoning attacks can cause the linear regression models to significantly change the predicted drug dosage for patients even with a small percentage of poisoned data points. 
+
+4. What are the transferability properties of our attacks?
+
+Optimization-based and statistical-based poisoning attacks both have good transferability properties. There are minimal differences in accuracy when used on different training sets. Some exceptions to these results require further research. 
+
+#### Defense Evaluation
+1. Are known methods effective at defending against poisoning attacks?
+
+Existing defenses are not very effective at defending against the novel poisoning attacks introduced in this paper. Furthermore, there is the possibility that they may increase MSEs over unpoisoned models.
+
+2. What is the robustness of the new defense TRIM compared to known methods?
+
+Compared to known defenses, TRIM is much more effective at defending against all poisoning attacks. Unlike previous approaches, TRIM also improves upon the MSEs. 
+
+3. What is the running time of various defense algorithms?
+
+The various defense algorithms all ran within reasonable time, with TRIM running the fastest. 
+
+### Critical Analysis
+
+#### Strengths
+- This paper proposes novel poisoning attack and defense methodologies and is the first to contribute to studying model poisoning on linear regression models. 
+- The study is detailed and provides a comprehensive evaluation of the poisoning attacks and defenses by evaluating on different kinds of regression models, different datasets, and comparing to a baseline attack and existing methods. 
+- The authors not only show that TRIM improves upon existing defenses against poisoning attacks through their experiments, but they also provide provable guarantees which offer theoretical evidence to support why their algorithm works. 
+- This work demonstrated how harmful real world applications of poisoning attacks can be in a case study with the health care dataset. Since even a small amount of poisoning in a linear regression model can lead to significantly different and harmful results, future research into defending against poisoning attacks must be done. 
+
+#### Weaknesses
+- The contributions of this paper may not generalize to all regression models and datasets because only a select few were analyzed in these experiments. There are several other types of regression models and datasets that were not considered in this paper. 
+- It is possible that the proposed poisoning attacks and defense algorithms are not practical to use in the real-world. For example, the optimization-based attack requires more computational overhead. 
+
+#### Potential Biases
+In general, there may be potential biases with the dataset, evaluation methods, and overall problem definition. Certain datasets and evaluation metrics may lead to more favorable results for the novel poisoning attacks and defense algorithms while the overall problem definition may make assumptions about the attack scenario that are biased.
+
+#### Ethical Considerations
+This paper conducted a case study on a health care dataset to demonstrate real-world implications of poisoning. Datasets like this one may contain sensitive data, resulting in privacy and security concerns when conducting research on attacks. There are also ethical considerations in terms of transparency and dual-use cases. This paper provides the code for their study in a public GitHub repository, but there may be concerns about if the proposed attacks are improved upon by other researchers or attackers with malicious intent. 
+
+
 ## [Certified Defenses for Data Poisoning Attacks](https://arxiv.org/abs/1706.03691). Jacob Steinhardt, Pang Wei Koh, Percy Liang, 2017.
 
 ### Introduction and Motivations
