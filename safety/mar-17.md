@@ -14,7 +14,11 @@ The attack is white-box, and is based on two assumptions about the attackers kno
 
 The method is based on the properties of the optimal solution of the SVM training problem. This depends smoothly on the parameters of the respective quadratic programming problem, and on the geometry of the data points. This background gives way to the fact that the attacker can manipulate the optimal SVM solution by inserting specially crafted attack point(s) that maximally decreases the SVM's classification accuracy. As wil be discussed below, finding a crafted data point $`(x_c, y_c)`$ can be formulated as an optimization problem and can be kernelized.
 
-The attacker draws a validation dataset $`\mathcal{D}_\text{val} = \{x_k, y_k\}_{k=1}^m`$, and attempts to maximise the hinge loss incurred on $`\mathcal{D}_\text{val}`$ by the SVM trained on $`\mathcal{D}_\text{tr}\cup (x_c, y_c)`$, given by $`\max_{x_c} L(x_c) = \sum_{k=1}^{m} (1 - y_k f_{x_c}(x_k))_+ = \sum_{k=1}^{m} (-g_k)_+`$
+The attacker draws a validation dataset $`\mathcal{D}_\text{val} = \{x_k, y_k\}_{k=1}^m`$, and attempts to maximise the hinge loss incurred on $`\mathcal{D}_\text{val}`$ by the SVM trained on $`\mathcal{D}_\text{tr}\cup (x_c, y_c)`$, given by 
+
+```math
+\max_{x_c} L(x_c) = \sum_{k=1}^{m} (1 - y_k f_{x_c}(x_k))_+ = \sum_{k=1}^{m} (-g_k)_+
+```
 
 Since $`L(x_c)`$ is non-convex, the authors employ a gradient ascent technique to iteratively optimize the attack point $`x_c`$. This is done through the gradients $`\frac{\partial L}{\partial u}`$ (where $`u`$ is a unit vector representing the attack direction) is computed by considering the validation points with non-zero hinge loss and differentiating the margin conditions $`g_k`$ with respect to $`u`$. This involves considering how the SVM's dual variables $`\alpha`$ and bias $`b`$ change due to the perturbation of $`x_c`$. The computation relies on the fact that an infinitesimal change in $`x_c`$ causes a smooth change in the optimal SVM solution. This is called an adiabatic update, and it allows predicting the SVMs response to variations in $`x_c`$ by differentiating the Karush-Kuhn-Tucker (KKT) conditions. Additionally, this method only depends on the gradients of the dot products between points in the input space, and hence can be _kernelized_.
 
@@ -89,7 +93,7 @@ This paper considers four different linear regression models: Ordinary Least Squ
 \text{s.t. } \theta_p^\star \in \arg\min_{\theta} L(D_{\text{tr}} \cup D_p, \theta). \quad
 ```
 
-where the outer optimization amounts to selecting the poisoning points $D_p$ to maximize a loss function $W$ on an untainted data set $D'$ (e.g., a validation set which does not contain any poisoning points), while the inner optimization corresponds to retraining the regression algorithm on a *poisoned* training set including $D_p$. It should be clear that $\theta_p^\star$ depends *implicitly* on $D_p$.
+where the outer optimization amounts to selecting the poisoning points $`D_p`$ to maximize a loss function $`W`$ on an untainted data set $`D'`$ (e.g., a validation set which does not contain any poisoning points), while the inner optimization corresponds to retraining the regression algorithm on a *poisoned* training set including $`D_p`$. It should be clear that $\theta_p^\star$ depends *implicitly* on $`D_p`$.
 
 
 *Optimization-based poisoning attack (OptP)*: Previous poisoning attacks were developed for classification problems, limiting their effectiveness against regression models. Optimization-based poisoning attacks work by iteratively optimizing on a single poisoned data point at a time through gradient ascent. This paper adapts the optimization-based poisoning attack for regression tasks by utilizing two initialization strategies (inverse flipping and boundary flipping) and jointly optimizing both the feature values and their associated response variables. The authors also construct a baseline gradient descent (BGD) attack for regression. 
