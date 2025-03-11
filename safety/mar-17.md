@@ -22,17 +22,29 @@ Since $`L(x_c)`$ is non-convex, the authors employ a gradient ascent technique t
 ### Key Findings
 
 * The paper demonstrates the __vulnerability of SVMs__ to poisoning attacks, where specially crafted training data can be injected to significantly increase the SVMs test error. The strategy relies on the attacker's ability to predict the changes in SVM's decision function due to malicious input.
-* A novel __gradient ascent strategy__ is proposed that allows an attacker to iteratively refine an attack data point in the input space to maximize the hinge loss on a validation set, efectively increasing the classifier's test error. The adiabatic update condition derived from KKT conditions of the optimal SVM solution is used to compute how the SVMs dual variables and bias term change in response to the injected attack point.
+* A novel __gradient ascent strategy__ is proposed that allows an attacker to iteratively refine an attack data point in the input space to maximize the hinge loss on a validation set, effectively increasing the classifier's test error. The adiabatic update condition derived from KKT conditions of the optimal SVM solution is used to compute how the SVMs dual variables and bias term change in response to the injected attack point.
 * The method can be __kernelized__, enabling it to be effective even with non-linear kernels and allowing the attack to be constructed in the input space without spilling into the feature space.
-* Experiments on __artificial and real-world__ (MNIST) datasets show that the gradient ascent algorithm can find good local maxima of the non-convex validation error surface, leading to a substantial rise in classification error. For MNIST, a single attack point caused the classification error to increase from 2-5% to 15-20%. The paper also explores __multi-point attacks__, showing that injecting a higher percentage of poisioned data points leads to a steady growth in attack effectiveness. 
+
+![Artificial Data](images/mar17/svm_artificial.png)
+*Figure 1: Example of attack on artificial data*
+
+* Experiments on __artificial and real-world__ (MNIST) datasets (Fig 1 & 2) show that the gradient ascent algorithm can find good local maxima of the non-convex validation error surface, leading to a substantial rise in classification error. For MNIST, a single attack point caused the classification error to increase from 2-5% to 15-20%. 
+
+![MNIST](images/mar17/svm_mnist.png)
+*Figure 2: Example of attack on real-world data (MNIST)*
+
+* The paper also explores __multi-point attacks__ (Fig 3), showing that injecting a higher percentage of poisoned data points leads to a steady growth in attack effectiveness. 
+
+![Multi-point Attacks](images/mar17/svm_multipoint.png)
+*Figure 3: Multipoint attacks on MNIST*
 
 ### Critical Analysis
 
 #### Strengths
 
-* The authors present a novel gradient-based method for generating poisioning attacks against SVMs, particularly highlighting its applicability to non-linear kernels in the input space. This was a limitation in prior works
+* The authors present a novel gradient-based method for generating poisoning attacks against SVMs, particularly highlighting its applicability to non-linear kernels in the input space. This was a limitation in prior works
 * Attack strategy is well-grounded in the theory of SVMs and constrained optimization, utilizing the KKT conditions and adiabatic updates to understand the learning algorithm's behavior.
-* They present solid empirical validation of their proposed method through the use of real-world and aritificial data. showing practical impact. 
+* They present solid empirical validation of their proposed method through the use of real-world and artificial data. showing practical impact. 
 * More generally, the paper serves to highlight the often-overlooked assumption of well-behaved training data in ML, and the importance of considering threats in security-sensitive applications.
 
 #### Weaknesses
@@ -59,10 +71,26 @@ Training data poisoning attacks occur when attackers inject a small amount of co
 
 Regression models learn to predict a response variable based on several predictor variables while minimizing the loss. The impact of such poisoning attacks on linear regression models and how to design stronger countermeasures has yet to be explored in depth. This work conducts one of the first studies on poisoning attacks and their defenses on linear regression models. 
 
+A regression model is a linear function $`f(\boldsymbol{x}, \boldsymbol{\theta}) = \boldsymbol{w}^{\top}\boldsymbol{x} + b`$ that predicts the value of $`y`$ at $`x`$. The parameters of $`f`$ are chosen to minimize:
+
+```math
+\mathcal{L}(\mathcal{D}_{\text{tr}}, \boldsymbol{\theta}) = 
+\underbrace{\frac{1}{n}\sum_{i=1}^{n}\left(f(\boldsymbol{x}_i, \boldsymbol{\theta}) - y_i\right)^2}_{\text{MSE}(\mathcal{D}_{\text{tr}}, \boldsymbol{\theta})} 
++ \lambda \Omega(\boldsymbol{w})
+```
+
 ### Methods
 This paper considers four different linear regression models: Ordinary Least Squares (OLS), ridge regression, LASSO, and elastic-net regression. It evaluates their novel poisoning attacks and defense algorithm on three regression datasets on health care, loans, and housing prices and compares them with the baseline gradient descent attack (BGD). The study evaluates the metrics of success rate of the poisoning attack by comparing the corrupted model and legitimate model Mean Squared Error (MSE) as well as the running time of the attack. 
 
 *Adversarial model*: The adversary’s goal is to modify predictions made by the learning model on new data by corrupting the model during the training process. Attacks can be under white-box or black-box settings. In white-box attacks, the adversary has knowledge of the training data, feature values, learning algorithm, and the trained parameters. On the other hand, in black-box attacks, the adversary has knowledge of the feature values and learning algorithm, but not the training data and trained parameters. An adversary’s capability is upper bounded by the number of poisoning points that can be injected into the training data. Therefore, the adversary is usually assumed to only control a very small portion of the training data. Finally, the poisoning attack strategy can be formalized as a bilevel optimization problem. 
+
+```math
+\arg\max_{D_p} W(D', \theta_p^\star), \quad \\
+\text{s.t. } \theta_p^\star \in \arg\min_{\theta} L(D_{\text{tr}} \cup D_p, \theta). \quad
+```
+
+where the outer optimization amounts to selecting the poisoning points $D_p$ to maximize a loss function $W$ on an untainted data set $D'$ (e.g., a validation set which does not contain any poisoning points), while the inner optimization corresponds to retraining the regression algorithm on a *poisoned* training set including $D_p$. It should be clear that $\theta_p^\star$ depends *implicitly* on $D_p$.
+
 
 *Optimization-based poisoning attack (OptP)*: Previous poisoning attacks were developed for classification problems, limiting their effectiveness against regression models. Optimization-based poisoning attacks work by iteratively optimizing on a single poisoned data point at a time through gradient ascent. This paper adapts the optimization-based poisoning attack for regression tasks by utilizing two initialization strategies (inverse flipping and boundary flipping) and jointly optimizing both the feature values and their associated response variables. The authors also construct a baseline gradient descent (BGD) attack for regression. 
 
@@ -77,6 +105,12 @@ This paper considers four different linear regression models: Ordinary Least Squ
 1) Which optimization strategies are most effective for poisoning regression?
 
 OptP outperforms BGD by a factor of 6.83 in the best case, achieving MSEs by a factor of 155.7 higher than the original models. Each dimension of the optimization framework (initialization strategy, optimization variable, objective of optimization) is crucial to generating a successful attack. 
+
+![OptP Lasso](images/mar17/reg_optlasso.png)
+*Figure 4: MSE of attacks on lasso on the datasets*
+
+![OptP Ridge](images/mar17/reg_optridge.png)
+*Figure 5: MSE of attacks on ridge regression on the three datasets*
 
 2. How do optimization and statistical attacks compare in effectiveness and performance?
 
@@ -97,6 +131,12 @@ Existing defenses are not very effective at defending against the novel poisonin
 2. What is the robustness of the new defense TRIM compared to known methods?
 
 Compared to known defenses, TRIM is much more effective at defending against all poisoning attacks. Unlike previous approaches, TRIM also improves upon the MSEs. 
+
+![TRIM Lasso](images/mar17/reg_trimlasso.png)
+*Figure 6: MSE of defenses on LASSO on the three datasets*
+
+![TRIM Ridge](images/mar17/reg_trimridge.png)
+*Figure 7: MSE of defenses on ridge on the three datasets*
 
 3. What is the running time of various defense algorithms?
 
@@ -139,7 +179,10 @@ $`
 
 where $`L(\theta)`$ is the test loss. By shifting the estimated class means, the attacker forces the model to learn a biased decision rule, leading to higher misclassification rates.
 
-Visualized below are the poisoned datasets along with two defense mechanisms, “sphere” and “slab” defense which remove outliers based on different mathematical criteria. ![image](images/mar17/certified_fig1.png)
+Visualized below are the poisoned datasets along with two defense mechanisms, “sphere” and “slab” defense which remove outliers based on different mathematical criteria. 
+
+![image](images/mar17/certified_fig1.png)
+*Figure 8: Different datasets possess very different levels of vulnerability to attack*
 
 The sphere defense removes data points that deviate too far from the class centroid in Euclidean space. The slab defense restricts data points to remain within a certain margin along the decision boundary. These mechanisms ensure that extreme outliers are removed before training.
 Both Slab and Sphere defenses can be implemented in two ways: 
@@ -157,12 +200,17 @@ Researchers target models trained on the Dogfish and MNIST-1-7 datasets, with th
 
 ### Key Findings
 For the MNIST and Dogfish datasets, the oracle defenders supplied with the true means of each class were highly effective at thwarting the poisoning attack; even after adding epsilon=30% of poisoned data, the test loss remained below 0.1. 
+
 ![image](images/mar17/certified_fig2.png)
+*Figure 9: Results of the algorithm on Dogfish and MNIST datasets*
 
 Researchers added a text classification task on the Enron spam email dataset and the IMDB sentiment corpus. On these datasets, the attack was more effective against oracle defense and led to large increases in test loss as epsilon increased.
 
 The data-dependent defense was much weaker than the oracle defense - as shown in the figure below demonstrating a maximum test loss U(theta) increasing at a higher rate than against any other defense mechanism as epsilon increases.
+
 ![image](images/mar17/certified_fig4.png)
+*Figure 10: The data-dependent sphere and slab defense is significantly weaker than its oracle counterpart, allowing
+MNIST-1-7 and Dogfish to be successfully attacked.*
 
 ### Critical Analysis
 #### Strengths
@@ -176,3 +224,6 @@ The data-dependent defense was much weaker than the oracle defense - as shown in
 
 #### Ethical considerations
 - Releasing this code to the public comes with significant ethical considerations as malicious actors could use this attack methodology to target ML algorithms in the wild. Moreover, no thorough defense for the attack is shown, leaving ML developers on their own to come up with safeguards against this new poisoning attack.
+
+
+## [Poison Frogs! Targeted Clean-Label Poisoning Attacks on Neural Networks](https://arxiv.org/abs/1804.00792). Ali Shafahi, W. Ronny Huang, Mahyar Najibi, Octavian Suciu, Christoph Studer, Tudor Dumitras, Tom Goldstein, 2018.
