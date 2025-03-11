@@ -10,15 +10,13 @@ The data used to train models is often assumed to be benign - that it comes from
 
 The attack is white-box, and is based on two assumptions about the attackers knowledge:
 - Knows the learning algorithm and can draw data from the underlying data distribution
-- Knows the training data $\mathcal{D}_\text{tr} = \{x_k, y_k\}_{i=1}^n$ used by the learner
+- Knows the training data $`\mathcal{D}_\text{tr} = \{x_k, y_k\}_{i=1}^n`$ used by the learner
 
-The method is based on the properties of the optimal solution of the SVM training problem. This depends smoothly on the parameters of the respective quadratic programming problem, and on the geometry of the data points. This background gives way to the fact that the attacker can manipulate the optimal SVM solution by inserting specially crafted attack point(s) that maximally decreases the SVM's classification accuracy. As wil be discussed below, finding a crafted data point $(x_c, y_c)$ can be formulated as an optimization problem and can be kernelized.
+The method is based on the properties of the optimal solution of the SVM training problem. This depends smoothly on the parameters of the respective quadratic programming problem, and on the geometry of the data points. This background gives way to the fact that the attacker can manipulate the optimal SVM solution by inserting specially crafted attack point(s) that maximally decreases the SVM's classification accuracy. As wil be discussed below, finding a crafted data point $`(x_c, y_c)`$ can be formulated as an optimization problem and can be kernelized.
 
-The attacker draws a validation dataset $\mathcal{D}_\text{val} = \{x_k, y_k\}_{k=1}^m$, and attempts to maximise the hinge loss incurred on $\mathcal{D}_\text{val}$ by the SVM trained on $\mathcal{D}_\text{tr}\cup (x_c, y_c)$, given by:
+The attacker draws a validation dataset $`\mathcal{D}_\text{val} = \{x_k, y_k\}_{k=1}^m`$, and attempts to maximise the hinge loss incurred on $`\mathcal{D}_\text{val}`$ by the SVM trained on $`\mathcal{D}_\text{tr}\cup (x_c, y_c)`$, given by $`\max_{x_c} L(x_c) = \sum_{k=1}^{m} (1 - y_k f_{x_c}(x_k))_+ = \sum_{k=1}^{m} (-g_k)_+`$
 
-$$\max_{x_c} L(x_c) = \sum_{k=1}^{m} (1 - y_k f_{x_c}(x_k))_+ = \sum_{k=1}^{m} (-g_k)_+$$
-
-Since $L(x_c)$ is non-convex, the authors employ a gradient ascent technique to iteratively optimize the attack point $x_c$. This is done through the gradients $\frac{\partial L}{\partial u}$ (where $u$ is a unit vector representing the attack direction) is computed by considering the validation points with non-zero hinge loss and differentiating the margin conditions $g_k$ with respect to $u$. This involves considering how the SVM's dual variables $\alpha$ and bias $b$ change due to the perturbation of $x_c$. The computation relies on the fact that an infinitesimal change in $x_c$ causes a smooth change in the optimal SVM solution. This is called an adiabatic update, and it allows predicting the SVMs response to variations in $x_c$ by differentiating the Karush-Kuhn-Tucker (KKT) conditions. Additionally, this method only depends on the gradients of the dot products between points in the input space, and hence can be _kernelized_.
+Since $`L(x_c)`$ is non-convex, the authors employ a gradient ascent technique to iteratively optimize the attack point $`x_c`$. This is done through the gradients $`\frac{\partial L}{\partial u}`$ (where $`u`$ is a unit vector representing the attack direction) is computed by considering the validation points with non-zero hinge loss and differentiating the margin conditions $`g_k`$ with respect to $`u`$. This involves considering how the SVM's dual variables $`\alpha`$ and bias $`b`$ change due to the perturbation of $`x_c`$. The computation relies on the fact that an infinitesimal change in $`x_c`$ causes a smooth change in the optimal SVM solution. This is called an adiabatic update, and it allows predicting the SVMs response to variations in $`x_c`$ by differentiating the Karush-Kuhn-Tucker (KKT) conditions. Additionally, this method only depends on the gradients of the dot products between points in the input space, and hence can be _kernelized_.
 
 
 ### Key Findings
@@ -134,12 +132,12 @@ The most critical part of security of machine learning algorithms is the trainin
 The researchers administer a white-box attack to insert poisoned data into the training set in order to distort the centroid of each class. 
 The goal of the poisoning attack is to increase the model’s test loss by strategically modifying the training data. This is done by injecting εn poisoned samples 𝐷𝑝, which shift the class centroids and distort the decision boundary. Mathematically, the attacker aims to solve:
 
-$
+$`
 \max\limits_{D_p} \mathbf{L}(\hat{\theta}) =
 \max\limits_{\mathcal{D}_p \subseteq \mathcal{F}} \min\limits_{\theta \in \Theta} \frac{1}{n} L(\theta; \mathcal{D}_c \cup \mathcal{D}_p) \overset{\text{def}}{=} \mathbf{M}.
-$
+`$
 
-where L(θ) is the test loss. By shifting the estimated class means, the attacker forces the model to learn a biased decision rule, leading to higher misclassification rates.
+where $`L(\theta)`$ is the test loss. By shifting the estimated class means, the attacker forces the model to learn a biased decision rule, leading to higher misclassification rates.
 
 Visualized below are the poisoned datasets along with two defense mechanisms, “sphere” and “slab” defense which remove outliers based on different mathematical criteria. ![image](images/mar17/certified_fig1.png)
 
