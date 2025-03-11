@@ -1,5 +1,58 @@
 # Safety - Poisoning
 
+## [Poisoning Attacks against Support Vector Machines](https://arxiv.org/abs/1206.6389). Battista Biggio, Blaine Nelson, Pavel Laskov, 2013.
+
+### Introduction and Motivations
+
+The data used to train models is often assumed to be benign - that it comes from a “natural” or “well-behaved” distribution. This often might not hold in security-sensitive settings where adversaries can manipulate data. This motivates the central idea behind this paper where the authors investigate poisoning attacks against Support Vector Machines (SVMs), where an attacker injects specially crafted training data to deliberately increase the SVM’s test error. With a lot of prior work in the area focusing on simpler anomaly detection methods, the authors argue that understanding these attacks is crucial because adversaries can often introduce new training data in real-world scenarios, such as through honeypots that collect malware examples.
+
+### Methods
+
+The attack is white-box, and is based on two assumptions about the attackers knowledge:
+- Knows the learning algorithm and can draw data from the underlying data distribution
+- Knows the training data $\mathcal{D}_\text{tr} = \{x_k, y_k\}_{i=1}^n$ used by the learner
+
+The method is based on the properties of the optimal solution of the SVM training problem. This depends smoothly on the parameters of the respective quadratic programming problem, and on the geometry of the data points. This background gives way to the fact that the attacker can manipulate the optimal SVM solution by inserting specially crafted attack point(s) that maximally decreases the SVM's classification accuracy. As wil be discussed below, finding a crafted data point $(x_c, y_c)$ can be formulated as an optimization problem and can be kernelized.
+
+The attacker draws a validation dataset $\mathcal{D}_\text{val} = \{x_k, y_k\}_{k=1}^m$, and attempts to maximise the hinge loss incurred on $\mathcal{D}_\text{val}$ by the SVM trained on $\mathcal{D}_\text{tr}\cup (x_c, y_c)$, given by:
+
+$$\max_{x_c} L(x_c) = \sum_{k=1}^{m} (1 - y_k f_{x_c}(x_k))_+ = \sum_{k=1}^{m} (-g_k)_+$$
+
+Since $L(x_c)$ is non-convex, the authors employ a gradient ascent technique to iteratively optimize the attack point $x_c$. This is done through the gradients $\frac{\partial L}{\partial u}$ (where $u$ is a unit vector representing the attack direction) is computed by considering the validation points with non-zero hinge loss and differentiating the margin conditions $g_k$ with respect to $u$. This involves considering how the SVM's dual variables $\alpha$ and bias $b$ change due to the perturbation of $x_c$. The computation relies on the fact that an infinitesimal change in $x_c$ causes a smooth change in the optimal SVM solution. This is called an adiabatic update, and it allows predicting the SVMs response to variations in $x_c$ by differentiating the Karush-Kuhn-Tucker (KKT) conditions. Additionally, this method only depends on the gradients of the dot products between points in the input space, and hence can be _kernelized_.
+
+
+### Key Findings
+
+* The paper demonstrates the __vulnerability of SVMs__ to poisoning attacks, where specially crafted training data can be injected to significantly increase the SVMs test error. The strategy relies on the attacker's ability to predict the changes in SVM's decision function due to malicious input.
+* A novel __gradient ascent strategy__ is proposed that allows an attacker to iteratively refine an attack data point in the input space to maximize the hinge loss on a validation set, efectively increasing the classifier's test error. The adiabatic update condition derived from KKT conditions of the optimal SVM solution is used to compute how the SVMs dual variables and bias term change in response to the injected attack point.
+* The method can be __kernelized__, enabling it to be effective even with non-linear kernels and allowing the attack to be constructed in the input space without spilling into the feature space.
+* Experiments on __artificial and real-world__ (MNIST) datasets show that the gradient ascent algorithm can find good local maxima of the non-convex validation error surface, leading to a substantial rise in classification error. For MNIST, a single attack point caused the classification error to increase from 2-5% to 15-20%. The paper also explores __multi-point attacks__, showing that injecting a higher percentage of poisioned data points leads to a steady growth in attack effectiveness. 
+
+### Critical Analysis
+
+#### Strengths
+
+* The authors present a novel gradient-based method for generating poisioning attacks against SVMs, particularly highlighting its applicability to non-linear kernels in the input space. This was a limitation in prior works
+* Attack strategy is well-grounded in the theory of SVMs and constrained optimization, utilizing the KKT conditions and adiabatic updates to understand the learning algorithm's behavior.
+* They present solid empirical validation of their proposed method through the use of real-world and aritificial data. showing practical impact. 
+* More generally, the paper serves to highlight the often-overlooked assumption of well-behaved training data in ML, and the importance of considering threats in security-sensitive applications.
+
+#### Weaknesses
+
+* The paper assumes the attacker is somewhat omniscient, and requires them to know the learning algorithm, the training data or atleast have the ability to draw data from the underlying distribution. This might be a strong assumption in some scenarios!
+* The model could get stuck in local optima, especially since the gradient updates are tiny. This also is required from the fact that SVM's structural constraints need to be maintained. The iterative computation could also prove expensive in terms of resource consumption.
+* Paper explores multi-point attacks, but leaves simultaneous optimization of multiple attack points to prior work.
+
+#### Potential biases
+
+* By its nature, the paper focuses on SVMs, and the attack model proposed is limited to the theory behind SVMs.
+* The model assumes the attacker has a broad knowledge, which might not be the case in real world scenarios
+* MNIST real-world dataset evaluation is a positive, but the method would also require similar (or better) performance on other types of data. This aspect is not explored.
+
+#### Ethical considerations
+
+The paper presents methods to attack SVMs which can make malicious actors exploit these vulnerabilities. It also lacks in presenting defense mechanisms that could protect from these attacks. Further discussion into the defenses would prove a valuable addition.
+
 ## [Manipulating Machine Learning: Poisoning Attacks and Countermeasures for Regression Learning](https://arxiv.org/abs/1804.00308). Jagielski et al. 2018.
 
 ### Introduction and Motivations
