@@ -231,3 +231,78 @@ MNIST-1-7 and Dogfish to be successfully attacked.*
 
 
 ## [Poison Frogs! Targeted Clean-Label Poisoning Attacks on Neural Networks](https://arxiv.org/abs/1804.00792). Ali Shafahi, W. Ronny Huang, Mahyar Najibi, Octavian Suciu, Christoph Studer, Tudor Dumitras, Tom Goldstein, 2018.
+
+### Introduction and Motivations 
+Attacks against deep learning algorithms are studied to find weaknesses against models. Evasion attacks—such as adversarial examples—happen at test time and occur by modifying target instances to be misclassified. Data poisoning attacks, which this paper focuses on, happen at training time—these are done by inserting poison instances into training data to manipulate a system. In particular, poisoning attacks on deep neural networks (DNNs) tend to cause test accuracies to drop dramatically, require data to be mislabelled in training, or depend on poisons making up an overwhelming amount of the training data. These scenarios assume some degree of control over labels and/or test-time instance modifications, and are unrealistic for the real world. This paper reviews methods to make data poisoning effective against DNNs, and introduces optimization strategies such as the use of watermarking to increase attack success rates. 
+
+### Methods 
+The paper goes over how to perform targeted clean-label poisoning attacks on DNNs. The attacks are targeted because they can control the behavior of a classifier on a specific test instance, while not degrading the classifier's overall performance. The attacks are also clean-label because they do not require the attacker to have any control over the labeling of the training data (as in, the method does not make use of mis-labelling). These attack methods are significant because they can escape detection by not affecting classifier performance, and make poisoning a training set rather simple as there is no need for inside access (for labelling data, for example)—the poisoned instances just need to be used, and could even be picked off the web. 
+
+How do targeted-clean poisoning attacks work? There are 3 main parts; 
+- Target instance: this is an item in the *test* set. The poison's purpose is to cause the target instance to be misclassified at test time. 
+- Base instance: this item is from a class that differs from that of the target instance, which we intend to later misclassify it as. By making imperceptible changes to this base instance (to the human eye), we can craft a poison. 
+- Poison instance: the poison is the edited version of the base instance. It looks like the base instance and is classified the same. It must be injected into the training data. Its purpose is to fool the model into labelling the target instance with the base instance label at test time.
+
+![image](images/mar17/clean-label-attacks.png) 
+*Figure 11: The left shows the 3 parts of a clean-label poisoning attack, while the right shows how a successful attack works by shifting the decision boundary.* 
+
+But how do you create this poison from the base class? You need to find an input x which is close enough in resemblance to your base instance b, and you also need this input x to be as close as possible to the target instance t in terms of feature space representation after being put through the classifier, up until the classification is made in the last softmax layer. The algorithm describing this process is as follows: 
+
+![image](images/mar17/dnn-clean-label-poisoning-equation.png) 
+
+By having the poison be similar to the base instance, we humans are not necessarily able to see the difference between the two. By having the poison be similar in feature space to the target, the classifier's decision boundary will shift to include the area around the poison's feature space representation to be classified as the base instance's class. Then, at test time, when the target is put into the classifier, the model will think it also comes from the base class, and classify it as such. 
+
+The paper tests this method with one-shot attacks on a DNN using transfer learning. However, models with end-to-end training do not shift their decision boundaries as easily—it is much harder to change a model's decision when all the layers are trained as lower-level kernels are more likely to extract certain features. The researchers go around this by using multiple poisons, and add another strategy: watermarking. 
+
+Watermarking is fairly simple: you take a target instance image and overlay it on top of a base instance image at a certain opacity to generate poisons. This blends target features into the poison, so that they will retain similar feature space representations even at deeper layers. 
+
+![image](images/mar17/frog-plane-watermarking.png) 
+*Figure 12: The image shows various poisons crafted using watermarking; with a base instance of a frog, target instance of a plane, and differing opacity levels of the target's image (0% to 50%).* 
+
+### Key Findings 
+
+#### Transfer Learning 
+![image](images/mar17/sampleOneShots.png) 
+*Figure 13: The examples above are showing poison instances crafted for the fish and dog classes.* 
+
+The researchers test their targeted clean-label attack method using a pretrained InceptionV3 model on a binary classification task: they do one-shot attacks, where one poison is crafted for each trial. With 1099 test instances (698 from the "dog" class and 401 from the "fish" class), they achieved an attack success rate of 100%, where the median misclassification confidence was 99.6%! The overall test accuracy of the model only dropped by an average of 0.2% (with a worst-case of 0.4%) across the 1099 trials, from 99.5%. They also repeated this experiment on a 3-way classification task by adding the "cat" class, which also achieved 100% poisoning success while maintaining a test accuracy of 96.4%. 
+
+![image](images/mar17/confidence-hist.png) 
+*Figure 14: The image above shows the probability of a target instance being mis-classified at different confidence levels.* 
+
+#### End-to-end Training 
+
+![image](images/mar17/decision-boundary-rotation.png) 
+*Figure 15: The histogram shows how much the decision boundary changed with transfer learning vs end-to-end training, in terms of angular deviation. With transfer learning, there is a significant rotation (23 degree average) in the feature space decision boundary. In end-to-end training the decision boundary’s rotation is negligible.* 
+
+Single poison instance attacks were unsuccessful when it came to end-to-end training. The researchers explain that this is due to the fact that the decision boundary does not change significantly as it did with transfer learning, as the classifier's shallow layers essentially "correct" the poison changes that made the instances have similar feature representations to the target. 
+
+The researchers then added watermarking to their strategy, and also used multiple poison instances. Instead of the "dog" and "fish" class, these experiments were done on the "airplane" and "frog" classes as a pair, as well as the "bird" and "dog" class as a second pair. They tested poison amounts ranging from 1 to 70, and tested watermarking opacities at 20% and 30%. For the "bird" versus "dog" class pair, using 50 poisons with 30% watermarking opacity led to a 60% poisoning attack success rate. 
+
+![image](images/mar17/end-to-end-training.png) 
+*Figure 16: Success rate of attacks on different targets from different bases as a function of number of poison instances used and different target opacity added to the base instances.* 
+
+Poisoning success rates were a little lower for the "airplane" and "frog" class pair compared to the "bird" versus "dog" class pair. To introduce another method to increase attack success, the researchers show that targeted outliers—which are instances of the target class that have the lowest classification confidences while still being correct classifications—can raise the success attack rate from 53% percent with random targets to 70% with outlier targets (a 17% increase!). They conducted this comparison using 50 poisons per target, with 30% watermarking opacity. 
+
+![image](images/mar17/plane-outliers.png) 
+*Figure 17: Attacks on the top 50 outlier target airplanes. The bars indicate the probability of the target instance before the attack (calculated using the pre-trained network). The colors indicate whether the poison attack was successful or not.*
+
+### Critical Analysis 
+
+#### Strengths 
+- The paper addresses a gap in DNN poisoning from previous research and effectively finds a new method that succeeds where previous work has not. 
+- The methods and results are clearly communicated, in a way that is rather easy to digest even though the material is difficult. 
+- They consider different types of training and classes. 
+
+#### Weaknesses 
+- Their one-shot attacks are on a binary classification, and though they briefly mention expanding this to a 3-way classification, do not go into depth on the process for it, nor does it amount to a suitable comparison for real world scenarios where a classifier may need to identify 10 or more classes. 
+- During their transfer learning experiments, there were more trainable weights than training examples. 
+- The image qualities shown are terrible. 
+- They do not consider defenses against their attack method. 
+- The success of poisoning in the end-to-end training is not properly attributed enough to watermarking, as it was unsuccessful without. The results should have been compared to poisoning done through watermarking alone, without using the targeted clean-label attack method beforehand. 
+
+#### Potential Biases 
+The paper is likely to embellish their results, and sell their method as a success—though they address its shortcomings in terms of requiring multiple poisons and necessary use of watermarking, they attribute most of their success to their poison-generation method, which may not be wholly accurate. Furthermore, by looking at outliers, they make their attack success rate seem much higher. Their method is still very good at poisoning DNNs, but they certainly are not in a spot where they would be encouraged to highlight its shortcomings in more depth. 
+
+#### Ethical considerations 
+The paper makes a bold claim: that it has found a method to generate poisons for DNNs that are significantly harder to detect than usual, and that they are rather successful in terms of attack rates. However, it does not address how to defend from these at all—they should consider the impact of publishing these weaknesses before publishing.
