@@ -4,14 +4,59 @@
 
 ### Introduction and Motivations:
 
+This paper introduces the concept of universal adversarial triggers—short token sequences that, regardless of the input, can consistently cause NLP models to output incorrect or even harmful results. These triggers differ from traditional adversarial examples in that they are input-agnostic, meaning they do not require customization for each input instance. Instead, a single sequence can disrupt a wide range of inputs, making the attack both scalable and powerful. 
+
+The motivation behind this work is twofold: firstly, to highlight serious vulnerabilities in modern NLP systems, especially those relying on deep learning models; and secondly, to provide a new method for probing and understanding how these models make decisions. By studying how models respond to these universal triggers, researchers can uncover hidden biases, shortcut learning behaviors, and weaknesses in model generalization. 
+
+### Methods:
+
+To discover universal adversarial triggers—input-agnostic sequences that can mislead NLP models—the authors propose a gradient-guided token search algorithm. This approach allows the automatic generation of short token sequences that consistently degrade model performance across many inputs. The method includes several key steps: 
+
+1. Trigger Initialization: 
+
+The process begins by initializing the trigger with simple, commonly used tokens such as "the the the". These initial tokens serve as a starting point for optimization and are not tailored to any specific input. Typically, the trigger length is set to a small fixed number—usually between 1 and 3 tokens—to ensure generality and efficiency during the adversarial search process. 
+
+(enter image here)
+
+2. Gradient-Based Optimization: 
+
+For each batch of input data, the model first computes the loss using the current set of trigger tokens along with the inputs. It then calculates the gradient of the loss with respect to the embeddings of the trigger tokens. These gradients reveal how each token in the trigger contributes to the model's performance, and they guide how the tokens should be altered in order to increase the loss—effectively making the model perform worse and steering the optimization process toward more adversarial triggers. 
+
+3. Token Replacement via HotFlip: 
+
+The authors extend the HotFlip technique to efficiently estimate the impact of replacing each trigger token on the model’s loss. By leveraging a linear approximation based on the computed gradients, they identify the top-k candidate tokens that are most likely to increase the loss when substituted. To find the most adversarial combination of tokens, they apply beam search, which systematically explores multiple replacement paths and selects the sequence that leads to the greatest degradation in model performance. 
+
+4. Iterative Optimization 
+
+The optimization process is performed iteratively over multiple rounds to progressively refine the trigger. In each iteration, a new batch of input examples is used to update the trigger, which helps prevent overfitting to any specific dataset or input pattern. Through this repeated refinement, the method converges on a final trigger that consistently degrades model performance across a wide variety of inputs, demonstrating strong generalization and robustness as a universal adversarial attack. 
+
+5. Application Across Tasks 
+
+The proposed method is evaluated across multiple NLP tasks to demonstrate its versatility and effectiveness. In text classification tasks such as SNLI and sentiment analysis, the triggers significantly reduce model accuracy. For reading comprehension tasks like SQuAD, the triggers cause models to generate misleading or incorrect answers. In text generation tasks using models like GPT-2, the triggers influence the model to produce biased or harmful content. These results highlight the broad applicability and threat posed by universal adversarial triggers across diverse NLP domains. 
+
+![](images/mar26/fig_one.png "The result for text classification tasks such as SNLI")
+
+![](images/mar26/fig_two.png "The result for reading comprehension tasks like SQuAD")
+
+![](images/mar26/fig_three.png "The result for text generation tasks using models like GPT-2")
+
+### Key Findings:
+
+The study demonstrates that just a few adversarial trigger tokens can significantly degrade the performance of NLP models. In sentiment analysis, model accuracy dropped from 86% to 29%, and in the SNLI entailment task, it fell from 89.94% to a mere 0.55%. Reading comprehension systems were manipulated into producing harmful answers such as “to kill American people,” and GPT-2 was shown to generate racist and offensive content when triggered, even from neutral inputs. These results highlight the severe vulnerabilities that universal triggers can exploit. 
+
+In addition to performance degradation, the triggers were found to be transferable across models, even when the architectures and embedding types differed. This suggests a shared weakness among various NLP systems. Moreover, the triggers revealed that models often rely on dataset artifacts and superficial cues rather than genuine language comprehension. This sheds light on the fragility and interpretability issues in current deep learning-based NLP models. 
+
+### Critical Analysis:
+
+One of the major strengths of this work is its ability to uncover deep and previously underexplored vulnerabilities in NLP models, making a significant contribution to both AI security and interpretability research. The universal nature of the adversarial triggers enables them to be applied across a wide range of tasks and model types, demonstrating their broad effectiveness. Additionally, the trigger generation process is both computationally efficient and effective, producing concise token sequences that have a large impact on model behavior. 
+
+However, the study also has some limitations. Most of the experiments are conducted in controlled, simulated environments, which raises questions about how well the findings would transfer to real-world systems. Moreover, the method relies on white-box access to model gradients, an assumption that does not always hold in practice, especially for commercial or proprietary models. Lastly, the potential for these triggers to generate toxic or harmful content introduces important ethical considerations regarding their use and publication. 
+
 ## 41: Language Models are Few-Shot Learners
 
 ### Introduction and Motivations:
 
-Large Language Models (LLMs) have scaled in size, particularly with the introduction of different types of architectures. \
-In addition, the idea of training Natural Language Procesing (NLP) models for certain use cases has also evolved over time. \
-Instead of fine-tuning model architectures on a specific dataset, what if there was a way for an LLM to decipher between \
-different types of tasks without the need to fine-tune the model on specific datasets? This introduces a variety of benefits:
+Large Language Models (LLMs) have scaled in size, particularly with the introduction of different types of architectures. In addition, the idea of training Natural Language Procesing (NLP) models for certain use cases has also evolved over time. Instead of fine-tuning model architectures on a specific dataset, what if there was a way for an LLM to decipher between different types of tasks without the need to fine-tune the model on specific datasets? This introduces a variety of benefits:
 
 1. Resources
    - The number of resources needed to collect a ground-truth dataset and train/fine-tune a model in order to achieve a certain NLP-related task are significant. By introducing a task-agnostic model, the need to fine-tune a model based on a certain dataset disappears, and scales with the number of parameters utilized in an LLM. We will further explain this phenomenon below.
@@ -43,7 +88,7 @@ In this scenario, we do not provide the model with any demonstrations (i.e. No e
 
 Below is a figure of all the models that were used for testing: 
 
-(enter figure here)
+![](images/mar26/fig_4.png "Models used for testing (GPT-3 Variants)")
 
 The purpose of testing various LLMs is to assess how the number of parameters affects different learning scenario accuracies, and how well the number of parameters scale over time. It is important to note that GPT-3 and its variants use the same model and architecture as GPT-2. This includes the “modified initialization, pre-normalization, and reversible tokenization.” Furthermore, the Common Crawl dataset is a large-scale dataset that is often utilized when training LLMs because of its plethora of data. However, there are dataset variants whose quality is not up to the caliber of the original dataset. To address this, the paper takes three steps: 
 
@@ -53,13 +98,13 @@ The purpose of testing various LLMs is to assess how the number of parameters af
 
 See below for the training data distribution after refinement: 
 
-(enter figure here)
+![](images/mar26/fig_5.png "Training data distribution after refinement")
 
 ### Key Findings:
 
 **Language Modelling, Cloze and Completion Tasks:**
 
-(enter figure here)
+![](images/mar26/fig_6.png "GPT-3 results on Language Modelling, Cloze, and Completion tasks")
 
 The following table outlines GPT-3 results on Language Modelling, Cloze, and Completion tasks. The LAMBADA dataset assesses the modelling of long-range dependencies in the form of cloze-type tasks (i.e. Fill in the blank tasks). This is to ensure that with an increase in the number of model parameters within an LLM, long-range dependency accuracies can remain intact. GPT-3 appears to beat the State-Of-The-Art (SOTA) standard for LAMBADA test accuracy across all methods. GPT-3 achieves 76.2%, 72.5%, and 86.4% accuracy across Zero-Shot, One-Shot, and Few-Shot methodologies respectively. Similarly, the HellaSwag dataset involves picking the best “ending” to a story/set of instructions, and the StoryCloze dataset selects the correct ending for five-sentence stories. GPT-3 does not beat the SOTA accuracy on either of these datasets but performs reasonably close to the SOTA accuracy outlined in the table above. 
 
@@ -67,27 +112,29 @@ The following table outlines GPT-3 results on Language Modelling, Cloze, and Com
 
 The following outlines GPT-3's ability to answer Closed Book Question Answering. To assess this concept, GPT-3 is evaluated against three different datasets: Natural Questions, WebQuestions, and TriviaQA. The results are outlined below in comparison to other Machine Learning models: 
 
-(enter figure here)
+![](images/mar26/fig_7.png "GPT-3 results against the NaturalQS, WebQS, and TriviaQA datasets")
 
 **Translation Tasks:**
 
 Language Translation remains an integral problem that has proven to be tough to solve with Machine Learning. Previously, Neural Machine Translation (NMT) methods have typically been known as the gold standard for Machine Translation models. It becomes important to note that while training the GPT-2 LLM, a filter was applied to ensure that all training data utilized for the model was exclusively in English due to parameter constraints. Now that the number of parameters has scaled up, the authors of the paper wished to test whether GPT-3 could do a better job with Machine Translation tasks. Therefore, GPT-3's training data (i.e. A derivative of the Common Crawl dataset) includes about 7% text that are in different languages. The following table notes results across SOTA supervised and unsupervised NMT models, and compares them to GPT-3 based approaches: 
 
-(enter figure here)
+![](images/mar26/fig_8.png "GPT-3 Language Translation results, across English, French, German, and Romanian")
 
 The following scores provided are Bilingual Evaluation Understudy (BLEU) scores, which are typically used to assess the quality of language translation. Generally, GPT-3 combined with the different methodologies do not beat the SOTA models. However, few-shot GPT-3 approaches perform relatively well when translating into English, as opposed to translating from English. Furthermore, there appears to be a performance skew based on the language of interest. GPT’s English to Romanian translation is relatively weak in comparison to other languages and can potentially be attributed to using a tokenizer specifically designed for the English language.  
+
+![](images/mar26/fig_9.png "GPT-3 results against the NaturalQS, WebQS, and TriviaQA datasets")
 
 **Winograd-Style Tasks:** 
 
 This task is quite unique from the others that have been discussed. Winograd-Style tasks aim to identify a word that a pronoun refers to, particularly when the pronoun is “grammatically ambiguous” but clear in common human-to-human interactions. Although fine-tuned models and GPT-3 have done quite well against the Winograd dataset (i.e. SOTA dataset for ambiguous pronoun identification), GPT-3 struggles against other “adversarial” datasets such as Winogrande for pronoun identification. The table below outlines performances across GPT-3 and SOTA models: 
 
-(enter figure here)
+![](images/mar26/fig_10.png "GPT-3 results on Winograd and Winogrande")
 
 **Common Sense Reasoning: **
 
 The paper then seeks to understand how GPT-3 models compare against physical and scentific reasoning tasks. These are relatively unique tasks that ask for much more than understanding NLP as a subfield; there is a sense of reasoning involved as well. The paper tests GPT-3 against PhysicalQA (PIQA), a dataset that contains questions about the physical world, ARC, a dataset that contains exam questions from elementary school through high school science topics, and OpenBookQA, a subset of Question-Answering tasks. Below is a table that outlines GPT-3 results against SOTA fine-tuned models:
 
-(enter figure here)
+![](images/mar26/fig_11.png "GPT-3 results on PIQA, ARC, and OpenBookQA")
 
 Although GPT-3 beats SOTA fine-tuned models for the PIQA dataset, it does not produce reasonably close results across the ARC and OpenBookQA datasets. This could indicate potential ”painpoints” in the model itself, where analogous data may have not been considered for training.
 
@@ -95,13 +142,13 @@ Although GPT-3 beats SOTA fine-tuned models for the PIQA dataset, it does not pr
 
 For reading comprehension, the authors decide to make use of five main datasets: CoQA, DROP, QuAC, SQuADv2, RACE-h, and RACE-m. The paper describes CoQA as a free-form conversation dataset, DROP as a dataset designed to “test discrete reasoning and numeracy in the context of reading comprehension,” QuAC as a dataset that is primarily based on student-teacher interactions, SQuADv2 as a dataset primarily designed for generalized Question-Answering scenarios, and RACE as an English-based multiple choice dataset. Below is a table that outlines the F1 score results across all datasets. However, please note that the RACE results report accuracy, not F1 score. 
 
-(enter figure here)
+![](images/mar26/fig_12.png "GPT-3 results on CoQA, DROP, QuAC, SQuADv2, RACE-h, and RACE-m")
 
 **SuperGLUE Benchmark:** 
 
 The SuperGLUE benchmark was used primarily to aggregate results from popular models such as BERT and RoBERTa using a systematic approach. Below is a table of results that details GPT-3's results against the SuperGLUE benchmark. It is important to note that in the few-shot approach, 32 examples were used:
 
-(enter figure here)
+![](images/mar26/fig_13.png "GPT-3 results on SuperGLUE benchmark and its components")
 
 These results highlight some painpoints with the GPT-3 model. In the WiC dataset, the few-shot approach accuracy is significantly less than the fine-tuned solutions. However, in most cases it does appear that the GPT-3 model does a fine job with few-shot approaches across multiple datasets. Furthermore, one key takeaway that the paper highlights is that the GPT-3 model might perform below expectations when comparing two sentences or snippets together. 
 
@@ -109,7 +156,7 @@ These results highlight some painpoints with the GPT-3 model. In the WiC dataset
 
 Natural Language Inference (NLI) is primarily concerned with whether a model can decipher the relationship between two sentences in context. This is also a relatively unique approach to metrics, especially since this can be a multi-class classification problem when calculating accuracy in a dataset. To test NLI, the authors of the paper make use of RTE, an NLI dataset that is found in the SuperGLUE benchmark suite, and the Adversarial Natural Language Inference (ANLI) dataset. The graph below outlines results from the ANLI dataset: 
 
-(enter figure here)
+![](images/mar26/fig_14.png "GPT-3 results against ANLI Dataset")
 
 **Synthetic and Qualitative Tasks: **
 
@@ -124,3 +171,9 @@ However, this is likely not a major problem in the grand scheme of things. Altho
 The paper did a great job by performing a benchmark contamination analysis. To eliminate potentially leaked examples between the training and evaluation datasets, the paper eliminates any instance of a 13-gram overlap between the training and evaluation datasets. I thought this was an extremely strong idea to justify the “cleanliness” of the datasets. The benchark contamination analysis indicated that most datasets that were contaminated did not make a considerable difference when it came to changes in metrics (i.e. Accuracy, F1, BLEU, etc.). However, there were a couple of datasets (i.e. QuAC, DROP, Reversed Words), where there appeared to be a significant change in performance when cleaned. 
 
 One of the key strengths of this paper was how objectively and holistically the results were communicated. In many papers, it is common to see that results are either embellished or misrepresented. However, the paper did an excellent job of acknowledging that GPT-3 has shortcomings in numerous NLP tasks, including text synthesis. GPT-3 is also limited by algorithmic and architectural constraints. This might explain why GPT-3 performs well on certain datasets but fails considerably on some as well (i.e. ANLI, QuAC, RACE, etc.). Other limitations include lack of interpretability, lack of true understanding behind the thought process of few-shot learning, and poor sample efficiency. At the end of the paper, the authors also acknowledge the possibility of misuse, and associations between gender, race and bias. 
+
+## 42: How Can We Know What Language Models Know? 
+
+## 44: Prompt Injection attack against LLM-integrated Applications
+
+## 45: NVIDIA Blog - Securing against Prompt Injection Attacks
