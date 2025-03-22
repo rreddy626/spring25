@@ -16,7 +16,7 @@ To discover universal adversarial triggers—input-agnostic sequences that can m
 
 The process begins by initializing the trigger with simple, commonly used tokens such as "the the the". These initial tokens serve as a starting point for optimization and are not tailored to any specific input. Typically, the trigger length is set to a small fixed number—usually between 1 and 3 tokens—to ensure generality and efficiency during the adversarial search process. 
 
-(enter image here)
+![](images/mar26/fig_0.png)
 
 2. Gradient-Based Optimization: 
 
@@ -34,11 +34,11 @@ The optimization process is performed iteratively over multiple rounds to progre
 
 The proposed method is evaluated across multiple NLP tasks to demonstrate its versatility and effectiveness. In text classification tasks such as SNLI and sentiment analysis, the triggers significantly reduce model accuracy. For reading comprehension tasks like SQuAD, the triggers cause models to generate misleading or incorrect answers. In text generation tasks using models like GPT-2, the triggers influence the model to produce biased or harmful content. These results highlight the broad applicability and threat posed by universal adversarial triggers across diverse NLP domains. 
 
-![](images/mar26/fig_one.png "The result for text classification tasks such as SNLI")
+![](images/mar26/fig_1.png "The result for text classification tasks such as SNLI")
 
-![](images/mar26/fig_two.png "The result for reading comprehension tasks like SQuAD")
+![](images/mar26/fig_2.png "The result for reading comprehension tasks like SQuAD")
 
-![](images/mar26/fig_three.png "The result for text generation tasks using models like GPT-2")
+![](images/mar26/fig_3.png "The result for text generation tasks using models like GPT-2")
 
 ### Key Findings:
 
