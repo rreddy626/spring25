@@ -174,6 +174,114 @@ One of the key strengths of this paper was how objectively and holistically the 
 
 ## 42: How Can We Know What Language Models Know? 
 
+### Introduction and Motivation:
+
+Language Models like BERT, GPT, and T5 have become integral to modern AI applications. They excel at tasks like text generation, question answering, and classification. But a fundamental question remaining is how much these models actually know. While structured knowledge bases explicitly store facts, Language Models implicitly encode information through vast amounts of training data. The challenge lies in effectively retrieving this knowledge.  
+
+One approach for retrieving this knowledge is to probe language models using cloze-style prompts. For example, using fill-in-the blank queries like: 
+
+- “Barack Obama was born in ______” 
+
+- “The capital of France is ______ “ 
+
+Prompts such as the ones above are often limited because they are handcrafted. The authors describe 3 specific limitations:
+
+- Suboptimal phrasing: where different prompts can yield different results 
+- Lower-bound issue: if a poorly phrased prompt fails to extract a fact, it does not mean the language model lacks that knowledge 
+- Limited diversity: it is impractical to manually create prompts for every possible knowledge type
+
+This study aims to address the limitations above. They investigate automatic methods for generating better prompts, which would lead to more accurate retrieval of knowledge from language models. 
+
+### Methods:
+
+First the authors tackle prompt generation, which is the task of generating a set of prompts for each relation, where at least some of the prompts effectively trigger language models to predict ground-truth objects. The two methods are:
+
+- Mining-based Generation:
+   - This approach is inspired by relation extraction methods and extracts prompts from real-world text 
+   - For example, if many sentences state that “X was born in Y”, this phrase becomes a potential prompt for querying birthplace relations. 
+   - Two sub-methods within mining-based generation include: 
+      - Middle-word prompts: which extracts words appearing between subject-object pairs. For example, “X plays for Y” -> “X plays for Y team” 
+      - Dependency-based prompts: which uses syntactic structure to generate prompts 
+
+- Paraphrasing-based Generation:
+   - This method uses back-translation, which is translating to another language and back, to diversify an existing prompt 
+   - For example: 
+      - Original: “X is a subclass of Y.” 
+      - Paraphrased: “X belongs to the category Y.”  
+
+Additionally, they describe three methods for testing ensemble techniques that combine multiple prompts. The methods are below: 
+- Top-1 Prompt Selection: which chooses the prompt with the highest accuracy and query using only that prompt 
+- Rank-based Ensemble: Uses the top-1 prompt and combines multiple prompts 
+- Optimized Ensemble: Assigns weights to each prompt to maximize fact retrieval accuracy
+
+### Experimental Setup:
+
+This study used the LAMA benchmark dataset, which is designed to evaluate whether language models can recall factual knowledge. The authors focused on the T-REx subset, which contains 41 relations derived from Wikipedia. To test their methods, the authors additionally evaluated on:
+
+- T-REx-UHN – a more challenging version of T-REx that removes easy-to-guess facts 
+- Google-RE – a smaller dataset with only three relations, including “birthplace of a person” 
+
+The prompts were tested on the pre-trained models below, and each model was probed with different types of prompts to evaluate how well factual knowledge was retrieved.
+- BERT-base with 110M parameters 
+- BERT-large with 340M parameters 
+- ERNIE – an entity-enhanced language model 
+- KnowBERT – a model incorporating external knowledge graphs
+
+To measure the effectiveness of different prompts, the metrics below were used. The results are are also shown: 
+- Micro-averaged accuracy – which measures the percentage of correctly retrieved facts across all test examples
+
+![](images/mar26/fig_15.png)
+
+- Macro-averaged accuracy – which evaluates accuracy per unique fact to prevent high-frequency objects from dominating results
+
+![](images/mar26/fig_16.png)
+
+### Experimental Results & Findings:
+
+The authors found that mined prompts improved knowledge retrieval. Compared to manually created prompts, automatically mined prompts improved factual accuracy significantly.  
+
+- For single-prompt experiments, the study found that the best of the proposed prompt generation methods increases micro-averaged accuracy from 31.1% to 34.1% on BERT-base, and from 32.2% to 39.4% on BERT-large. The table below shows some of the mined prompts that resulted in a large performance gain compared to manual ones.
+
+![](images/mar26/fig_17.png)
+
+- For prompt ensembling, the authors found the ensembling multiple prompts almost always leads to better performance. The optimized ensemble raised micro-averaged accuracy to 38.9% and 43.7% on BERT-base and BERT-large respectively. The table below shows the weights of top-3 mined prompts, and the micro-averaged accuracy gain over using the top-1 prompt.
+
+![](images/mar26/fig_18.png)
+
+The figure below depicts the performance for different top-K ensembles
+
+![](images/mar26/fig_19.png)
+
+For Mining vs. Paraphrasing, the authors found that small modifications, such as update, insert, and delete in paraphrase lead to large accuracy gains as seen below:
+
+![](images/mar26/fig_20.png)
+
+For Middle-word vs. Dependency-based, the authors found that words belonging to the dependency path but not in the middle of the subject and object are also indicative of the relation as seen below
+
+![](images/mar26/fig_21.png)
+
+### Critical Analysis:
+
+Some strengths of this study include: 
+
+- Previous work had relied on intuition to design prompts, but this paper automates the process, which makes it scalable and data-driven 
+
+- The study shows that language models know more than manual probing suggests. It successfully demonstrates that optimized prompts uncover hidden knowledge 
+
+- The study highlights language models’ reliance on specific linguistic patterns, suggesting weaknesses in generalization 
+
+Some weaknesses of the study include: 
+
+- The approach used focusses on one-word responses, which may not fully capture complex knowledge 
+
+- Higher accuracy might not necessarily mean that a language model knows more. The language model could be memorizing training data rather than understanding relationships. 
+
+Potential ethical concerns: 
+
+- If a language model has learned biased or incorrect information, better prompts will not fix the underlying issue and may even surface more biased outputs 
+
+- Language models trained on unverified sources could return misinformation, which automated prompt optimization might not be able to detect. 
+
 ## 44: Prompt Injection attack against LLM-integrated Applications
 
 ## 45: NVIDIA Blog - Securing against Prompt Injection Attacks
