@@ -292,4 +292,138 @@ Potential ethical concerns:
 
 ## 44: Prompt Injection attack against LLM-integrated Applications
 
-## 45: NVIDIA Blog - Securing against Prompt Injection Attacks
+### Introduction and Motivation:
+
+Large Language Models (LLMs), such as GPT-4 and LLaMA, are increasingly integrated into a wide range of real-world applications—digital assistants, content generation, customer service bots, and more. However, this integration introduces new security risks, especially prompt injection attacks, where malicious users craft inputs to override the system's intended prompt instructions and cause undesired outputs. 
+
+Existing studies on prompt injection attacks are mostly heuristic, lack systematic understanding, and perform poorly against real-world LLM-integrated applications due to: 
+
+Variation in how different applications process prompts. 
+
+Input/output format constraints act as unintended defenses. 
+
+Multi-step workflows and timeout limits that break injected prompts. 
+
+To address this issue, the paper introduces HOUYI, a black-box prompt injection attack method inspired by traditional injection attacks like SQL injection. HOUYI uses a structured, iterative process to infer the target application's context and generate tailored injection prompts that successfully bypass defenses. 
+
+The key motivation is to understand how prompt injection attacks can be executed in practice and what design flaws make LLM-integrated applications vulnerable, with the goal of raising awareness and prompting better defenses. 
+
+### Methods:
+
+The core method proposed and used in this paper is a black-box prompt injection attack framework named HOUYI, which is specifically designed to attack real-world LLM-integrated applications, as shown in the following figure. 
+
+![](images/mar26/fig_23.png)
+
+HOUYI is built on the insight that prompt injection can be made more effective by: 
+
+Crafting prompts that isolate themselves from the application’s original context. 
+
+Drawing parallels with traditional injection attacks like SQL injection and XSS. 
+
+HOUYI is structured into three main phases: 
+
+1. Context Inference 
+
+HOUYI interacts with the LLM-integrated application through its normal interface (e.g., via UI or API). It collects input-output pairs by feeding example queries and observing the responses. A custom LLM analyzes these pairs to infer: 
+
+- The task the application is performing. 
+- The format of inputs and outputs. 
+- Any prompt templates implicitly used. 
+
+2. Injection Prompt Generation 
+
+This phase generates the attack prompt, composed of three components: 
+
+a. Framework Component 
+- A plausible prompt that fits the application’s expected input format, used to avoid detection. 
+
+b. Separator Component 
+
+- A specially designed phrase or structure to break the semantic or syntactic flow and isolate the malicious content. Three strategies are used: 
+   - Syntax-based (e.g., escape characters like \n\n) 
+   - Language switching (e.g., switching from German to English mid-prompt) 
+   - Semantic closure (e.g., asking for a summary or follow-up question) 
+
+c. Disruptor Component 
+
+The actual malicious command, such as: 
+
+- Extracting the original system prompt. 
+- Generating spam or phishing content. 
+- Issuing arbitrary instructions to the LLM. 
+
+3. Feedback and Refinement 
+
+HOUYI uses another LLM (e.g., GPT-3.5) to evaluate whether the response indicates a successful injection. Based on feedback, it dynamically refines the separator and disruptor components through iterative prompt generation. This loop continues until a successful injection is achieved. 
+
+### Experimental Setup:
+
+The experimental setup in this paper involves evaluating the HOUYI attack framework on 36 real-world LLM-integrated applications selected from SUPERTOOLS, covering categories such as chatbots, writing assistants, code generation tools, business analysis, and creative generation. The authors define five exploit scenarios—prompt leaking, code generation, content manipulation, spam generation, and information gathering—and test each scenario five times per application. To carry out the attacks, they implement a Python-based harness that interacts with each application's API, uses GPT-3.5-turbo to infer application context and generate injection prompts, and applies a feedback loop to refine the attacks. All results are manually verified, and successful attacks are reported only when the injected behavior appears in the output. For ethical considerations, only vendors who acknowledged the vulnerabilities, such as Notion and WRITESONIC, are identified by name. 
+
+### Experimental Results and Findings:
+
+Main Results are shown as follows: 
+
+- 31 out of 36 applications (86.1%) were successfully attacked using HOUYI. 
+- HOUYI outperforms existing heuristic prompt injection strategies by using context-aware, component-based prompts. 
+- Among the successful cases, 10 vendors (including Notion and WRITESONIC) confirmed the vulnerabilities after responsible disclosure. 
+
+![](images/mar26/fig_24.png)
+
+### Critical Analysis:
+
+There are several strengths of this paper: 
+- Systematic Attack Design: The paper proposes HOUYI, a structured and generalizable black-box prompt injection framework that is more effective than prior heuristic approaches. 
+- Real-World Evaluation: It evaluates the method on 36 real LLM-integrated applications across diverse categories, providing strong empirical evidence of practical vulnerability. 
+- High Success Rate: HOUYI achieves an 86.1% success rate across multiple exploit scenarios, demonstrating its robustness and generality. 
+- Some shortcomings should be considered in the future: 
+ Limited Scope of Defenses: The paper mainly focuses on attack design and effectiveness, but provides limited experimental evaluation on defense mechanisms. 
+- No Formal Guarantees: The success of HOUYI still relies on empirical trial-and-error; it lacks theoretical guarantees or provable generality. 
+- Dependence on LLM for Feedback: The attack refinement process uses GPT-3.5 as a feedback oracle, which may introduce bias or dependence on specific models.
+
+## 45: NVIDIA Blog - Securing against Prompt Injection Attacks:
+
+### Introduction and Motivation:
+
+Prompt injection is a novel and serious threat that targets large language models (LLMs) by manipulating their outputs through maliciously crafted inputs. This attack becomes more dangerous when LLMs are integrated with plug-ins that allow access to external tools, APIs, and databases. Such plug-ins, while enhancing functionality, also create new pathways for attackers. 
+
+The NVIDIA AI Red Team analyzed specific LangChain plug-ins and discovered that attackers could exploit prompt injection vulnerabilities to achieve remote code execution, server-side request forgery, and SQL injection. These exploits stem from how user input is embedded in prompts and passed directly to LLMs and subsequent plug-ins without proper isolation or sanitization. 
+
+The motivation for this post is to: 
+
+- Highlight the security implications of integrating LLMs with external services. 
+- Show that prompt injection can affect the behavior of systems in unexpected and dangerous ways. 
+- Share concrete vulnerabilities found in real-world tools (LangChain plug-ins). 
+- Encourage safer design practices by raising awareness of control-data separation issues in LLM systems. 
+
+In short, the post aims to warn developers of the real security risks associated with prompt injection and provide guidance for designing more secure LLM-powered applications. 
+
+### Methods:
+
+Nvidia analyzes how specific LangChain plug-ins handle user inputs and LLM outputs. They identify three plug-ins—llm_math, APIChain.from_llm_and_api_docs, and SQLDatabaseChain—that exhibit unsafe behavior due to improper separation of control logic and user data. Through crafted prompt injection inputs, the team demonstrates how these vulnerabilities can lead to remote code execution, server-side request forgery, and SQL injection. Their approach involves constructing proof-of-concept examples to trigger each exploit, examining the prompt processing pipelines, and highlighting the underlying insecure patterns. Finally, they summarize their findings to recommend mitigation strategies, such as prompt sanitization, least-privilege execution, and avoiding unsafe plug-ins. 
+
+![](images/mar26/fig_25.png)
+
+### Experimental Setup:
+
+Nvidia uses the OpenAI text-davinci-003 model as the base LLM. The NVIDIA AI Red Team crafted malicious prompts and fed them to these plug-ins, which in turn passed the LLM-generated outputs to external components such as a Python interpreter, web request handler, or SQL database. For the SQL injection case, a configured PostgreSQL database was assumed to be available. They observed how the plug-ins executed unsafe operations, such as running attacker-specified code or querying unintended URLs, thereby validating the presence of vulnerabilities. All demonstrations were done using older versions of LangChain where the issues were still present, and the tests were designed to simulate realistic usage scenarios where plug-ins process user inputs through LLMs without proper sanitization. 
+
+### Experimental Results and Findings:
+
+There critical issues have been identified: 
+
+1. The llm_math chain enables simple remote code execution (RCE) through the Python interpreter. For more details, see CVE-2023-29374. (The exploit the team identified has been fixed as of version 0.0.141. This vulnerability was also independently discovered and described by LangChain contributors in a LangChain GitHub issue, among others; CVSS score 9.8.)  
+2. The APIChain.from_llm_and_api_docs chain enables server-side request forgery. (This appears to be exploitable still as of writing this post, up to and including version 0.0.193; see CVE-2023-32786, CVSS score pending.) 
+3. The SQLDatabaseChain enables SQL injection attacks. (This appears to still be exploitable as of writing this post, up to and including version 0.0.193;  see CVE-2023-32785, CVSS score pending.)
+
+### Critical Analysis:
+
+There are several strengths of this paper: 
+
+- The blog provides clear, real-world demonstrations of prompt injection attacks against widely used LangChain plug-ins, making the risks tangible and easy to understand. 
+- It offers concrete examples and proof-of-concept exploits, showing exactly how attackers can manipulate LLM behavior to gain unauthorized access or perform unintended actions. 
+
+Some shortcomings should be considered in the future: 
+
+- The post is written from a practical and engineering-focused perspective, without deep theoretical analysis or formal security modeling. 
+- It focuses only on three specific LangChain plug-ins, so the coverage of broader LLM ecosystems or other frameworks is limited. 
