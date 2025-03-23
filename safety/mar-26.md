@@ -61,11 +61,11 @@ Large Language Models (LLMs) have scaled in size, particularly with the introduc
 1. Resources
    - The number of resources needed to collect a ground-truth dataset and train/fine-tune a model in order to achieve a certain NLP-related task are significant. By introducing a task-agnostic model, the need to fine-tune a model based on a certain dataset disappears, and scales with the number of parameters utilized in an LLM. We will further explain this phenomenon below.
 2. Exploiting Spurious Correlations
-   - (TODO)
+   - Training a model on a dataset that does not exhibit diversity tends to heavily affect the results of LLMs. LLMs are designed to absorb all of the information that is given to them, and a lack of diversity within the original dataset can affect LLM fine-tuning further down the road. In other words, there is a possibility that the LLM will not generalize well outside of a few specific tasks.
 3. Human-Like Thinking
    - In most scenarios, humans do not require as many examples for many tasks that we ask NLP-based systems to perform. In fact, in most cases, only one or two examples are needed for a human to understand how sentence-completion or reading comprehension tasks work. The unofficial gold standard that many researchers hope to achieve is that one day, NLP systems are designed to act and “think” like humans do.
    
-These ideas fall under the notion of meta-learning, which means that a “model develops a broad set of skills and pattern recognition abilities at training time and then uses those abilities at inference time to rapidly adapt or recognize the desired task.” Furthermore, the number of parameters that Machine Learning models have been trained on has also increased significantly over time. As a result, improving the number of parameters that an LLM can be trained on has also brought significant improvements to common NLP-based tasks such as text synthesis. One of the main hypotheses of the paper assesses whether in-context learning will show equivalent improvements with parameter scaling.  
+These ideas fall under the notion of meta-learning, which means that a “model develops a broad set of skills and pattern recognition abilities at training time and then uses those abilities at inference time to rapidly adapt or recognize the desired task.” Furthermore, the number of parameters that Machine Learning models have been trained on has also increased significantly over time. As a result, improving the number of parameters that an LLM can be trained on has also brought significant improvements to common NLP-based tasks. One of the main hypotheses of the paper assesses whether in-context learning will show equivalent improvements with parameter scaling.  
 
 In-Context Learning can be defined as a series of methods that are used to determine how rapidly a model can adapt to specific scenarios that would likely not been seen in the training data in the first place. In other words, it’s a method that can be used to feed context-specific examples to a prompt. To test this hypothesis, the paper assesses the effectiveness of few-shot learning, one-shot learning, and zero-shot learning prompts across different types of models. 
 
@@ -130,7 +130,7 @@ This task is quite unique from the others that have been discussed. Winograd-Sty
 
 ![](images/mar26/fig_10.png "GPT-3 results on Winograd and Winogrande")
 
-**Common Sense Reasoning: **
+**Common Sense Reasoning:**
 
 The paper then seeks to understand how GPT-3 models compare against physical and scentific reasoning tasks. These are relatively unique tasks that ask for much more than understanding NLP as a subfield; there is a sense of reasoning involved as well. The paper tests GPT-3 against PhysicalQA (PIQA), a dataset that contains questions about the physical world, ARC, a dataset that contains exam questions from elementary school through high school science topics, and OpenBookQA, a subset of Question-Answering tasks. Below is a table that outlines GPT-3 results against SOTA fine-tuned models:
 
@@ -158,9 +158,17 @@ Natural Language Inference (NLI) is primarily concerned with whether a model can
 
 ![](images/mar26/fig_14.png "GPT-3 results against ANLI Dataset")
 
-**Synthetic and Qualitative Tasks: **
+**Synthetic and Qualitative Tasks:**
 
-**Key Takeaways:**
+The paper discusses the following synthetic and qualitative tasks:
+- Arithmetic Solving
+- Word Scrambling and Word Manipulation
+- SAT Analogies
+- News Article Generation
+
+In all of these tasks as the number of parameters utilized in the LLM increases, as well as the number of few-shot examples provided increases, the accuracy increases as well. The graph belows shows the effect of few-shot examples and number of model parameters on solving arithmetic problems. The authors varied the number of digit used in operations between two and five. See the chart below for results. A similar trend can be seen across Word Scrambling and Word Manipulation, as well as SAT Anaology solving.
+
+![](images/mar26/fig_22.png)
 
 ### Critical Analysis:
 
