@@ -96,7 +96,7 @@ Garfinkel et al’s [[4]](#4) strength is their focus on Database Reconstruction
 ---
 
 
-### **Ethical Considerations**
+## **Ethical Considerations**
 
 Differential privacy excels at technical privacy protection, but it doesn’t solve for informed consent. Users rarely understand what “ε-differential privacy” means, nor how it affects their individual risk. There’s a growing ethical imperative to communicate privacy guarantees more clearly, especially when DP is used in public datasets, educational tools, or consumer-facing systems.** **Other than consent of the user, fairness also needs to be considered. The uneven suppression of minority groups’ data can unintentionally undermine fairness. Ethical implementations of differential privacy must grapple with questions like:
 
@@ -108,9 +108,7 @@ Differential privacy excels at technical privacy protection, but it doesn’t so
 
 These questions are still open, but increasingly urgent as differential privacy finds its way into policy-making and public data releases. Deploying differentially private algorithms without adequate testing or impact analysis can lead to misdiagnosis, wrongful classifications, or under-servicing of critical populations.
 
-References:
-
-
+## References:
 
 * <a id="1">[1]</a>  [Differential Privacy Overview and Fundamental Techniques](https://arxiv.org/abs/2411.04710) by Fioretto et al. 2024.
 * <a id="2">[2]</a> [Programming Differential Privacy](https://programming-dp.com/cover.html) Joseph P. Near and Chiké Abuah 
