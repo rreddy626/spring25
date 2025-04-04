@@ -31,53 +31,58 @@ The model is optimized to reduce average loss. But average accuracy does not alw
 
 # [Deep Learning with Differential Privacy](https://arxiv.org/abs/1607.00133). Abadi et al, 2016 
 
-
 ## Introduction
 
-- Model training requires large datasets which are often crowdsourced and can contain sensitive information.  
-- It is critical to balance machine learning training objectives with privacy-preserving goals.  
-- Researchers improve the efficiency of differentially private training in Tensorflow, demonstrating that by tracking detailed information of privacy loss, the overall privacy loss can be estimated accurately.
+This paper addresses the need for privacy-preserving ML techniques, particularly for deep neural networks trained on sensitive, potentially crowdsourced datasets. It is critical to balance machine learning training objectives with privacy-preserving goals. In this paper, the authors improve the efficiency of differentially private training in Tensorflow, demonstrating that by tracking detailed information of privacy loss, the overall privacy loss can be estimated accurately.
 
 ## Methods
 
-1. Differentially private SGD:
+This paper introduces a method based on differentially private Stochastic Gradient Descent (DP-SGD). Algorithm 1 (shown in the figure below) outlines this method.
 
-   ![][image1]
+![Algo1](images/apr9/60_algoone.png)
 
-   1. Controls the influence of the training data on the weights of a neural network by clipping gradient norms at different thresholds across layers of the network  
-   2. In typical differential privacy fashion, they add noise to the data to improve anonymity. Specifically, they add gaussian noise to the gradients before back propagation.  
-2. Moments accountant
+The key parts are:
+Control the influence of the training data on the weights of a neural network by clipping gradient norms at different thresholds across layers of the network
+In typical differential privacy fashion, add noise to the data to improve anonymity. Specifically, add gaussian noise to the gradients before back propagation.
 
-	Researchers introduce a “moments accountant” which is used to control training and continuously estimate the privacy loss. They propose this as an improvement (a tighter upper bound) to an expected privacy loss calculated by the “strong composition theorem”, which they provide as: 
+The authors also introduce a “moments accountant” which is used to control training and continuously estimate the privacy loss. They propose this as an improvement (a tighter upper bound) to an expected privacy loss calculated by the “strong composition theorem”, which they provide as: 
 
-![][image2]
+**Theorem**: *There exist constants* $c_1$ *and* $c_2$ *so that given the sampling probability* $q = L/N$ *and the number of steps* $T$, *for any* $\varepsilon < c_1 q^2 T$, *Algorithm 1 is* $(\varepsilon, \delta)$-*differentially private for any* $\delta > 0$ *if we choose*
 
-1. The moments accountant instead uses the following privacy loss (c)
+```math
+\sigma \geq c_2 \frac{q \sqrt{T \log(1/\delta)}}{\varepsilon}.
+```
 
-   ![][image3]
+The moments accountant uses the following privacy loss ($`c`$)
+```math
+c(o; \mathcal{M}, \text{aux}, d, d') \triangleq \log \frac{\Pr[\mathcal{M}(\text{aux}, d) = o]}{\Pr[\mathcal{M}(\text{aux}, d') = o]}.
+```
+where $`o`$: outcome, $`\mathcal{M}`$: mechanism, $`\text{aux}`$: auxiliary input, $`(d, d')`$: neighboring datasets
 
-   1. o: outcome, M: mechanism, aux: auxiliary input, (d, d’): neighboring datasets  
-   2. The accountant continuously updates the state of training with this privacy loss estimate.  
-   3. Researchers use a privacy budget to balance training with two variables  
-      1. Epsilon: measure of privacy loss. Higher epsilon means stronger privacy but weaker statistical accuracy  
-      2. Delta: probability of a privacy breach, secondary parameter that works with epsilon to balance privacy and utility  
-3. Hyperparameter tuning  
-   1. Researchers hypothesize that using their differential privacy mechanism, the range of values for hyperparameters would decrease and less tuning would be necessary. They propose that the learning rate, for example, would not need to decay like it would in traditional ML training. This is probably because the noise added by the privacy mechanism would hinder convergence at a lower learning rate, when the model would be trying to make smaller adjustments to the training data.
+The accountant continuously updates the state of training with this privacy loss estimate. They use a privacy budget to balance training with two variables
+- Epsilon ($`\varepsilon`$): measure of privacy loss. Higher epsilon means stronger privacy but weaker statistical accuracy
+- Delta ($`\delta`$): probability of a privacy breach, secondary parameter that works with epsilon to balance privacy and utility
 
-The researchers evaluate their DP-SGD algorithm on the MNIST and CIFAR-10 image classification tasks. They also add a layer of PCA projection to improve dimensionality reduction.
+**Hyperparameter tuning**: The authors hypothesize that using their differential privacy mechanism, the range of values for hyperparameters would decrease and less tuning would be necessary. They propose that the learning rate, for example, would not need to decay like it would in traditional ML training. This is probably because the noise added by the privacy mechanism would hinder convergence at a lower learning rate, when the model would be trying to make smaller adjustments to the training data. The researchers evaluate their DP-SGD algorithm on the MNIST and CIFAR-10 image classification tasks. They also add a layer of PCA projection to improve dimensionality reduction.
 
 ## Key Findings
 
-Researchers achieve 97% training accuracy on MNIST and 73% training accuracy on CIFAR-10 with epsilon=8, delta=10^-5 differential privacy.  
-When compared to the expected privacy loss returned by their strong composition theorem, researchers find the moments accountant provides a tighter bound on epsilon.![][image4]  
-Generally, training accuracy increases as epsilon and delta constraints are relaxed, with higher values of delta steepening the accuracy vs. epsilon tradeoff as observed in Figure 4 below.  
-![][image5]
+Researchers achieve 97% training accuracy on MNIST and 73% training accuracy on CIFAR-10 with $`\varepsilon = 8`$, $`\delta=10^{-5}`$ differential privacy. When compared to the expected privacy loss returned by their strong composition theorem, researchers find the moments accountant provides a tighter bound on epsilon.
+
+![](images/apr9/60_figure2.png)
+*Figure: The $`\varepsilon`$ value as a function of epoch $`E`$ for $`q= 0.01, σ= 4, δ= 10^{−5}`$, using the strong composition theorem and the moments accountant respectively.*
+
+Generally, training accuracy increases as epsilon and delta constraints are relaxed, with higher values of delta steepening the accuracy vs. epsilon tradeoff as observed in the figure below.
+
+![](images/apr9/60_figure4.png)
+*Figure: Accuracy of various $`(\varepsilon, \delta)`$ privacy values on the MNIST dataset. Each curve corresponds to a diﬀerent $`\delta`$ value.*
+
 
 ## Critical Analysis
 
 ### Strengths
 
-Researchers reach a good balance between privacy and accuracy on basic image classification tasks. They also provide a robust Tensorflow model design that can address both objectives. The models’ ability to converge with additional non-convex, privacy-focused objectives is also impressive.
+Researchers reach a good balance between privacy and accuracy on basic image classification tasks. They also provide a robust Tensorflow model design that can address both objectives. The models’ ability to converge with additional non-convex, privacy-focused objectives is also impressive. 
 
 ### Weaknesses
 
@@ -85,9 +90,11 @@ The results section could include more experiments comparing with non-privacy pr
 
 ### Potential biases
 
-This research was conducted by Google, so it is influenced by Google’s interests in the AI field. For example, researchers implemented all experiments using Google’s Tensorflow, whereas PyTorch is the more widely used deep learning framework in ML research.
+The evaluation is conducted on image classification datasets, and the performance and privacy-accuracy trade-off might differ for other types of data and ML tasks such as NLP. The approach is also focused on SGD, and other algorithms might yield different results.
 
 ### Ethical considerations
+
+While the paper shows how ML methods can be modified to satisfy differential privacy guarantees, these might lead to a false sense of privacy and mislead the user. Moreover, added noise may affect underrepresented groups or degrade model utility in sensitive applications, leading to unequal or even harmful outcomes.
 
 # [Semi-supervised Knowledge Transfer for Deep Learning from Private Training Data](https://arxiv.org/abs/1610.05755). Papernot et al, 2016 
 
