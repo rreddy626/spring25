@@ -100,16 +100,76 @@ While the paper shows how ML methods can be modified to satisfy differential pri
 
 ## Introduction
 
+Similar to the earlier two papers, this work also addresses the critical problem of protecting the privacy of sensitive training data in ML. The authors note that ML models can inadvertently store training data, potentially revealing sensitive information through model analysis. While the prior works were restricted in their model choices, this paper presents a model agnostic approach that can be applied to any machine learning model.
+
+They present PATE - Private Aggregation of Teacher Ensembles, designed to provide strong privacy guarantees for training data. The key idea is to train multiple teacher models on disjoint datasets, and then use their aggregated, noisy predictions to train a public student model that queries the teacher models to learn the class labels.
+
 ## Methods
 
+![](images/apr9/61_figure1.png)
+*Figure: Overview of the approach: (1) an ensemble of teachers is trained on disjoint subsets of the sensitive data, (2) a student model is trained on public data labeled using the ensemble. * 
+
+PATE method involves the following key steps:
+
+### Ensemble of Teachers
+The sensitive training data is partitioned into disjoint subsets, and each subset is used to train an independent teacher model. Given the nature of the approach, these can utilize any ML model for training. 
+
+### Noisy Aggregation
+Given an input query $`\vec{x}`$, each teacher would make a prediction. To protect the privacy of the sensitive data, these predictions are then aggregated using a noisy voting mechanism, as shown below. 
+
+```math
+f(x) = \arg\max_j \left\{ n_j(\vec{x}) + \text{Lap}\left(\frac{1}{\gamma}\right) \right\}
+```
+If $`n_j`$ is the count of teachers voting for label $`j`$, the reported label would include an added Laplacian noise with $`\gamma`$ the noise controlling parameter. Intuitively, larger $`\gamma`$ leads to a strong privacy guarantee, but can degrade the accuracy of the labels.
+
+Given the addition of noise, the model would become useless after a bounded number of queries. This makes it impractical to make it public facing since the number of user queries can’t be limited. Therefore, the teacher ensemble is kept private, and is only exposed to a “student”.
+
+### Student Model
+
+A separate “student” model is trained to mimic the predictions of the noisy aggregate teacher ensemble. The student trains on non-sensitive, potentially unlabelled data that is publicly available, and queries the teacher models for a quorum on the label for each input. Since the student only makes limited queries to the teacher (only during training), the privacy costs can be kept limited. The end-user queries will not have an impact on the overall privacy costs. To further minimize the number of queries to the teacher models, the authors propose the use of semi-supervised, generative models called PATE-G.
+
+### Moments Accountant
+
+Another key aspect of this work is the use of the moments accountant (as proposed by Abadi et al.) to rigorously track the privacy cost throughout the student’s training. The authors present a data-dependent privacy analysis which takes advantage of the fact that when the quorum among the teachers is very strong, the majority outcome has overwhelming likelihood, which means that the privacy cost is small whenever that outcome occurs. The moments accountant allows for analysis of the composition of such mechanisms.
+
 ## Key Findings
+
+The paper shows that the PATE approach achieves SOTA privacy on the MNIST and SVHN image classification datasets. The authors report that the classifiers achieve an $`(\varepsilon, \delta)`$ differential-privacy bound of $`(2.04, 10^{-5})`$ for MNIST and $`(8.19, 10^{-6})`$ for SVHN respectively, with accuracy of 98% and 90.66%.  This is an improvement over prior results. 
+
+
+![](images/apr9/61_figure4.png)
+*Figure: **Utility and privacy of the semi-supervised students:** each row is a variant of the student model trained with generative adversarial networks in a semi-supervised way, with a different number of label queries made to the teachers through the noisy aggregation mechanism. The last column reports the accuracy of the student and the second and third column the bound $`\varepsilon`$ and failure probability $`\delta`$ of the $`(\varepsilon, \delta)`$ differential privacy guarantee.*
+
+The data dependent privacy analysis used in the paper provides tighter privacy bounds when the agreement (quorum) among teachers is strong. The authors also demonstrate the applicability of PATE on other datasets (like the UCI adult & diabetes data) and models (random forests).
+
+The authors also report the effect of the amount of noise that can be injected into a query on the accuracy. This is considered for a teacher ensemble count of $`n = \{10, 100, 250\}`$.
+
+![](images/apr9/61_figure2.png)
+*Figure: **How much noise can be injected to a query?** Accuracy of the noisy aggregation for three MNIST and SVHN teacher ensembles and varying $`\gamma`$ value per query. The noise introduced to achieve a given $`\gamma`$ scales inversely proportionally to the value of $`\gamma`$: small values of $`\gamma`$ on the left of the axis correspond to large noise amplitudes and large $`\gamma`$ values on the right to small noise.*
+
+Since the model is quorum dependent, a larger gap between the most and the second-most voted class labels indicate that the ensemble is confident in assigning the labels, and so will be robust to more noise injection.
+
+![](images/apr9/61_figure3.png)
+*Figure: **How certain is the aggregation of teacher predictions?** Gap between the number of votes assigned to the most and second most frequent labels normalized by the number of teachers in an ensemble. Gaps were computed by averaging over the test data.*
+
 
 ## Critical Analysis
 
 ### Strengths
-
+- Since PATE is a black-box approach, the method is generally applicable, and is independent of the specific ML algorithm used for training the teachers or the student.​​
+- Use of the moments accountant (from Abadi et al.) allows PAtE to have a more refined and tighter analysis of the privacy cost
+- PATE is formally grounded in differential privacy, and the analysis by the authors makes it intuitive.
+- Combining PATE with a semi-supervised generative learning (PATE-G) leverages unlabelled public data to improve student’s efficiency without many queries, thereby controlling the overall privacy costs.
 ### Weaknesses
-
+- Primary requirement for PATE is the availability of disjoint data for training, which might not be possible in all cases.
+- Since the student models are public, PATE relies on non-sensitive , potentially unlabelled data to train the student models. Such a dataset might not be always available.
+- PATE relies on teacher quorum (level of agreement among the teachers). If the predictions are highly variable, the noisy aggregation might lead to a less informative signal for students.
+- Larger number of teachers might mean better privacy guarantees, but might often come at the loss of training accuracy.
 ### Potential biases
+- The model relies on partitioned data, and the way this is done can introduce biases if the partitions aren’t representative of the overall data distribution.
+- Noisy aggregation of teacher predictions might introduce bias in the target signal that the student learns from
+
 
 ### Ethical considerations
+
+Given the goal of the paper to protect the privacy of sensitive training data, extremely rare scenarios that the teacher models haven’t seen might cause unreliable student predictions, raising ethical concerns. Additionally, while the PATE model itself is transparent, lack of knowledge of the training data could lead to issues when trying to interpret model outcomes. However, this remains a valid trade-off given privacy concerns.
