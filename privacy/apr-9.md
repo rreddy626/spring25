@@ -10,7 +10,9 @@ This paper introduces privacy-preserving algorithms for *regularized* ERM which 
 
 ![regularized_erm_loss](images/apr9/59_regularized_erm_loss.png)
 
-These algorithms require strong convexity to guarantee privacy requirements. Furthermore, the regularizer $N$ and loss function $l$ are required to be differentiable functions of the predictor $f$. As a result, certain classes of regularizers like L1 are not considered. 
+These algorithms require strong convexity to guarantee privacy requirements. Furthermore, the regularizer $N$ and loss function $l$ are required to be differentiable functions of the predictor $f$. As a result, certain classes of regularizers like L1 are not considered.
+
+The following sections provide an overview of the privacy-preserving algorithms introduced in this paper. If interested, these algorithms are mathematically proved in detail in the paper.
 
 ### Differentially Private ERM
 **Output Perturbation**: The output perturbation algorithm was derived from the sensitivity method in ε-differential privacy. Noise is added to the output of the standard ERM algorithm. Specifically, the noise is added after the regularized empirical loss is minimized. If the regularizer is differentiable and 1-strongly convex, and the loss function is also convex and differentiable with the first derivative of the loss function bounded by 1, then the output perturbation algorithm provides $ε_p$-differential privacy. 
@@ -66,6 +68,8 @@ If the training data contains imbalance, the model might learn patterns that do 
 The model is optimized to reduce average loss. But average accuracy does not always reflect fairness. The noise added for privacy may hide these fairness issues. This is important in applications like healthcare or education, where different groups may be affected differently.
 
 ### Ethical considerations 
+
+The majority of this paper was on theoretically developing these privacy-preserving algorithms for differentially private ERM and providing mathematical guarantees for privacy. Like other differential privacy research, there are ethical concerns about the datasets being used for the experiments and whether not to fully trust in the privacy guarantees proposed in this paper. Furthermore, in cases with stronger privacy and thus more noise added, the misclassification error rates could be high and could lead to potentially biased classifications which harms fairness.
 
 # [Deep Learning with Differential Privacy](https://arxiv.org/abs/1607.00133). Abadi et al, 2016 
 
