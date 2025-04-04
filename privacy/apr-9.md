@@ -10,7 +10,6 @@ This paper introduces privacy-preserving algorithms for *regularized* ERM which 
 
 ![regularized_erm_loss](images/apr9/59_regularized_erm_loss.png)
 
-
 These algorithms require strong convexity to guarantee privacy requirements. Furthermore, the regularizer $N$ and loss function $l$ are required to be differentiable functions of the predictor $f$. As a result, certain classes of regularizers like L1 are not considered. 
 
 ### Differentially Private ERM
@@ -34,6 +33,19 @@ In practice, the regularization constant is selected based on the data itself. I
 To evaluate the performance of the output perturbation and objective perturbation algorithms, the authors train logistic regression and Huber SVM classifiers on two real datasets. One dataset is the UCI Adult dataset which contains demographic information. The classification task for this dataset is to predict whether an individual’s annual income is less than or greater than $50,000. The other dataset is KDDCup99 which contains instances of network conditions. The classification task for this dataset is to predict whether a network connection was a denial-of-service attack or not. These experiments examined the privacy vs. accuracy tradeoff as well as the accuracy vs. training data size tradeoffs. 
 
 ## Key Findings 
+
+### Privacy vs. Accuracy Tradeoff
+The authors compared the privacy requirement ($ε_p$) with model classification accuracy measured by the misclassification error rate on the test set. Figure 2 shows the results for the UCI Adult dataset while Figure 3 shows the results for the KDDCup 99 dataset. Output perturbation (also referred to as the sensitivity method) is compared to objective perturbation and a non-private classifier for logistic regression and Huber SVM. 
+
+![59_figure_2](images/apr9/59_figure2.png)
+![59_figure_3](images/apr9/59_figure3.png)
+
+As seen in Figure 2 for the UCI Adult dataset, the objective perturbation algorithm outperformed the output perturbation algorithm for both logistic regression and SVM. Furthermore, the objective perturbation algorithm was able to achieve a lower misclassification error rate for SVM than for logistic regression. For the KDDCup99 dataset in Figure 3, objective perturbation generally also outperforms output perturbation. However, these two methods perform about the same for higher $ε_p$ values on the SVM. This is not the case for logistic regression where lower privacy on the objective perturbation achieves significantly a lower misclassification error rate.
+
+### Privacy vs. Training Data Size Tradeoff
+The experiments performed on training data size were limited to the KDDCup99 dataset as the UCI Adult dataset was not sufficiently large. Accuracy of the classifier was measured on the classifier that resulted from the previously mentioned privacy-preserving tuning procedure. In Figures 4 and 5, objective perturbation outperforms output perturbation in all cases of logistic regression and SVM. As training set size increases, the misclassification error rate decreases. Non-private classifiers in all cases ended up with constant misclassification error rates and did not change with training set size. Additionally, the SVM classifiers in Figure 5 generally achieved lower misclassification error rates when compared to the logistic regression results presented in Figure 4. 
+
+![59_figure4and5](images/apr9/59_figure4and5.png)
 
 ## Critical Analysis 
 
