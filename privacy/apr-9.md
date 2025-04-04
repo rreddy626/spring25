@@ -6,6 +6,32 @@
 Anonymization and data aggregation are not enough for data privacy, as datasets can be cross-referenced or reverse-engineered to reveal sensitive personal information on the training data. Instead, researchers have developed ε-differential privacy methods, which mathematically guarantees the following definition of privacy: changing a single data point does not shift the output distribution “by too much” (some given epsilon degree). This makes it difficult to infer the value of any particular data point that a model was trained on, ensuring user data is kept safe. This particular paper dives into the empirical risk minimization (ERM) framework, introducing two methods of differential privacy on classification tasks. ERM’s goal is to minimize the average over the training data of the prediction loss (with respect to the label) of the classifier in predicting each training data point. The two methods, output perturbation and objective perturbation, follow this framework by introducing noise in two different parts of the ERM pipeline—the output of the standard ERM algorithm and regularized ERM objective function prior to minimizing loss, respectively. The researchers also follow end-to-end privacy, ensuring that each step in the model learning process remains private, since intermediate steps such as training and parameter tuning can cause additional risks of privacy violations. 
 
 ## Methods 
+This paper introduces privacy-preserving algorithms for *regularized* ERM which aims to minimize the regularized empirical loss  as described below:
+
+![regularized_erm_loss](images/apr9/59_regularized_erm_loss.png)
+
+
+These algorithms require strong convexity to guarantee privacy requirements. Furthermore, the regularizer $N$ and loss function $l$ are required to be differentiable functions of the predictor $f$. As a result, certain classes of regularizers like L1 are not considered. 
+
+### Differentially Private ERM
+**Output Perturbation**: The output perturbation algorithm was derived from the sensitivity method in ε-differential privacy. Noise is added to the output of the standard ERM algorithm. Specifically, the noise is added after the regularized empirical loss is minimized. If the regularizer is differentiable and 1-strongly convex, and the loss function is also convex and differentiable with the first derivative of the loss function bounded by 1, then the output perturbation algorithm provides $ε_p$-differential privacy. 
+
+**Objective Perturbation**: Rather than adding noise to the output, the noise is added to the objective function itself such that the algorithm aims to minimize the perturbed objective. The privacy parameter no longer depends on sensitivity, but it is adjusted to ensure that the algorithm maintains differential privacy. The privacy guarantee for objective perturbation requires stronger assumptions about the regularizer and loss function. If the regularizer is doubly differentiable and 1-strongly convex, and the loss function is also convex and doubly differentiable with the first derivative of the loss function bounded by 1 and the second derivative bounded by a constant $c$, then the objective perturbation algorithm provides $ε_p$-differential privacy. 
+
+**Applications**: The output perturbation and objective perturbation algorithms can be applied to logistic regression and support vector machines (SVMs). Both algorithms can provide εp-differential private approximations of logistic regression. In the case of SVMs, the loss function on the L2-regularized SVM does not satisfy the assumptions for guaranteeing privacy. Therefore, the loss function for the L2-regularized SVM is either approximated by a different loss function or replaced with the Huber loss function to provide $ε_p$-differential private approximations for SVMs.
+
+### Kernel Method
+The kernel trick maps data to a higher dimension, allowing linear methods to be applied to nonlinear problems. 
+
+![kernel_function](images/apr9/59_kernel_function.png)
+
+However, this releases the coefficient $a_i$ and individual data points $x(i)$ which ultimately violates data privacy. To solve this problem, the authors propose approximating the kernel function by using random projections. Once the individual data points have been mapped into vectors, the problem can then be treated like standard ERM, applying the output perturbation and objective perturbation algorithms.
+
+### Parameter Tuning
+In practice, the regularization constant is selected based on the data itself. In traditional parameter tuning, the regularization constant would be selected based on the empirical performance on a validation set. This may violate εp-differential privacy guarantees as an attacker may be able to infer the regularization constant and thus something more about the dataset. If there is access to a smaller publicly available dataset that follows the same distribution, then this dataset could be used for the parameter turning. If not, then authors propose tuning the regularization constant on subsets of the training dataset and using a randomized privacy-preserving comparison procedure. These solutions help ensure ERM follows end-to-end privacy.
+
+### Experiments
+To evaluate the performance of the output perturbation and objective perturbation algorithms, the authors train logistic regression and Huber SVM classifiers on two real datasets. One dataset is the UCI Adult dataset which contains demographic information. The classification task for this dataset is to predict whether an individual’s annual income is less than or greater than $50,000. The other dataset is KDDCup99 which contains instances of network conditions. The classification task for this dataset is to predict whether a network connection was a denial-of-service attack or not. These experiments examined the privacy vs. accuracy tradeoff as well as the accuracy vs. training data size tradeoffs. 
 
 ## Key Findings 
 
