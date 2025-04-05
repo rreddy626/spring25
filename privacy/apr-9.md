@@ -49,8 +49,6 @@ The authors compared the privacy requirement ($ε_p$) with model classification 
 ![](images/apr9/59_figure3.png)
 *Figure: Privacy-Accuracy trade-off for the KDDCup99 data set*
 
-
-
 As seen in Figure 2 for the UCI Adult dataset, the objective perturbation algorithm outperformed the output perturbation algorithm for both logistic regression and SVM. Furthermore, the objective perturbation algorithm was able to achieve a lower misclassification error rate for SVM than for logistic regression. For the KDDCup99 dataset in Figure 3, objective perturbation generally also outperforms output perturbation. However, these two methods perform about the same for higher $ε_p$ values on the SVM. This is not the case for logistic regression where lower privacy on the objective perturbation achieves significantly a lower misclassification error rate.
 
 ### Privacy vs. Training Data Size Tradeoff
@@ -165,7 +163,7 @@ They present PATE - Private Aggregation of Teacher Ensembles, designed to provid
 ## Methods
 
 ![](images/apr9/61_figure1.png)
-*Figure: Overview of the approach: (1) an ensemble of teachers is trained on disjoint subsets of the sensitive data, (2) a student model is trained on public data labeled using the ensemble. * 
+*Figure: Overview of the approach: (1) an ensemble of teachers is trained on disjoint subsets of the sensitive data, (2) a student model is trained on public data labeled using the ensemble.* 
 
 PATE method involves the following key steps:
 
