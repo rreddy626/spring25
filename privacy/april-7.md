@@ -591,12 +591,19 @@ def L2_clip(v, b):
 ## 2. Approximate Differential Privacy
 
 ### Strengths
+- Provides a more flexible framework for privacy accounting
+- Utilizes a failure parameter
 
 ### Weaknesses
+- A looser bounds on privacy error
+- The likelihood of occurance can be high
+- The failure parameter is arbitrarily made up
 
 ### Potential Biases
+- There are likely no potential biases
 
 ### Ethical Considerations
+- There are likely no ethical considerations, except in practice with real world datasets.
 
 ## 3. Exponential Mechanism
 
@@ -654,12 +661,11 @@ def L2_clip(v, b):
 
 - Provides a tool for more accurate privacy budget tracking and allocation
 - Tigher bounds of the privacy budget makes it easier for implementers to
-  keep track of everything that is going on privacy-wise within the organization.
--
-
-### Weaknesses
-
--
+  keep track of everything that is going on privacy-wise within the organization
+ 
+Weaknesses
+- Relies on Renyi distribution
+- The alpha parameter has to be iteratively decided
 
 ### Potential Biases
 
