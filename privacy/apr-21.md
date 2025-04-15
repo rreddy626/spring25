@@ -80,10 +80,21 @@ To determine whether information has been leaked, the authors make use of string
 
 #### Fourth Tier: Private and Public Information Flow:
 
-The final tier focuses mostly on distinguishing between private and public information, when presented with both types of information in a given scenario. 
+The final tier focuses mostly on distinguishing between private and public information, when presented with both types of information in a given scenario. For this tier, a meeting is simulated between three people where they discuss a secret about a fourth individual, referred to as X. The meeting emphasizes the need to keep the secret away from X, but in addition, they also share public information that everyone in the meeting is made aware of. After a short period of time, X and another person join the conversation. After the conversation is over, a summary is generated for each of the participants, which includes the public information for all and excludes the private information from X. The goal of this is to understand whether the LLM can understand tasks relating to understanding who receives what information in the right context.
 
 ### Key Findings:
 
-The basic summary behind this paper is that in general, LLMs do not do a good job in protecting against leaked private information.
+Multiple LLMs were used to assess the different tiers. In particular, the authors made use of GPT-4, ChatGPT, Davinci, Llama-2-70B-Chat, Llama-2-70B, and Mixtral. The main takeaway behind the published results is that even though the models do a relatively good job in understanding the sensitivity of information and appropriate information flow, LLMs do not do a good job in protecting against leaked private information. Table #1 outlines the summary results across the six models tested for Tiers 1, 2, and 3:
+
+![image](images/apr21/fig_one.png)
+
+The correlation between human and model judgements is used as a metric for Table #1. From the initial results, it's clear that across most models, sensitivity of information can be determined with very little context. However, as the tiers increase (i.e. The situations become increasingly complex), the correlations between the human judgement and model judgement decrease as well. Table #2 assesses the willingness for models to share information, and based on the values shown, the level of "conservativeness" decreases as the tiers increase (i.e. It appears that the models would be more willing to share information). Table #3 indicates how likely is it for certain LLMs to leak information. This table is shown below:
+
+![image](images/apr21/fig_two.png)
+
+These results could initially suggest that the models can lose track of which personas have access to certain information, as five out of the six models assessed in this paper show high metrics of information leakage. Furthermore, Tier #4 statistics emphasize this key point. See Table #4 below to analyze how models fail to keep secrets in a conversation summary setting:
+
+![image](images/apr21/fig_three.png)
 
 ### Critical Analysis:
+
