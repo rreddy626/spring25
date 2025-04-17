@@ -179,6 +179,47 @@ The paper as a whole is fairly comprehensive in convey the main idea, and takes 
 
 A potential drawback in this benchmark evaluation is that the paper is largely focused on conversations as a means of assessing whether "secrets" can be kept by LLMs. Although this is a reasonable assumption to make when assessing whether LLMs can keep secrets, more realistic scenarios would include the use of email passwords, sample PIN IDs (i.e. Sample Social Security Numbers), and other crucial information that might be more sensitive than the secrets elicited through conversations. Because LLMs still remain black boxes in terms of interpretability, creating diverse testing components/scenarios would be important when assessing whether LLMs can keep secrets or not.
 
+## Beyond Memorization: Violating Privacy via Inference with Large Language Models
+
+### Introduction and Motivation:
+
+Previous research mainly focuses on the privacy risk of LLMs in memorizing and potentially leaking training data, which ignores the growing concern arising from the dramatically increased inference capabilities of modern LLMs. One observation is that LLMs' powerful inference abilities allow them to deduce personal information from subtle cues in seemingly harmless text, a task previously requiring significant human effort. This capability drastically lowers the cost and time needed for such profiling, creating the potential for privacy violations at an unprecedented scale. The authors argue that as LLMs become more integrated into daily life, this inference capability poses a significant threat, potentially enabling malicious actors to automatically profile individuals from their online writings and link inferred private details to real identities for harmful purposes. This study aims to be the first comprehensive analysis of this inference-based privacy threat, evaluating LLMs' ability to infer attributes from real-world text data and highlighting the inadequacy of current mitigation strategies.
+
+### Threat Model:
+
+Two threat models are proposed in this paper: 1) Free Text Inference: An adversary who uses LLMs to analyze existing collections of unstructured text to infer personal attributes of the authors; 2) Adversarial Interaction: An adversary deploys a chatbot with a hidden malicious goal: to subtly guide conversations with users, prompting them to reveal private information through seemingly benign interactions, which the LLM then infers and collects.
+
+### Free Text Inference:
+
+Free Text Inference is an adversary can leverage pre-trained LLMs to infer private information from public unstructured texts collected from individuals (e.g., comments from Reddit). After that, LLMs can infer personal attributes of the text's author, such as location, age, sex, occupation, and income. 
+
+The process begins with the adversary obtaining a dataset containing texts associated with specific users, which can be gathered by scraping online forums and social media. For a target user and their text, the adversary constructs a specific prompt with a fixed template, embedding the user's text within a prefix and suffix designed to instruct the LLM to perform the attribute inference task. The adversary then feeds this complete prompt into the pre-trained LLM. The LLM is able to analyze the provided text, drawing on its extensive inference capabilities to  output a set of inferred attribute-value pairs corresponding to the user, potentially along with its reasoning for the inference, as shown in the following figure:
+
+~enter image here~
+
+### Adversarial Interaction: 
+
+The Adversarial Interaction threat model describes a scenario where an adversary actively uses an LLM-powered chatbot to extract private information from users during conversation. The goal is for the malicious chatbot, controlled by the adversary, to subtly steer the interaction in a way that prompts the user to reveal personal or sensitive details (like location, age, or sex) without realizing the chatbot's hidden objective. This differs from passive text analysis as the adversary actively influences the user's generated text to mine for specific private data.   
+
+The process involves the user interacting with an LLM chatbot where the underlying system prompt, controlled by the adversary, includes both a public, overt task (e.g., being a helpful assistant) and a hidden, malicious task (e.g., inferring personal attributes). In each round of conversation, the user sends a message. The LLM processes this message, generates an internal, hidden response containing potential inferences about the user accessible only to the adversary, and crafts a public response shown to the user. This public response appears aligned with the chatbot's overt function but is strategically designed based on the hidden task to encourage the user to provide more information relevant to the adversary's goal, progressively refining the inferred profile while keeping the malicious intent concealed.  The detailed process is shown in the following:
+
+~enter image here~
+
+### Evaluation of Privacy Violating LLM Inferences:
+
+The paper evaluates the privacy-violating inference capabilities of LLMs using a custom dataset called PersonalReddit (PR), which contains 520 real Reddit profiles manually labeled with 8 personal attributes (like location, age, sex, income). Nine state-of-the-art LLMs were tested on their ability to infer these attributes from the users' comments, providing their top 3 guesses for each attribute. The results showed that models like GPT-4 achieved high accuracy, reaching 85.5% accuracy, performing close to human labelers even though the humans had access to additional context like subreddit names and search engines. 
+
+~enter image here~
+
+The second part of the evaluation explores the Adversarial Interaction threat model, where a malicious chatbot actively tries to extract information. Due to ethical considerations, this was tested using a simulation where an "investigator" chatbot (GPT-4) interacted with simulated "user" bots (also GPT-4) grounded in specific profiles. The investigator bot aimed to infer the user bot's location, age, and sex through seemingly benign conversation, while the user bot was instructed not to reveal this information directly. Across 224 simulated interactions, the adversarial chatbot achieved an overall top-1 accuracy of 59.2% in inferring these attributes. 
+
+### Conclusion:
+
+This is the first comprehensive study demonstrating that current pretrained LLMs can infer a wide range of personal attributes from text provided at inference time, achieving near-human accuracy at a fraction of the cost and time previously required. This capability makes large-scale, inference-based privacy violations feasible for the first time. 
+
+The study also showed that existing mitigations like text anonymization and standard model alignment are currently ineffective against this type of privacy threat. Furthermore, the paper introduced and formalized the emerging risk of adversarial chatbots designed to subtly extract private information during conversations. Ultimately, the authors advocate for broadening the focus of LLM privacy discussions beyond data memorization to address these inferential risks and hope their findings will drive the development of more effective privacy protections.  
+
+
 ## Privacy Issues in LLMs: A Survey
 
 ### Introduction and Motivation:
