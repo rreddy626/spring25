@@ -1,5 +1,82 @@
 # LLMs: Privacy in LLMs
 
+## [Scalable Extraction of Training Data from (Production) Language Models](https://arxiv.org/pdf/2311.17035)
+
+### Introduction and Motivations:
+
+Large language models (LLMs) have demonstrated remarkable capabilities across a wide range of natural language tasks. However, their ability to memorize training data raises serious privacy concerns. Previous work has shown that models can bring up training examples under certain conditions, particularly when an attacker already knows part of the content being extracted — a problem termed “discoverable memorization.” This paper introduces a more realistic and alarming problem: extractable memorization, where an attacker, without access to the training data, can still recover exact training examples by carefully crafting model inputs. As LLMs like ChatGPT are increasingly deployed in production systems, especially in sensitive domains like healthcare, education, and finance, the potential for these models to reveal personally identifiable information (PII), ownership content, or copyrighted material becomes a significant security and ethical issue. The authors aim to measure how much of this memorization can be practically extracted, even from closed-source, aligned models such as ChatGPT and are existing alignment techniques like supervised fine-tuning and reinforcement learning from human feedback (RLHF) enough to prevent such leakage?
+
+![image](images/apr21/fig_eight.png)
+
+Figure #1: Models emit more memorized training data as they get larger
+
+![image](images/apr21/fig_nine.png)
+
+Figure #2: The percentage of tokens generated that are a direct 50-token copy from AUXDATASET, which shows memorization of these large language models
+
+### Methods:
+
+To address previous problems of inefficiently extensive verification, The authors design a scalable, automated pipeline to extract memorized sequences from both open-source and closed-source large language models, focusing particularly on the black-box setting where the attacker has no access to the model's architecture, weights, or training data.
+
+<b> Step #1: Building the Auxiliary Dataset (AUXDATASET) </b>
+To detect memorization, the authors first build a 9-terabyte corpus using publicly available datasets such as Dolma, The Pile, and RedPajama.This dataset acts as a proxy for the unknown training data of commercial models like ChatGPT. While it does not exactly replicate the training set, it’s broad enough to capture overlapping content.
+
+<b> Step 2: Efficient Detection via Suffix Arrays </b>
+The authors apply a suffix array indexing structure over AUXDATASET, allowing fast string match queries in O(log n) time. This enables them to scan massive quantities of model-generated text against billions of tokens in near real-time.
+
+<b> Step 3: Divergence Attack (Targeting ChatGPT) </b>
+Since commercial LLMs like ChatGPT are aligned to behave helpfully (via RLHF), they normally resist direct extraction. The authors develop the divergence attack, a novel prompting strategy that derails the assistant behavior and triggers raw content generation.
+
+![image](images/apr21/fig_ten.png)
+
+Figure #3: Examples of we diverging ChatGPT to generate raw training data
+
+<b> Step 4: Estimating Total Memorization via Good-Turing </b>
+Even with millions of queries, it’s impossible to observe all memorized outputs directly. So, the authors apply the Good-Turing estimator to predict how many unseen memorized sequences likely exist.
+
+### Key Findings:
+
+The authors demonstrate that extractable memorization is real and significant. They extracted thousands of exact training samples from open models like Pythia and GPT-Neo, and more strikingly, recovered over 10,000 unique exact sequences from ChatGPT with only $200 worth of API usage. These samples include long spans (some over 4,000 characters), demonstrating that ChatGPT retains and can emit full paragraphs or documents.
+
+![image](images/apr21/fig_eleven.png)
+
+Figure #4: We are able to extract thousands of short unique training examples from ChatGPT.
+
+Leakage includes sensitive and varied content
+- Personally Identifiable Information (PII) such as names, phone numbers, and email addresses. Out of 15,000 generated samples, 16.9% were found to contain memorized PII, and among suspected PII strings, 85.8% were confirmed to be real. This confirms a substantial privacy risk.
+- NSFW content and real content from adult or gun-related websites
+- Entire passages from literature, code snippets, research paper abstracts
+- Cryptographic identifiers, e.g., bitcoin addresses
+- Boilerplate content, like license texts and country lists
+
+Single-token Prompts Work Best
+- Prompts that repeat a single-token word (e.g., “poem”, “email”) are far more effective at triggering memorized outputs than multi-token words. The most effective tokens can be 100× more powerful than others, both in causing divergence and in yielding leaked content
+
+![image](images/apr21/fig_twelve.png)
+
+Figure #5: Some words can emit training information far more than others
+
+Estimated Total Leakage Is Vast
+- Applying the Good-Turing estimator, the authors extrapolate that the true number of memorized 50-token sequences in ChatGPT may reach hundreds of millions, totaling gigabytes of raw training data. This suggests that what was observed is only the tip of the iceberg.
+
+![image](images/apr21/fig_thirteen.png)
+
+Figure #6: if adversary spend more money, we estimated they can extract more data
+
+### Critical Analysis:
+
+Strengths:
+- Scalability: The attack pipeline is fully automated and scalable, making it applicable to both open and black-box models like ChatGPT.
+- Low cost, high yield: With just $200, over 10,000 memorized samples were extracted, proving even small-scale adversaries pose a threat.
+- Diversity of leakage: The attack retrieves not only general boilerplate content, but also highly sensitive material including PII and copyrighted text.
+- Strong empirical evidence: The authors back claims with quantitative measures (Good-Turing, suffix arrays) and qualitative examples (literature, UUIDs, code).
+
+Weaknesses / Limitations:
+- Dependence on AUXDATASET: Memorization detection hinges on matching against an auxiliary corpus that only approximates the training set, potentially underestimating total leakage.
+- No model access: While powerful, this attack cannot guarantee detection of all memorized content due to the black-box constraint.
+- Ethical ambiguity: The extraction of PII—even in academic context—raises ethical concerns, especially as attacks become more precise and widespread.
+- Overestimation risk: While Good-Turing is useful, the authors themselves admit it may poorly estimate the actual memorization volume without far more samples.
+
 ## [Can LLMs Keep a Secret? Testing Privacy Implications of Language Models via Contextual Integrity Theory](https://arxiv.org/pdf/2310.17884)
 
 ### Introduction and Motivations:
@@ -101,3 +178,112 @@ These results could initially suggest that the models can lose track of which pe
 The paper as a whole is fairly comprehensive in convey the main idea, and takes a much different approach than past works have. While many other related works have chose to focus on the idea of Differential Privacy when it comes to training data, this paper decided to focus on mitigating the inference-time problem. A major strength with this proposition is that the methodologies outlined in this paper might be more feasible than training data-based methodologies. With the wealth of data that is scraped to train LLMs, it would be delusional to say that all private information is properly scrubbed before model training. If privacy were to be taken into serious consideration, then mitigating the risks associated at inference-time might be more feasible than scrubbing training data for private information. Furthermore, this methodology can be potentially be used in conjunction with concepts such as Differential Privacy.
 
 A potential drawback in this benchmark evaluation is that the paper is largely focused on conversations as a means of assessing whether "secrets" can be kept by LLMs. Although this is a reasonable assumption to make when assessing whether LLMs can keep secrets, more realistic scenarios would include the use of email passwords, sample PIN IDs (i.e. Sample Social Security Numbers), and other crucial information that might be more sensitive than the secrets elicited through conversations. Because LLMs still remain black boxes in terms of interpretability, creating diverse testing components/scenarios would be important when assessing whether LLMs can keep secrets or not.
+
+## Privacy Issues in LLMs: A Survey
+
+### Introduction and Motivation:
+
+The launch of ChatGPT in late 2022 sparked a surge in LLM adoption across industries. Large Language Models (LLMs) like GPT-4, Claude, and LLaMA are now reshaping how we interact with information. But their immense power to generate coherent, creative, and useful text also comes with risks, particularly the risk of violating privacy as LLMs may leak sensitive data, memorize personal details, and violate copyright. Regulatory responses are emerging, like the FTC's investigation into OpenAI and the White House Executive Order emphasizing privacy-enhancing technologies (PETs). This survey paper provides the first comprehensive technical overview of the privacy challenges facing LLMs. It spans topics like memorization, data extraction attacks, differential privacy, federated learning, unlearning, and copyright concerns. 
+
+### Terminology and Definitions:
+
+- LLM: Large Language Model – trained on massive corpora of internet text.
+- PII: Personally Identifiable Information – names, addresses, health data.
+- Memorization: Model’s tendency to reproduce training data.
+- Membership Inference Attack (MIA): Determining if a specific record was in the training set.
+- Differential Privacy (DP): Adding noise to training to protect individual data points.
+
+### Memorization in LLMs
+
+Memorization is natural in machine learning. But in LLMs, it gets tricky. For example, a model trained on raw internet text might generate “Hi, my name is John Doe and my phone number is 555-321-1234.” This may have been scraped from a real website. 
+
+The following are types of memorizations discussed in this paper:
+- <b>Eidetic:</b> Direct, reproduction of training text given a prompt.
+- <b>Exposure:</b> Probability-based metric that quantifies how easy it is to extract a sequence. The model assigns abnormally high probability to a sequence, indicating potential memorization.
+- <b>Counterfactual:</b> Measures influence of a specific training point on the model’s predictions. A model behaves differently with vs. without a training point—indicating influence or "memory."
+- <b>Entity memorization:</b> Instead of recalling full text, the model fills in blanks based on a few known entities (e.g., inferring an address from a name and ZIP code). The image below is comparison of typical verbatim memorization versus entity memorization.
+
+![image](images/apr21/fig_four.png)
+
+The paper identifies several contributors to increased memorization in LLMs:
+- Larger model capacity (more parameters → more memorization). Carlini et al. (2023) showed a 10× increase in size → 19% increase in memorized data.
+- Data duplication (text seen more often is easier to recall). Data repeated 10 times is generated 1000× more often than unique data (Kandpal et al., 2022).
+- Longer prompts (more context) can increase the chance of triggering memorized output.
+- Data seen early in training tends to be forgotten more easily. Later examples are more “sticky.”
+
+The figure below shows the fraction of the dataset that was memorized depending on: 
+- The model size
+- How much of the data was duplicated
+- The length of the prompt 
+
+![image](images/apr21/fig_five.png)
+
+The figure below shows that more training epochs leads to higher rates of memorization:
+
+![image](images/apr21/fig_six.png)
+
+Memorization in LLMs poses the following risks:
+- Models may output sensitive details (e.g. SSNs, emails).
+- Memorization can violate laws (e.g., GDPR, CCPA).
+
+### Privacy Attacks:
+
+#### Membership Inference Attacks
+- Goal: Detect if a particular example was used during training.
+- Strategy: Use loss, perplexity, or comparison with a reference model.
+- Example: GPT-2 trained on Reddit data showed high success in MIA when using loss-based thresholds.
+- Risks: Useful for adversaries targeting private data.
+
+
+#### Training Data Extraction
+- The most direct privacy threat: recovering actual sequences from the training set. Attackers can prompt models to reproduce private info or copyrighted material.
+- Example: Carlini et al. extracted hundreds of memorized sequences like email addresses and phone numbers from GPT-2.
+
+### Attribute Inference
+- Infers sensitive properties (e.g., gender, political affiliation) from the model’s behavior.
+
+### Privacy-Preserving Techniques:
+
+#### Data Deduplication
+- Removes repeated text from training.
+- Lee et al. (2022): Deduplicated model generated memorized text 10× less often.
+
+#### Differential Privacy:
+- Adds calibrated noise during training (DP-SGD).
+- Prevents over-reliance on specific examples.
+- Tradeoff: Reduces model accuracy and requires massive compute.
+
+#### Federated Learning
+- Training occurs locally on user devices.
+- Data never leaves the edge.
+- Reduces risk of central memorization.
+- Thakkar et al. (2020): Models trained federatively memorized fewer canaries.
+
+#### LLM Editing
+- Chang et al. (2023): Edited 0.5% of Pythia-6.9B’s neurons to erase specific memorized facts—50% reduction in memorization with minor performance cost.
+
+#### Early Warning Systems
+- Biderman et al. (2023): Found that memorization in partially trained models correlates with final model memorization.
+
+### Copyright Concerns
+- Two Key Questions:
+    - Is training on copyrighted data legal?
+    - Can model-generated output be copyrighted?
+- Ongoing Lawsuits (as of publishing of survey)
+    - Getty Images v. Stability AI (unauthorized image training)
+    - Sarah Silverman v. OpenAI (training on books)
+- Implications: 
+-   If courts rule against data scraping, the legality of many LLMs could be in jeopardy.
+
+### Machine Unlearning
+- GDPR guarantees the “Right to Erasure.”
+- But LLMs can’t easily forget, they don’t store data like a database.
+- Techniques:
+    - Retraining from scratch (costly)
+    - Weight editing (targeted)
+    - Data influence tracking (still new and hard).
+- Shi et al. (2023) used MIAs to detect unlearning failure, showing that removing data is still unreliable in many models.
+
+The figure below shows a machine unlearning framework introduced by one of the papers surveyed 
+
+![image](images/apr21/fig_seven.png)
