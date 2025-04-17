@@ -228,11 +228,30 @@ The launch of ChatGPT in late 2022 sparked a surge in LLM adoption across indust
 
 ### Terminology and Definitions:
 
-- LLM: Large Language Model – trained on massive corpora of internet text.
-- PII: Personally Identifiable Information – names, addresses, health data.
-- Memorization: Model’s tendency to reproduce training data.
-- Membership Inference Attack (MIA): Determining if a specific record was in the training set.
-- Differential Privacy (DP): Adding noise to training to protect individual data points.
+- LLM (Large Language Model)
+     - A deep neural network trained on huge text datasets to predict next words or generate text.
+     - Examples: ChatGPT, Claude, LLaMA
+- Memorization
+    - When the model recalls and regurgitates data from training.
+    - Can be harmless (e.g., “Paris is the capital of France”) or dangerous (e.g., SSNs, passwords)
+- Eidetic Memorization
+    - Exact recall of rare or sensitive data from training.
+    - Example: “My email is alice@wonderland.com”
+- Exposure
+    - A score quantifying how likely a model is to generate a specific sequence.
+    - High exposure = high risk of memorization
+- Counterfactual Memorization
+    - Measures how the model output changes when a specific training example is included vs. excluded.
+    - More accurate but computationally expensive
+- Membership Inference Attack (MIA)
+    - An adversary guesses whether a specific data point was in the training set.
+    - Often uses loss or perplexity to decide
+- Differential Privacy (DP)
+    - Adds noise to model training to protect individuals.
+    - Guarantees no single data point dominates learning
+- Machine Unlearning
+    - Techniques to remove a specific data point’s influence after training.
+    - Inspired by GDPR’s “Right to be Forgotten”
 
 ### Memorization in LLMs
 
