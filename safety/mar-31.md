@@ -29,7 +29,7 @@ Textual attacks manipulate the input text to bypass the safety mechanisms of lar
 
 This attack involves appending an adversarial suffix to a potentially harmful user query, aiming to trigger negative behavior. The original user query remains unchanged, but extra tokens are added to influence the model's response in a detrimental way. Rather than relying on manual engineering, this method uses a combination of greedy and gradient-based optimization to automatically generate these suffixes. The approach is universal because it finds a single suffix that works across many different prompts, and it is transferable because the same suffix can elicit undesired responses from multiple different models, including black-box systems like GPT-3.5 and GPT-4.
 
-<img src='./mar31/suffix_attack.png' width=400>
+![](images/mar31/suffix_attack.png)
 
 The image above is compilation of Screenshots of harmful content generation from ChatGPT (top left), Claude 2 (top right), Bard (bottom left), LLaMA-2 (bottom right).
 
@@ -37,7 +37,7 @@ The image above is compilation of Screenshots of harmful content generation from
 
 The Mosaic Prompt attack is used used to circumvent censorship in large language models (LLMs) by breaking down an impermissible output into smaller, permissible components. Rather than requesting a prohibited result directly, the attacker queries the LLM multiple times with individually harmless prompts that, when combined externally, reconstruct the impermissible content. This method exploits the principle of compositionality, where the meaning of a complex expression is derived from its structure and the semantics of its parts.
 
-<img src='./mar31/mosaic_prompt_attack.png' width=400>
+![](images/mar31/mosaic_prompt_attack.png)
 
 As shown in the above figure, a malicious user could request individual functions that are essential components of ransomware, but each function by itself is benign and allowed. By assembling these components, and assuming they know how to do so, the user could construct ransomware.
 
@@ -45,7 +45,7 @@ As shown in the above figure, a malicious user could request individual function
 
 Encryption-based attack users leverage cryptographic principles such as stream ciphers or one-time pad encryption, to bypass output censorship in LLMs. In this approach, a user and the model establish a shared secret key (for example, via the Diffie-Hellman protocol or through training data poisoning), and the model is instructed to produce encrypted outputs. These outputs, although appearing innocuous or permissible to a censorship mechanism, can later be decrypted by the user to recover impermissible content. The key characteristics of this attack include its reliance on the model's instruction-following capabilities, the theoretical security of the encryption used, and the model’s potential memorization of the key.
 
-<img src='./mar31/encryption_attack.png' width=400>
+![](images/mar31/encryption_attack.png)
 
 The above image shows that malicious users can provide an LLM augmented with code interpreters with functions specifying how to decrypt the input and encrypt the output.
 
@@ -53,7 +53,7 @@ The above image shows that malicious users can provide an LLM augmented with cod
 
 A jailbreak prompt is a specially crafted input designed to bypass the built-in safety mechanisms of large language models (LLMs) and elicit responses that would typically be restricted, such as those involving harmful, unethical, or policy-violating content. One of the examples of jailbreak prompts is transforming the LLM into another character as shown in the below image [1].
 
-<img src='./mar31/grandma.png' width=400>
+![](images/mar31/grandma.png)
 
 Jailbreak prompts usually have longer length compared to regular prompts, increased complexity, and semantic similarity to benign prompts, which makes detection difficult. They frequently evolve and are disseminated through online platforms like Reddit, Discord, and specialized websites such as FlowGPT, often gaining traction when proven effective.
 
@@ -65,7 +65,7 @@ Multimodal attacks exploit the integration of both visual and textual inputs in 
 
 A visual adversarial attack targets vision-integrated large language models (VLMs) by introducing subtle perturbations to images that deceive the model into misbehaving or generating harmful outputs. These attacks exploit the continuous and high-dimensional nature of the visual input space, which makes them more potent and easier to optimize than textual attacks. A single visual adversarial example can universally jailbreak an aligned LLM, prompting it to bypass safety mechanisms and respond to harmful instructions.
 
-<img src='./mar31/vlm_attack.png' width=400>
+![](images/mar31/vlm_attack.png)
 
 In the above image example, an attacker first gathers a small set of harmful examples and uses them to create an adversarial example. This example is designed to tune the model into a harmful mode, much like how a few examples can teach a model to perform a task. Once this adversarial input is crafted, it can be reused alongside many different harmful instructions to make the model respond inappropriately, jailbreaking it across a wide range of scenarios. These attackes are effective in jailbreaking models like MiniGPT-4, imperceptible to human eyes, and generalizabile across harmful content categories such as identity attacks, disinformation, and violence.
 
@@ -86,7 +86,7 @@ Understanding how adversarial prompts succeed requires digging into the strategi
 
 This paper makes a theoretical case for why semantic censorship is fundamentally limited, especially when attackers rely on simple calls to action to build complex harmful outputs. The paper models censorship as a function that attempts to block impermissible outputs based on their semantic content. Using Rice's Theorem, the authors show that detecting whether an LLM output has "dangerous behaviors" is undecidable (it's equivalent to trying to prove nontrivial properties of arbitrary Turing machines).
 
-![Mosaic Prompt Example](./mar31/mosaic_prompt_image.jpg)
+![](images/mar31/mosaic_prompt_image.jpg "Mosaic Prompt Example")
 
 They introduce the concept of Mosaic Prompts, in which an attacker breaks a harmful program into multiple benign components. For example, the attacker might ask the LLM to output:
 
@@ -97,7 +97,7 @@ They introduce the concept of Mosaic Prompts, in which an attacker breaks a harm
 
 ## Mining and Testing Real-World Jailbreak Prompts [48]
 
-![JAILBREAKHUB Framework](./mar31/jailbreakhub_framework.jpg)
+![](images/mar31/jailbreakhub_framework.jpg "JAILBREAKHUB Framework")
 
 This paper introduces the JAILBREAKHUB framework, a pipeline that collects and analyzes 1,405 jailbreak prompts found in the wild - sources like Reddit, Discord, FlowGPT, and more. They tracked trends, identifying 131 communities and users who consistently refine and share jailbreaks. The prompts were categorized by strategies such as prompt injection, role-play instructions, and obfuscation through spacing and punctuation. They then generated 107,250 forbidden queries (across 13 harmful categories) and tested these prompts on 6 LLMs. For each prompt-model combination, Attack Success Rate (ASR) was measured.
 
@@ -125,7 +125,7 @@ Prompts are optimized under various constraints—like using only ASCII, emojis,
 
 The GCG (Greedy Coordinate Gradient) optimization method achieves high attack success rates across various large language models (LLMs), including OpenAI's models (ChatGPT - GPT-3.5 and GPT-4) and open-source models like LLaMA-2-Chat, Pythia, and Falcon. The highest attack success rates were observed with the GCG Ensemble method, achieving 86.6% success on GPT-3.5 and 46.9% on GPT-4, as demonstrated in the figure showing "Attack Success Rate (%)" under different settings: Prompt Only, "Sure, here's", GCG (Ours), and GCG Ensemble (Ours). This figure compares the effectiveness of various attack strategies, with the GCG Ensemble approach significantly outperforming previous optimization methods like PEZ and AutoPrompt. Moreover, the adversarial suffixes exhibit strong transferability across different models, particularly those derived from GPT-based architectures. For example, adversarial prompts optimized for Vicuna & Guanacos models successfully transferred to other architectures, indicating the robustness of the proposed attack method. The benchmarking results include various forbidden scenarios such as Illegal Activity, Political Lobbying, Financial Advice, etc., where attack success rates remain consistently high. This demonstrates that the GCG Ensemble method not only improves attack performance but also enhances generalization across diverse models and tasks. The study highlights the urgent need for developing more robust defense mechanisms to address these highly effective adversarial attacks.
 
-<img src='./mar31/Attack_Success_Rate_under_different_settings.png' alt='Performance of different optimizers on eliciting individual harmful strings from Vicuna- 7B.' width='400'>
+![](images/mar31/Attack_Success_Rate_under_different_settings.png "Performance of different optimizers on eliciting individual harmful strings from Vicuna- 7B.")
 
 ## Mosaic Prompts
 
@@ -135,19 +135,19 @@ The results of the study demonstrate that current semantic censorship mechanisms
 
 The experimental results of the study reveal significant findings concerning the efficacy of jailbreak prompts across various platforms and LLMs. The shift from Discord and Reddit to prompt-aggregation websites like FlowGPT as the predominant sharing platforms is evident starting from September 2023, as illustrated in Figure a. Furthermore, while the majority of jailbreak prompts are shared by amateurs, a minority of persistent users (28 accounts) have actively refined and shared jailbreak prompts over long periods, averaging nine prompts each across 100 days (Figure b). Notably, the most common targets of these attacks are ChatGPT (GPT-3.5) and GPT-4, constituting 89.971% and 2.655% of all targets, respectively (Figure c). Moreover, the length of jailbreak prompts significantly exceeds regular prompts, with an average token count of 555 compared to regular prompts' average of 370 (Figure d). Our evaluation of 11 jailbreak communities shows diverse strategies, with the most effective prompts achieving attack success rates (ASR) of up to 1.000 on GPT-3.5 and GPT-4, especially against scenarios such as Political Lobbying, Legal Opinion, and Pornography (Table).
 
-<img src='./mar31/48_Firgure_3.png' alt='Statistics of regular prompts and jailbreak prompts' width='400'>
+![](images/mar31/48_Firgure_3.png "Statistics of regular prompts and jailbreak prompts")
 
-<img src='./mar31/48_Table_4.png' alt='Results of jailbreak prompts on different LLMs' width='400'>
+![](images/mar31/48_Table_4.png "Results of jailbreak prompts on different LLMs")
 
 ## Visual Adversarial Examples
 
 The experimental results demonstrate that the proposed adversarial attack method effectively increases the susceptibility of the targeted models to harmful instructions across multiple categories, including identity attacks, disinformation, violence/crime, and general malevolence (X-risk). The visual adversarial examples exhibit significant increases in the model’s propensity to generate harmful content compared to the baseline models without adversarial inputs. Notably, the visual adversarial examples are shown to be more effective than text-based attacks due to the continuity and high dimensionality of the visual input space. This effectiveness is particularly evident when comparing optimization loss between visual and text attacks as illustrated in Figure.
 
-<img src='./mar31/49_Figure_3.png' alt='Comparing the optimization loss (of Eqn 1) be- tween the visual attack and the text attack counterpart on MiniGPT-4. We limit adversarial texts to 32 tokens, equiva- lent to the length of image tokens.' width='400'>
+![](images/mar31/49_Figure_3.png "Comparing the optimization loss (of Eqn 1) be- tween the visual attack and the text attack counterpart on MiniGPT-4. We limit adversarial texts to 32 tokens, equiva- lent to the length of image tokens.")
 
 Furthermore, the adversarial attack demonstrates transferability across models, as summarized in Table, where attacks optimized on a surrogate model successfully transfer to other models like MiniGPT-4, InstructBLIP, and LLaVA​.
 
-<img src='./mar31/49_Table_3.png' alt='Transferability of Our attacks.' width='400'>
+![](images/mar31/49_Table_3.png "Transferability of Our attacks.")
 
 # Critical Analysis
 
