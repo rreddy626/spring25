@@ -75,14 +75,14 @@ been associated with properties other than accuracy and SOTA.
 
 The top values that are mentioned in research papers are : performance (96% of papers), generalization (89%), building on past work (88%), quantitative evidence (85%), efficiency (84%), and novelty (77%). Values related to user rights and stated in ethical principles appeared very rarely if at all: none of the papers mentioned autonomy, justice, or respect for persons.
 
-![Percent of papers containing value](/images/apr23/Paper_containing_value.png)
+![](images/apr23/Paper_containing_value.png "Percent of papers containing value")
 
 Comparing papers written in 2008/2009 to those written in 2018/2019, ties to corporations nearly doubled to 79% of all annotated papers, ties to big
 tech more than tripled, to 66%, while ties to universities declined to 81%, putting the presence of corporations nearly on par with universities. In the next section, we present extensive qualitative examples and analysis of our findings.
-![corporate funding](/images/apr23/corporate_funding.png)
+![](images/apr23/corporate_funding.png "corporate funding")
 
 Analysis shows substantive and increasing corporate presence in the most highly-cited papers. In 2008/09, 24% of the top cited papers had corporate affiliated authors, and in 2018/19 this statistic more thandoubled to 55%. Furthermore, we also find a much greater concentration of a few large tech firms, such as Google and Microsoft, with the presence of these "big tech" firms (as identified in [4]) increasing nearly fourfold, from 13% to 47%.
-![big tech funding](/images/apr23/corporate%20and%20big%20tech%20author%20affliliations.png)
+![](images/apr23/corporate%20and%20big%20tech%20author%20affliliations.png "big tech funding")
 
 Emphasizing performance is the most common way by which papers attempt to communicate their contributions, by showing a specific, quantitative, improvement over past work, according to some metric on a new or established dataset. For some reviewers, obtaining better performance than any other system—a “state-of-the-art” (SOTA) result—is seen as a noteworthy, or even necessary, contribution.
 
